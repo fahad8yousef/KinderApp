@@ -1,19 +1,18 @@
 <resources>
     <string name="app_name">Prototype</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
     <string name="search_item">search</string>
 
-    <string-array name="navArray">
+<!--    <string-array name="navArray">
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
-    </string-array>
+    </string-array>-->
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="home">Home</string>
@@ -24,7 +23,6 @@
     <string name="frag5">frag5</string>
 
 <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="options_exit_text">Exit</string>
     <string name="action_export_text">Export</string>
     <string name="action_import_text">Import</string>
