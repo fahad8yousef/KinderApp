@@ -15,21 +15,25 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private DrawerLayout drawerLayout;
     private ListView navList;
     private ArrayList<String> navArray;
+    //private ArrayList<String> groupArray;
     private FragmentManager manager;
     private FragmentTransaction transaction;
     ImageButton runCommand;
+    Spinner spinner;
 
-
-    //private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer );
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        //spinner
+
+        spinner = (Spinner) findViewById(R.id.spinnerGroup);
+        ArrayAdapter spinAdapter =  ArrayAdapter.createFromResource(this, R.array.groups, android.R.layout.simple_spinner_item);
+        //spinner.setOnItemSelectedListener(this);
+        //spinner.setAdapter(spinAdapter);
+
+
 
         navList = (ListView) findViewById(R.id.nav_list);
         navArray = new ArrayList<String>();
@@ -168,5 +181,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         loadSelection(position);
 
         drawerLayout.closeDrawer(navList);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+/*
+        TextView group = (TextView) view;
+        Toast.makeText(this, "you selected"+ group.getText(), Toast.LENGTH_SHORT).show();
+*/
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

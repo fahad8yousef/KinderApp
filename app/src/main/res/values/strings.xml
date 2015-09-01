@@ -6,13 +6,12 @@
     <string name="close_drawer">Close</string>
     <string name="search_item">search</string>
 
-<!--    <string-array name="navArray">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-    </string-array>-->
+    <string-array name="groups">
+        <item>Koala</item>
+        <item>Wombat</item>
+        <item>3YO</item>
+        <item>4YO</item>
+    </string-array>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="home">Home</string>
