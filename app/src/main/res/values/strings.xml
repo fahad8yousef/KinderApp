@@ -26,5 +26,6 @@
     <string name="options_exit_text">Exit</string>
     <string name="action_export_text">Export</string>
     <string name="action_import_text">Import</string>
+    <string name="add_button">add button</string>
 
 </resources>
