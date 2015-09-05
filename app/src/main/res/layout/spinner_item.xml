@@ -7,4 +7,5 @@
         android:singleLine="true"
         android:paddingLeft="10dp"
         android:textSize="18sp"
+        android:layout_margin="20dp"
         android:textStyle="bold"/>

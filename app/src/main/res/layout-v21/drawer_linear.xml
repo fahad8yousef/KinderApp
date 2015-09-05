@@ -12,17 +12,25 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="start"
-        android:background="#dedede"
+        android:background="#262626"
         />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="25dp"
         android:text="Filter"
         android:paddingLeft="5dp"
-        style="?android:attr/textAppearanceMedium"
+        style="?android:attr/textAppearanceLarge"
         android:background="#dedede"
         />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
     <ListView
         android:id="@+id/nav_list1"
         android:layout_width="240dp"
@@ -31,32 +39,47 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="0sp"
         android:background="#dedede"
-        />
-
+        android:paddingLeft="15dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="25dp"
         android:text="Edit"
         android:paddingLeft="5dp"
-        style="?android:attr/textAppearanceMedium"
+        style="?android:attr/textAppearanceLarge"
         android:background="#dedede"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
     <ListView
         android:id="@+id/nav_list2"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:background="#dedede"
+        android:paddingLeft="15dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="0sp"
         />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="25dp"
         android:text="Options"
         android:paddingLeft="5dp"
-        style="?android:attr/textAppearanceMedium"
+        style="?android:attr/textAppearanceLarge"
         android:background="#dedede"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
     <ListView
         android:id="@+id/nav_list3"
         android:layout_width="240dp"
@@ -65,6 +88,6 @@
         android:background="#dedede"
         android:divider="@android:color/transparent"
         android:dividerHeight="0sp"
-        />
+        android:paddingLeft="15dp" />
 
 </LinearLayout>
