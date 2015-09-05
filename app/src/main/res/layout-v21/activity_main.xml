@@ -2,52 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    >
+    tools:context=".MainActivity">
 
 
-    <android.support.v4.widget.DrawerLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/drawer_layout">
-
+<android.support.v4.widget.DrawerLayout
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <FrameLayout
             android:id="@+id/fragment_holder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"/>
 
-        </FrameLayout>
+    <include layout="@layout/drawer_linear"/>
 
-        <ListView
-            android:id="@+id/nav_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="#dedede" />
+</android.support.v4.widget.DrawerLayout>
 
-
-    </android.support.v4.widget.DrawerLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageButton
-            android:id="@+id/runCommand"
-            android:layout_width="@dimen/round_button_diameter"
-            android:layout_height="@dimen/round_button_diameter"
-            android:layout_gravity="end|bottom"
-            android:layout_marginBottom="@dimen/add_button_margin"
-            android:layout_marginEnd="@dimen/add_button_margin"
-            android:tint="@android:color/white"
-            android:background="@drawable/oval_ripple"
-            android:src="@android:drawable/ic_input_add"
-            android:elevation="@dimen/elevation_low"
-            android:stateListAnimator="@anim/button_elevation"
-            tools:ignore="RtlCompat" />
-
-    </FrameLayout>
-
+    <include layout="@layout/add_button_layout"/>
 
 </RelativeLayout>

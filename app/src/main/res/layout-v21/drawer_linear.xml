@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/drawer_linear"
+    android:layout_gravity="start"
+    android:layout_width="240dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Spinner
+        android:id="@+id/spinner_group"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="start"
+        android:background="#262626"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:text="Filter"
+        android:paddingLeft="5dp"
+        style="?android:attr/textAppearanceLarge"
+        android:background="#dedede"
+        />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
+    <ListView
+        android:id="@+id/nav_list1"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0sp"
+        android:background="#dedede"
+        android:paddingLeft="15dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:text="Edit"
+        android:paddingLeft="5dp"
+        style="?android:attr/textAppearanceLarge"
+        android:background="#dedede"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
+    <ListView
+        android:id="@+id/nav_list2"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:background="#dedede"
+        android:paddingLeft="15dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0sp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:text="Options"
+        android:paddingLeft="5dp"
+        style="?android:attr/textAppearanceLarge"
+        android:background="#dedede"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
+    <ListView
+        android:id="@+id/nav_list3"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:background="#dedede"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0sp"
+        android:paddingLeft="15dp" />
+
+</LinearLayout>

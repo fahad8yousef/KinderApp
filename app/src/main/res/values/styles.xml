@@ -5,4 +5,17 @@
         <!-- Customize your theme here. -->
     </style>
 
+
+    <style name="holoSpinner" parent="@android:style/Theme">
+        <item name="android:clickable">true</item>
+        <item name="android:paddingTop">15dip</item>
+        <item name="android:paddingBottom">0dip</item>
+        <item name="android:paddingRight">25dip</item>
+        <item name="android:paddingLeft">25dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:checkMark">?android:attr/listChoiceIndicatorSingle</item>
+    </style>
+
+
+
 </resources>
