@@ -8,7 +8,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,8 +15,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
@@ -50,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
         createDrawer();
-        createAddbutton();
         manager = getSupportFragmentManager();
         loadSelection(0);
         
@@ -113,16 +114,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    private void createAddbutton(){
-
-        runCommand = (ImageButton)findViewById(R.id.runCommand);
-        runCommand.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Selected Button", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void loadSelection(int i){
         navList1.setItemChecked(i, true);
