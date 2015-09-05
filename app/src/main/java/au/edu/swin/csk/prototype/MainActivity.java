@@ -1,12 +1,13 @@
 package au.edu.swin.csk.prototype;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,7 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -27,23 +28,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private FragmentManager manager;
     private FragmentTransaction transaction;
     ImageButton runCommand;
-
-
-    //private ActionBar actionBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        runCommand = (ImageButton)findViewById(R.id.runCommand);
+        runCommand=(ImageButton)findViewById(R.id.runCommand);
+
         runCommand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Selected Button", Toast.LENGTH_SHORT).show();
+                // (( MainActivity)getActivity()).switchToFragmentOne();
+                Intent intent = new Intent(MainActivity.this, Picture.class);
+                startActivity(intent);
             }
-        });
 
+        });
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer );
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
@@ -161,7 +161,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         return super.onOptionsItemSelected(item);
     }
-
+    // Don't need the following switchToFragmentOne function for now.
+    /*
+    public void switchToFragmentOne()
+    {
+        Frag1 frag1 = new Frag1();
+        transaction = manager.beginTransaction();
+        transaction.replace(R.id.fragment_holder, frag1);
+        transaction.commit();
+    }*/
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -169,4 +177,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         drawerLayout.closeDrawer(navList);
     }
+
+
 }

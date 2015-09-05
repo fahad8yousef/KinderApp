@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 public class Frag1 extends Fragment {
 
 
+
     public Frag1() {
         // Required empty public constructor
     }
@@ -34,10 +35,15 @@ public class Frag1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_frag1, container, false);
+        View view= inflater.inflate(R.layout.fragment_frag1, container, false);
+
+        return view;
+
     }
 
-    @Override
+
+
+   @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
