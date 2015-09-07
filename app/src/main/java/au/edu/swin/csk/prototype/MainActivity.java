@@ -1,5 +1,7 @@
 package au.edu.swin.csk.prototype;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -19,10 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, DialogInterface.OnClickListener {
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private DrawerLayout drawerLayout;
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ImageButton runCommand;
     Spinner spinner;
     LinearLayout linear;
+    AlertDialog ad;
 
 
     @Override
@@ -53,8 +57,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
         createDrawer();
         manager = getSupportFragmentManager();
-        loadSelection(0);
-        
+        //loadSelection(0);
     }
     
     private void createDrawer(){
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner.setOnItemSelectedListener(this);
         spinner.setAdapter(spinAdapter);
 
-///////////1
+//////////////1 Filter list
         navList1 = (ListView) findViewById(R.id.nav_list1);
         ArrayList<String> navArray1 = new ArrayList<String>();
         navArray1.add("Child");
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         navList1.setAdapter(listAdapter1);
         navList1.setOnItemClickListener(this);
 
-//////////////2
+//////////////2 Edit List
         navList2 = (ListView) findViewById(R.id.nav_list2);
         ArrayList<String> navArray2 = new ArrayList<String>();
         navArray2.add("Child");
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         navList2.setAdapter(listAdapter2);
         navList2.setOnItemClickListener(this);
 
-///////////////
+///////////////3 Options list
         navList3 = (ListView) findViewById(R.id.nav_list3);
         ArrayList<String> navArray3 = new ArrayList<String>();
         navArray3.add("Summary");
@@ -115,6 +118,109 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
+
+    /*
+     * Deals with different orientations
+     *  */
+    @Override
+    public void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        actionBarDrawerToggle.syncState();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuInflater mif = getMenuInflater(); //search icon
+        mif.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+        //return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }else if (id == R.id.exit_app){
+            finish();
+            return true;
+        }else if (id == android.R.id.home){
+
+            if (drawerLayout.isDrawerOpen(linear)) {
+                drawerLayout.closeDrawer(linear);
+            }else {
+                drawerLayout.openDrawer(linear);
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        //loadSelection(position);
+        showDialogAlert(position);
+        drawerLayout.closeDrawer(linear);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+//        TextView group = (TextView) view;
+        //Toast.makeText(this, "you selected"+ group.getText(), Toast.LENGTH_SHORT).show();
+        drawerLayout.closeDrawer(linear);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    public void showDialogAlert(int position){
+        //create alertdialog to show a list
+        if (position == 0 ) {
+            String[] children = {"Adam", "Jack" , "John" , "Chris"};
+            ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, children);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("select from list");
+            builder.setAdapter(alertAdapter, this);
+            ad = builder.create();
+            ad.show();
+        } else if (position == 1){
+            String[] activityType = {"Cooking", "Art" , "Music" , "Games"};
+            ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, activityType);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("select from list");
+            builder.setAdapter(alertAdapter, this);
+            ad = builder.create();
+            ad.show();
+        }  else if (position == 2 ) {
+            String[] lo = {"1.1", "2.2", "3.3", "4.4", "2.2", "3.3", "4.4", "2.2", "3.3", "4.4"};
+            ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, lo);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("select from list");
+            builder.setAdapter(alertAdapter, this);
+            ad = builder.create();
+            ad.show();
+        } else ad.dismiss();
+
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+
+    }
+
+
     private void loadSelection(int i){
         navList1.setItemChecked(i, true);
 
@@ -122,10 +228,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         switch (i) {
             case 0:
                 //home
-                Home home = new Home();
+                //showDialog();
+
+/*                Home home = new Home();
                 transaction = manager.beginTransaction();
                 transaction.replace(R.id.fragment_holder, home);
-                transaction.commit();
+                transaction.commit();*/
                 break;
             case 1:
                 Frag1 frag1 = new Frag1();
@@ -209,69 +317,4 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-
-    /*
-     * Deals with different orientations
-     *  */
-    @Override
-    public void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        actionBarDrawerToggle.syncState();
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuInflater mif = getMenuInflater(); //search icon
-        mif.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-        //return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }else if (id == R.id.exit_app){
-            finish();
-            return true;
-        }else if (id == android.R.id.home){
-
-            if (drawerLayout.isDrawerOpen(linear)) {
-                drawerLayout.closeDrawer(linear);
-            }else {
-                drawerLayout.openDrawer(linear);
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        loadSelection(position);
-        drawerLayout.closeDrawer(linear);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        TextView group = (TextView) view;
-        //Toast.makeText(this, "you selected"+ group.getText(), Toast.LENGTH_SHORT).show();
-        drawerLayout.closeDrawer(linear);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 }
