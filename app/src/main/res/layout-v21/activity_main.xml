@@ -33,9 +33,6 @@
         android:paddingRight="10dp"
         android:clickable="true" />
 
-<!--
-    <include layout="@layout/single_item_main"/>
--->
 
 </RelativeLayout>
 
