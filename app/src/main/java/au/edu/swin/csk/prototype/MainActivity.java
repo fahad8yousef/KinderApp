@@ -10,12 +10,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -24,9 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, DialogInterface.OnClickListener {
 
+    private static final  String TAG="Fahad/ MainActivity";
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private DrawerLayout drawerLayout;
     private ListView navList1;
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Spinner spinner;
     LinearLayout linear;
     AlertDialog ad;
+    GridView mainGrid;
 
 
     @Override
@@ -46,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         linear = (LinearLayout) findViewById(R.id.drawer_linear);
 
         runCommand = (ImageButton) findViewById(R.id.runCommand);
-
         runCommand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,9 +59,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 startActivity(intent);
             }
         });
+
+
         createDrawer();
         manager = getSupportFragmentManager();
-        //loadSelection(0);
+
+        //Main screen layout
+        mainGrid = (GridView)findViewById(R.id.main_grid);
+        mainGrid.setAdapter(new mainAdapter(this));
+
     }
     
     private void createDrawer(){
@@ -94,9 +104,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         navArray2.add("Learning Outcome");
 
         navList2.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        ArrayAdapter<String> listAdapter2 = new ArrayAdapter<String>(this,  R.layout.row_layout_drawer, navArray2 );
+        ArrayAdapter<String> listAdapter2 = new ArrayAdapter<String>(this, R.layout.row_layout_drawer, navArray2 );
         navList2.setAdapter(listAdapter2);
         navList2.setOnItemClickListener(this);
+
 
 ///////////////3 Options list
         navList3 = (ListView) findViewById(R.id.nav_list3);
@@ -106,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         navArray3.add("Complete");
 
         navList3.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        ArrayAdapter<String> listAdapter3 = new ArrayAdapter<String>(this,  R.layout.row_layout_drawer, navArray3 );
+        ArrayAdapter<String> listAdapter3 = new ArrayAdapter<String>(this, R.layout.row_layout_drawer, navArray3 );
         navList3.setAdapter(listAdapter3);
         navList3.setOnItemClickListener(this);
 ///////////////
@@ -152,12 +163,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }else if (id == R.id.exit_app){
             finish();
             return true;
+            //needs modifications
         }else if (id == android.R.id.home){
 
             if (drawerLayout.isDrawerOpen(linear)) {
+                drawerLayout.bringToFront();
                 drawerLayout.closeDrawer(linear);
+                //drawerLayout.bringToFront();
             }else {
                 drawerLayout.openDrawer(linear);
+                drawerLayout.bringToFront();
             }
         }
 
@@ -168,13 +183,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         //loadSelection(position);
-        showDialogAlert(position);
+        View a = (View) view.getParent();
+        showDialogAlert(a, position);
         drawerLayout.closeDrawer(linear);
+        //a.getId();
+
+
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
 //        TextView group = (TextView) view;
         //Toast.makeText(this, "you selected"+ group.getText(), Toast.LENGTH_SHORT).show();
         drawerLayout.closeDrawer(linear);
@@ -185,33 +203,41 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    public void showDialogAlert(int position){
+    public void showDialogAlert(View view, int position){
         //create alertdialog to show a list
-        if (position == 0 ) {
-            String[] children = {"Adam", "Jack" , "John" , "Chris"};
-            ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, children);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("select from list");
-            builder.setAdapter(alertAdapter, this);
-            ad = builder.create();
-            ad.show();
-        } else if (position == 1){
-            String[] activityType = {"Cooking", "Art" , "Music" , "Games"};
-            ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, activityType);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("select from list");
-            builder.setAdapter(alertAdapter, this);
-            ad = builder.create();
-            ad.show();
-        }  else if (position == 2 ) {
-            String[] lo = {"1.1", "2.2", "3.3", "4.4", "2.2", "3.3", "4.4", "2.2", "3.3", "4.4"};
-            ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, lo);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("select from list");
-            builder.setAdapter(alertAdapter, this);
-            ad = builder.create();
-            ad.show();
-        } else ad.dismiss();
+        //Toast.makeText(this, " you selected:  "+ navList1.getPositionForView(view) , Toast.LENGTH_SHORT).show();
+
+        if (view.getId() == R.id.nav_list1) {
+          //  position = navList1.getPositionForView(view);
+
+            if (position == 0) {
+                String[] children = {"Adam", "Jack", "John", "Chris"};
+                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, children);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("select from list");
+                builder.setAdapter(alertAdapter, this);
+                ad = builder.create();
+                ad.show();
+            } else if (position == 1) {
+                String[] activityType = {"Cooking", "Art", "Music", "Games"};
+                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, activityType);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("select from list");
+                builder.setAdapter(alertAdapter, this);
+                ad = builder.create();
+                ad.show();
+            } else if (position == 2) {
+                String[] lo = {"1.1", "2.2", "3.3", "4.4", "2.2", "3.3", "4.4", "2.2", "3.3", "4.4"};
+                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, lo);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("select from list");
+                builder.setAdapter(alertAdapter, this);
+                ad = builder.create();
+                ad.show();
+            } else ad.dismiss();
+        } else {
+            Toast.makeText(this, " Not implemented yet! " , Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -219,7 +245,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onClick(DialogInterface dialog, int which) {
 
     }
-
 
     private void loadSelection(int i){
         navList1.setItemChecked(i, true);
