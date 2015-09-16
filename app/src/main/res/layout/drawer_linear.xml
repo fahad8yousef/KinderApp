@@ -4,27 +4,26 @@
     android:orientation="vertical"
     android:id="@+id/drawer_linear"
     android:layout_gravity="start"
-    android:layout_width="240dp"
+    android:layout_width="@dimen/navigation_drawer_width"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Spinner
         android:id="@+id/spinner_group"
-        android:layout_width="fill_parent"
-        android:layout_height="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_gravity="start"
-        android:background="#dedede"
-        android:textStyle="bold"
-        android:textSize="50sp"
+        android:background="#262626"
         />
 
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="30dp"
+        android:layout_height="28dp"
         android:text="Filter"
         android:paddingLeft="5dp"
-        style="?android:attr/textAppearanceMedium"
+        style="?android:attr/textAppearanceLarge"
         android:background="#dedede"
         />
+
     <ListView
         android:id="@+id/nav_list1"
         android:layout_width="240dp"
@@ -33,42 +32,57 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="0sp"
         android:background="#dedede"
-        style="?android:attr/textAppearanceSmall"
-        android:textAlignment="center"
-        />
+        android:paddingLeft="15dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
 
     <TextView
-        android:layout_width="240dp"
-        android:layout_height="40dp"
+        android:layout_width="fill_parent"
+        android:layout_height="28dp"
         android:text="Edit"
-        style="?android:attr/textAppearanceMedium"
         android:paddingLeft="5dp"
+        style="?android:attr/textAppearanceLarge"
         android:background="#dedede"/>
+
     <ListView
         android:id="@+id/nav_list2"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:background="#dedede"
+        android:paddingLeft="15dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="0sp"
         />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black"/>
     <TextView
-        android:layout_width="240dp"
-        android:layout_height="40dp"
+        android:layout_width="fill_parent"
+        android:layout_height="28dp"
         android:text="Options"
         android:paddingLeft="5dp"
-        style="?android:attr/textAppearanceMedium"
+        style="?android:attr/textAppearanceLarge"
         android:background="#dedede"/>
+
     <ListView
         android:id="@+id/nav_list3"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:background="#dedede"
+        android:divider="@android:color/transparent"
         android:dividerHeight="0sp"
+        android:paddingLeft="15dp" />
 
-        />
+    <!--add space at the end of drawer-->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="400dp"
+        android:background="#dedede"/>
 
 </LinearLayout>

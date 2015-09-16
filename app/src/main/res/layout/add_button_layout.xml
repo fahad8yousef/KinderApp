@@ -6,17 +6,18 @@
 
     <ImageButton
         android:id="@+id/runCommand"
-        android:layout_width="@dimen/round_button_diameter"
-        android:layout_height="@dimen/round_button_diameter"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="end|bottom"
         android:layout_marginBottom="@dimen/add_button_margin"
         android:layout_marginEnd="@dimen/add_button_margin"
         android:tint="@android:color/white"
-        android:background="@drawable/oval_ripple"
+        android:background="@drawable/oval"
         android:src="@android:drawable/ic_input_add"
-        android:elevation="@dimen/elevation_low"
-        android:stateListAnimator="@anim/button_elevation"
         tools:ignore="RtlCompat"
         android:contentDescription="addbutton" />
 
 </FrameLayout>
+
+<!--        android:elevation="@dimen/elevation_low"
+        android:stateListAnimator="@anim/button_elevation"-->
