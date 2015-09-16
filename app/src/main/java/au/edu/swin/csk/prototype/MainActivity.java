@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     AlertDialog ad;
     GridView mainGrid;
 
+    /*
+    * need listening to drawer on slide */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 startActivity(intent);
             }
         });
-
+        runCommand.bringToFront();
 
         createDrawer();
         manager = getSupportFragmentManager();
@@ -69,7 +71,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mainGrid.setAdapter(new mainAdapter(this));
 
     }
-    
+    /*This function creates navigation drawer and
+    * adds all components to the drawer and bring to front button and main layout when slide closed */
     private void createDrawer(){
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -122,17 +125,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         navList3.setOnItemClickListener(this);
 ///////////////
 
+        //display drawer Icon in action bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
 
-
-
     /*
      * Deals with different orientations
-     *  */
+     */
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -170,6 +172,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 drawerLayout.bringToFront();
                 drawerLayout.closeDrawer(linear);
                 //drawerLayout.bringToFront();
+                //add bring to front for main screen layout and button
+                runCommand.bringToFront();
+
             }else {
                 drawerLayout.openDrawer(linear);
                 drawerLayout.bringToFront();

@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <include layout="@layout/add_button_layout" />
 
-    <android.support.v4.widget.DrawerLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/drawer_layout">
+<android.support.v4.widget.DrawerLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawer_layout">
 
         <FrameLayout
             android:id="@+id/fragment_holder"
@@ -17,9 +18,7 @@
 
         <include layout="@layout/drawer_linear"/>
 
-    </android.support.v4.widget.DrawerLayout>
-
-    <include layout="@layout/add_button_layout" />
+</android.support.v4.widget.DrawerLayout>
 
     <GridView
         android:layout_width="wrap_content"
@@ -30,8 +29,7 @@
         android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:clickable="true" />
+        android:paddingRight="10dp" />
 
 
 </RelativeLayout>
