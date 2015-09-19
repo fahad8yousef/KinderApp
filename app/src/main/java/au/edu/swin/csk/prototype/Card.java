@@ -1,14 +1,19 @@
 package au.edu.swin.csk.prototype;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -31,6 +36,7 @@ public class Card {
 }
 class mainAdapter extends BaseAdapter
 {
+    private static final String TAG = "dd" ;
     ArrayList<Card> list;
     Context context;
 
@@ -74,6 +80,8 @@ class mainAdapter extends BaseAdapter
         ImageView cardImage;
         TextView cardText;
         TextView cardActivity;
+        public LinearLayout gridCell;
+
         ViewHolder(View v)
         {
             cardImage = (ImageView) v.findViewById(R.id.imageView);
@@ -94,6 +102,8 @@ class mainAdapter extends BaseAdapter
             row = inflater.inflate(R.layout.single_item_main, viewGroup, false);
             holder = new ViewHolder(row);
             row.setTag(holder);
+            //new test
+            //holder.gridCell = (LinearLayout) row.findViewById(R.id.row_layout);
         }
         else
         {
@@ -103,7 +113,8 @@ class mainAdapter extends BaseAdapter
         holder.cardImage.setImageResource(temp.imageId);
         holder.cardText.setText(temp.childName);
         holder.cardActivity.setText(temp.activityName);
-
+        //holder.gridCell.setOnClickListener
         return row;
     }
+
 }

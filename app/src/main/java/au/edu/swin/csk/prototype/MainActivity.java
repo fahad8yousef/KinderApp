@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, DialogInterface.OnClickListener {
@@ -50,8 +51,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Drawer layout
         linear = (LinearLayout) findViewById(R.id.drawer_linear);
-
+        //add button to create new EvidCards
         runCommand = (ImageButton) findViewById(R.id.runCommand);
         runCommand.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,32 +64,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
         runCommand.bringToFront();
-
+        //constructing drawer
         createDrawer();
+        //managing fragments
         manager = getSupportFragmentManager();
 
         //Main screen layout
         mainGrid = (GridView)findViewById(R.id.main_grid);
         mainGrid.setAdapter(new mainAdapter(this));
+        mainGrid.setOnItemClickListener(this);
 
     }
     /*This function creates navigation drawer and
     * adds all components to the drawer and bring to front button and main layout when slide closed */
     private void createDrawer(){
-
+        //construct drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer );
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
 
-        //spinner
-
+        //construct spinner
         spinner = (Spinner) findViewById(R.id.spinner_group);
         ArrayAdapter spinAdapter =  ArrayAdapter.createFromResource(this, R.array.groups, R.layout.spinner_item);
         spinAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         spinner.setOnItemSelectedListener(this);
         spinner.setAdapter(spinAdapter);
 
-//////////////1 Filter list
+//////////////1 Construct Filter list
         navList1 = (ListView) findViewById(R.id.nav_list1);
         ArrayList<String> navArray1 = new ArrayList<String>();
         navArray1.add("Child");
@@ -99,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         navList1.setAdapter(listAdapter1);
         navList1.setOnItemClickListener(this);
 
-//////////////2 Edit List
+//////////////2 Construct Edit List
         navList2 = (ListView) findViewById(R.id.nav_list2);
         ArrayList<String> navArray2 = new ArrayList<String>();
         navArray2.add("Child");
@@ -112,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         navList2.setOnItemClickListener(this);
 
 
-///////////////3 Options list
+///////////////3 Construct Options list
         navList3 = (ListView) findViewById(R.id.nav_list3);
         ArrayList<String> navArray3 = new ArrayList<String>();
         navArray3.add("Summary");
@@ -133,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     /*
-     * Deals with different orientations
+     * Deals with different orientations by syncing status of drawer button
      */
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
@@ -183,17 +186,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         return super.onOptionsItemSelected(item);
     }
-
+    /*
+    * Listens to items clicked */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        //loadSelection(position);
         View a = (View) view.getParent();
-        showDialogAlert(a, position);
-        drawerLayout.closeDrawer(linear);
-        //a.getId();
+        if (a.getId() == R.id.nav_list1 || a.getId() == R.id.nav_list2 || a.getId() == R.id.nav_list3 ){
+            showDialogAlert(a, position); //calling showDialogAlert
+            drawerLayout.closeDrawer(linear);
 
+        } else {
 
+            Toast.makeText(getApplicationContext(),
+                    "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, Picture.class);
+            startActivity(intent);
+        }
     }
 
     @Override

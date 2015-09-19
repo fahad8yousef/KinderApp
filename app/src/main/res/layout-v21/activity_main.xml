@@ -29,8 +29,7 @@
         android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:clickable="true" />
+        android:paddingRight="10dp" />
 
 
 </RelativeLayout>
