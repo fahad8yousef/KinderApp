@@ -12,9 +12,9 @@
         <item>3YO</item>
         <item>4YO</item>
     </string-array>
-    
 
-<!-- TODO: Remove or change this placeholder text -->
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="home">Home</string>
     <string name="frag1">frag1</string>
     <string name="frag2">frag2</string>
@@ -22,7 +22,7 @@
     <string name="frag4">frag4</string>
     <string name="frag5">frag5</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="options_exit_text">Exit</string>
     <string name="action_export_text">Export</string>
     <string name="action_import_text">Import</string>
@@ -35,6 +35,18 @@
     <string name="date_view">Current date</string>
     <string name="changeDate_button">Change Date</string>
     <string name="image_text">\u0020 Image will be \ndisplayed here</string>
+    <string name="comment_hint">Enter your comment here</string>
+    <string name="select_activity">Select Activities</string>
+    <string name="select_children">Select Children</string>
+    <string name="select_lo">Select L.O.</string>
+    <string name="ok">Okay</string>
+    <string name="cancel">Cancel</string>
+    <string name="activity_not_selected">"You haven't selected any activity"</string>
+    <string name="activities_dialog_title">"Select from the following activities: "</string>
+    <string name="children_not_selected">"You haven't selected any child"</string>
+    <string name="children_dialog_title">Select from the following children: </string>
+    <string name="lo_not_selected">"You haven't selected any learning outcome"</string>
+    <string name="lo_dialog_title">"Select from the following Learning Outcomes:" </string>
 
     <string-array name="childArray">
         <item>Jim</item>

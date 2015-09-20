@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+   >
     <ImageView
         android:layout_width="350dp"
         android:layout_height="350dp"
@@ -11,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:background="@color/material_grey_300"
+        android:background="@color/material_blue_grey_800"
         android:adjustViewBounds="false" />
 
 
@@ -110,7 +111,7 @@
             android:layout_alignEnd="@+id/activity_edit" />
 
         <EditText
-            android:layout_width="300sp"
+            android:layout_width="275sp"
             android:layout_height="wrap_content"
             android:id="@+id/activity_edit"
             android:layout_marginLeft="11dp"
@@ -119,7 +120,7 @@
             android:layout_toEndOf="@+id/children_text" />
 
         <EditText
-            android:layout_width="300sp"
+            android:layout_width="275sp"
             android:layout_height="wrap_content"
             android:id="@+id/children_edit"
             android:layout_marginLeft="11dp"
@@ -146,7 +147,41 @@
             android:layout_alignBottom="@+id/comment_text"
             android:layout_toRightOf="@+id/comment_text"
             android:layout_toEndOf="@+id/comment_text"
-            android:maxLines="4" />
+            android:maxLines="4"
+            android:autoText="false"
+            android:hint="@string/comment_hint" />
+
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_activity"
+        android:id="@+id/select_activity"
+        android:textSize="20dp"
+            android:layout_alignBottom="@+id/activity_edit"
+            android:layout_alignLeft="@+id/select_children"
+            android:layout_alignStart="@+id/select_children" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_children"
+            android:id="@+id/select_children"
+            android:textSize="20dp"
+            android:layout_alignBottom="@+id/children_edit"
+            android:layout_alignLeft="@+id/select_lo"
+            android:layout_alignStart="@+id/select_lo" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_lo"
+            android:id="@+id/select_lo"
+            android:textSize="20dp"
+            android:layout_alignBottom="@+id/lo_text"
+            android:layout_toRightOf="@+id/lo_edit"
+            android:layout_toEndOf="@+id/lo_edit"
+            android:layout_marginLeft="52dp"
+            android:layout_marginStart="52dp" />
 
     </RelativeLayout>
 
