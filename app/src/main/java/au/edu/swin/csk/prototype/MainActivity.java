@@ -24,9 +24,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, DialogInterface.OnClickListener {
@@ -75,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mainGrid.setOnItemClickListener(this);
 
     }
+
     /*This function creates navigation drawer and
     * adds all components to the drawer and bring to front button and main layout when slide closed */
     private void createDrawer(){
@@ -210,19 +209,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        TextView group = (TextView) view;
         //Toast.makeText(this, "you selected"+ group.getText(), Toast.LENGTH_SHORT).show();
         drawerLayout.closeDrawer(linear);
+        drawerLayout.clearFocus();
+        if (drawerLayout.hasFocus()){
+            Toast.makeText(this, " focus yes " , Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    public void onNothingSelected(AdapterView<?> parent) {}
 
     public void showDialogAlert(View view, int position){
         //create alertdialog to show a list
         //Toast.makeText(this, " you selected:  "+ navList1.getPositionForView(view) , Toast.LENGTH_SHORT).show();
 
         if (view.getId() == R.id.nav_list1) {
-          //  position = navList1.getPositionForView(view);
 
             if (position == 0) {
                 String[] children = {"Adam", "Jack", "John", "Chris"};
@@ -256,8 +256,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onClick(DialogInterface dialog, int which) {
-
-    }
+    public void onClick(DialogInterface dialog, int which) {}
 
 }

@@ -256,6 +256,7 @@ public class Picture extends FragmentActivity implements DialogInterface.OnClick
         Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT);
 
 
+
     }
 
     @Override
