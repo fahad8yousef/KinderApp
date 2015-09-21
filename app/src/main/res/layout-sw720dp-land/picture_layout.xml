@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:id="@+id/showpicture_image"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@color/primary_material_light"
+        android:adjustViewBounds="false" />
+
+
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="198dp"
+
+        android:touchscreenBlocksFocus="false"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout"
+        android:layout_below="@+id/showpicture_image">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/date_text"
+            android:id="@+id/date_text"
+            android:textSize="28dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/activity_text"
+            android:layout_alignStart="@+id/activity_text"
+            android:layout_marginTop="75dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/children_text"
+            android:id="@+id/children_text"
+            android:textSize="28dp"
+            android:layout_alignBottom="@+id/view"
+            android:layout_alignLeft="@+id/activity_text"
+            android:layout_alignStart="@+id/activity_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/activity_text"
+            android:id="@+id/activity_text"
+            android:textSize="28dp"
+            android:layout_marginLeft="62dp"
+            android:layout_marginStart="62dp"
+            android:layout_alignBottom="@+id/activity_edit"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+
+        <View
+            android:layout_width="3dp"
+            android:layout_height="200dp"
+            android:background="@android:color/darker_gray"
+            android:id="@+id/view"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="50dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/lo_text"
+            android:id="@+id/lo_text"
+            android:textSize="28dp"
+            android:layout_alignTop="@+id/date_view"
+            android:layout_alignLeft="@+id/comment_text"
+            android:layout_alignStart="@+id/comment_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/comment_text"
+            android:id="@+id/comment_text"
+            android:textSize="28dp"
+            android:layout_marginLeft="44dp"
+            android:layout_marginStart="44dp"
+            android:layout_alignBottom="@+id/select_activity"
+            android:layout_toRightOf="@+id/view"
+            android:layout_toEndOf="@+id/view" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/date_view"
+            android:id="@+id/date_view"
+            android:layout_marginLeft="-30dp"
+
+            android:textSize="28dp"
+            android:layout_alignTop="@+id/date_text"
+            android:layout_toRightOf="@+id/children_text"
+            android:layout_toEndOf="@+id/children_text" />
+
+        <Button
+            android:layout_width="220sp"
+            android:layout_height="wrap_content"
+            android:text="@string/changeDate_button"
+            android:id="@+id/changeDate_button"
+            android:background="@drawable/buttonshape"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:layout_alignBottom="@+id/lo_text"
+            android:layout_alignRight="@+id/view"
+            android:layout_alignEnd="@+id/view" />
+
+        <EditText
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/children_edit"
+            android:layout_marginLeft="11dp"
+            android:layout_alignBottom="@+id/children_text"
+            android:layout_toRightOf="@+id/children_text"
+            android:layout_toLeftOf="@+id/select_children"
+            android:layout_toStartOf="@+id/select_children" />
+
+        <EditText
+            android:layout_width="300sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/lo_edit"
+            android:layout_alignBottom="@+id/lo_text"
+            android:layout_toRightOf="@+id/lo_text"
+            android:layout_toEndOf="@+id/lo_text"
+            android:layout_marginLeft="18dp"
+            android:layout_marginStart="44dp" />
+
+        <EditText
+            android:layout_width="350sp"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/comment_edit"
+            android:maxLines="4"
+            android:autoText="false"
+            android:hint="@string/comment_hint"
+            android:layout_alignBottom="@+id/comment_text"
+            android:layout_toRightOf="@+id/comment_text"
+            android:layout_toEndOf="@+id/comment_text"
+            android:layout_marginLeft="15dp" />
+
+        <Button
+            android:layout_width="210sp"
+            android:layout_height="wrap_content"
+            android:text="@string/select_children"
+            android:id="@+id/select_children"
+            android:textSize="20dp"
+            android:background="@drawable/buttonshape"
+            android:textColor="#FFFFFF"
+            android:layout_alignBottom="@+id/view"
+            android:layout_alignRight="@+id/select_activity"
+            android:layout_alignEnd="@+id/select_activity" />
+
+        <Button
+            android:layout_width="220sp"
+            android:layout_height="wrap_content"
+            android:text="@string/select_lo"
+            android:id="@+id/select_lo"
+            android:background="@drawable/buttonshape"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:layout_alignBottom="@+id/lo_edit"
+            android:layout_toRightOf="@+id/lo_edit"
+            android:layout_alignRight="@+id/comment_edit"
+            android:layout_alignEnd="@+id/comment_edit" />
+
+        <EditText
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_edit"
+            android:layout_alignBottom="@+id/comment_text"
+            android:layout_toRightOf="@+id/children_text"
+            android:layout_toLeftOf="@+id/select_activity"
+            android:layout_toStartOf="@+id/select_activity" />
+
+        <Button
+            android:layout_width="220sp"
+            android:layout_height="wrap_content"
+            android:text="@string/select_activity"
+            android:id="@+id/select_activity"
+            android:textSize="20dp"
+            android:background="@drawable/buttonshape"
+            android:textColor="#FFFFFF"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/changeDate_button"
+            android:layout_alignStart="@+id/changeDate_button"
+            android:layout_marginRight="5sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/image_text"
+        android:id="@+id/image_text"
+        android:textSize="35dp"
+        android:lines="2"
+        android:maxLines="1"
+        android:layout_marginTop="140dp"
+        android:layout_alignTop="@+id/showpicture_image"
+        android:layout_centerHorizontal="true"
+        android:textColor="#48101910"
+        android:visibility="visible"
+        android:typeface="sans"
+        android:focusable="false"
+        android:autoText="false" />
+
+    <ImageView
+        android:layout_width="80sp"
+        android:layout_height="80sp"
+        android:id="@+id/takepicture_image"
+        android:src="@drawable/ic_add_black_24dp"
+        android:layout_alignTop="@+id/showpicture_image"
+        android:layout_toRightOf="@+id/showpicture_image"
+        android:layout_toEndOf="@+id/showpicture_image"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
+        android:clickable="true" />
+
+    <ImageView
+        android:layout_width="80sp"
+        android:layout_height="80sp"
+        android:id="@+id/deletepicture_image"
+        android:src="@drawable/ic_delete_black_24dp"
+        android:clickable="true"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/takepicture_image"
+        android:layout_alignStart="@+id/takepicture_image" />
+
+    <ImageView
+        android:layout_width="80sp"
+        android:layout_height="80sp"
+        android:id="@+id/savepicture_image"
+        android:src="@drawable/ic_save_black_24dp"
+        android:clickable="true"
+        android:layout_alignBottom="@+id/image_text"
+        android:layout_alignLeft="@+id/deletepicture_image"
+        android:layout_alignStart="@+id/deletepicture_image" />
+
+</RelativeLayout>
