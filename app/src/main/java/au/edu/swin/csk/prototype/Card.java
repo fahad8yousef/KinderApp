@@ -80,7 +80,6 @@ class mainAdapter extends BaseAdapter
         ImageView cardImage;
         TextView cardText;
         TextView cardActivity;
-        public LinearLayout gridCell;
 
         ViewHolder(View v)
         {
@@ -102,8 +101,6 @@ class mainAdapter extends BaseAdapter
             row = inflater.inflate(R.layout.single_item_main, viewGroup, false);
             holder = new ViewHolder(row);
             row.setTag(holder);
-            //new test
-            //holder.gridCell = (LinearLayout) row.findViewById(R.id.row_layout);
         }
         else
         {
@@ -113,7 +110,6 @@ class mainAdapter extends BaseAdapter
         holder.cardImage.setImageResource(temp.imageId);
         holder.cardText.setText(temp.childName);
         holder.cardActivity.setText(temp.activityName);
-        //holder.gridCell.setOnClickListener
         return row;
     }
 

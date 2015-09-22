@@ -1,15 +1,18 @@
 package au.edu.swin.csk.prototype;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +30,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, DialogInterface.OnClickListener {
+public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, DialogInterface.OnClickListener {
 
     private static final  String TAG="App/ MainActivity";
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     LinearLayout linear;
     AlertDialog ad;
     GridView mainGrid;
+    KinderDBCon k;
+    TestDB testDB;
 
     /*
     * need listening to drawer on slide */
@@ -71,6 +76,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mainGrid = (GridView)findViewById(R.id.main_grid);
         mainGrid.setAdapter(new mainAdapter(this));
         mainGrid.setOnItemClickListener(this);
+
+
+        //test database
+        testDB = new TestDB();
+        testDB.DoTestDb(this);
+        //CreateEvidenceCard();
 
     }
 
@@ -175,7 +186,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 drawerLayout.closeDrawer(linear);
                 //drawerLayout.bringToFront();
                 //add bring to front for main screen layout and button
-                runCommand.bringToFront();
+                //testing ------------
+//                runCommand.bringToFront();
+//                mainGrid.bringToFront();
+//                mainGrid.setFocusable(true);
+                //---------------
 
             }else {
                 drawerLayout.openDrawer(linear);
@@ -197,10 +212,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         } else {
 
-            Toast.makeText(getApplicationContext(),
+                Toast.makeText(getApplicationContext(),
                     "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, Picture.class);
             startActivity(intent);
+
+            //CreateEvidenceCard();
         }
     }
 
@@ -210,9 +227,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //Toast.makeText(this, "you selected"+ group.getText(), Toast.LENGTH_SHORT).show();
         drawerLayout.closeDrawer(linear);
         drawerLayout.clearFocus();
-        if (drawerLayout.hasFocus()){
-            Toast.makeText(this, " focus yes " , Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -254,6 +268,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
     }
+
+    public void CreateEvidenceCard(){
+
+        k = new KinderDBCon(this);
+        k.open();
+        Long result = k.InsertIntoEvidenceTable(222, "18/12/12", "this is comment", 222, "cooking");
+        k.close();
+        Log.d(TAG, "Creating " + result.toString());
+        Toast.makeText(this, result.toString() , Toast.LENGTH_SHORT).show();
+
+    }
+
 
     @Override
     public void onClick(DialogInterface dialog, int which) {}
