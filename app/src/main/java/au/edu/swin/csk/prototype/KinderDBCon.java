@@ -29,8 +29,8 @@ public class KinderDBCon {
     public static final String KEY_NAME_PHOTOFILENAME = "photoFilename";
     public static final String KEY_NAME_LOCODE = "locCode";
     public static final String KEY_NAME_LOCDESCRIPTION = "locDescription";
-    public static final String KEY_NAME_LOOUTCOMECODE = "looutcomeCode";
-    public static final String KEY_NAME_LOOUTCOMEEvidence = "looutcomeEvidence";
+    public static final String KEY_NAME_LOUTCOMECODE = "loutcomeCode";
+    public static final String KEY_NAME_LOUTCOMEEvidence = "loutcomeEvidence";
 
     public static final String KEY_CREATE_TABLE = " CREATE TABLE IF NOT EXISTS ";
     public static final String KEY_DROP_TABLE = " DROP TABLE IF EXISTS ";
@@ -54,15 +54,15 @@ public class KinderDBCon {
 
     private static final String DATABASE_NAME = "KinderGardenDB";
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_TABLE_GROUP = "Group";
+    private static final String DATABASE_TABLE_GROUP = "Group_Table";
     private static final String DATABASE_TABLE_CHILD = "Child";
     private static final String DATABASE_TABLE_ACTIVITY = "Activity";
     private static final String DATABASE_TABLE_EVIDENCE = "Evidence";
     private static final String DATABASE_TABLE_EVIDENCECHILD = "EvidenceChild";
     private static final String DATABASE_TABLE_PHOTO = "Photo";
     private static final String DATABASE_TABLE_LOCODE = "LOCode";
-    private static final String DATABASE_TABLE_LOOUTCOME = "LOOutCome";
-    private static final String DATABASE_TABLE_EVIDENCELOOUTCOME = "EvidenceLoOutcome";
+    private static final String DATABASE_TABLE_LOUTCOME = "LOutcome";
+    private static final String DATABASE_TABLE_EVIDENCELOUTCOME = "EvidenceLOutcome";
 
     // Defining the Forign Keys
     // has to be filled later
@@ -160,23 +160,23 @@ public class KinderDBCon {
                             KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
             );
             db.execSQL(
-                    // Creating  LOOutCOME Table
-                    KEY_CREATE_TABLE + DATABASE_TABLE_LOOUTCOME + KEY_OPEN_PARENTHESIS +
-                            KEY_NAME_LOOUTCOMECODE + KEY_REAL + KEY_NOTNULL + KEY_COMMA +
-                            KEY_NAME_LOOUTCOMEEvidence + KEY_TEXT + KEY_NOTNULL + KEY_COMMA +
-                            KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_LOOUTCOMECODE + KEY_CLOSE_PARENTHESIS +
+                    // Creating  LOUTCOME Table
+                    KEY_CREATE_TABLE + DATABASE_TABLE_LOUTCOME + KEY_OPEN_PARENTHESIS +
+                            KEY_NAME_LOUTCOMECODE + KEY_REAL + KEY_NOTNULL + KEY_COMMA +
+                            KEY_NAME_LOUTCOMEEvidence + KEY_TEXT + KEY_NOTNULL + KEY_COMMA +
+                            KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_LOUTCOMECODE + KEY_CLOSE_PARENTHESIS +
                             KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
             );
             db.execSQL(
-                    // Creating  EvidenceLoOutcome Table
-                    KEY_CREATE_TABLE + DATABASE_TABLE_EVIDENCELOOUTCOME + KEY_OPEN_PARENTHESIS +
+                    // Creating  EvidenceLOUTCOME Table
+                    KEY_CREATE_TABLE + DATABASE_TABLE_EVIDENCELOUTCOME + KEY_OPEN_PARENTHESIS +
                             KEY_NAME_EvidenceCODE + KEY_INTEGER + KEY_COMMA +
-                            KEY_NAME_LOOUTCOMECODE + KEY_REAL + KEY_COMMA +
-                            KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_COMMA + KEY_NAME_LOOUTCOMECODE + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
-                            KEY_CONSTRAINT + "EVIDENCELOOUTCOME_FK_EvidenceCODE" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS +
+                            KEY_NAME_LOUTCOMECODE + KEY_REAL + KEY_COMMA +
+                            KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_COMMA + KEY_NAME_LOUTCOMECODE + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
+                            KEY_CONSTRAINT + "EVIDENCELOUTCOME_FK_EvidenceCODE" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS +
                             KEY_REFERENCES + DATABASE_TABLE_PHOTO + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
-                            KEY_CONSTRAINT + "EVIDENCELOOUTCOME_FK_LOOUTCOMECODE" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_LOOUTCOMECODE + KEY_CLOSE_PARENTHESIS +
-                            KEY_REFERENCES + DATABASE_TABLE_LOCODE + KEY_OPEN_PARENTHESIS + KEY_NAME_LOOUTCOMECODE + KEY_CLOSE_PARENTHESIS +
+                            KEY_CONSTRAINT + "EVIDENCELOUTCOME_FK_LOUTCOMECODE" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_LOUTCOMECODE + KEY_CLOSE_PARENTHESIS +
+                            KEY_REFERENCES + DATABASE_TABLE_LOCODE + KEY_OPEN_PARENTHESIS + KEY_NAME_LOUTCOMECODE + KEY_CLOSE_PARENTHESIS +
                             KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
             );
 
@@ -187,9 +187,9 @@ public class KinderDBCon {
             db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_CHILD);
             db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_ACTIVITY);
             db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_GROUP);
-            db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_EVIDENCELOOUTCOME);
+            db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_EVIDENCELOUTCOME);
             db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_EVIDENCE);
-            db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_LOOUTCOME);
+            db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_LOUTCOME);
             db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_EVIDENCECHILD);
             db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_LOCODE);
             db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_PHOTO);
@@ -293,22 +293,22 @@ public class KinderDBCon {
         return _db.insert(DATABASE_TABLE_LOCODE,null,cv);
     }
 
-    public long InsertIntoLOOutComeTable(double _looutcomeCode,String _looutcomeEvidence)
+    public long InsertIntoLOUTCOMETable(double _loutcomeCode,String _loutcomeEvidence)
     {
         ContentValues cv = new ContentValues();
-        cv.put(KEY_NAME_LOOUTCOMECODE,_looutcomeCode);
-        cv.put(KEY_NAME_LOOUTCOMEEvidence,_looutcomeEvidence);
+        cv.put(KEY_NAME_LOUTCOMECODE,_loutcomeCode);
+        cv.put(KEY_NAME_LOUTCOMEEvidence,_loutcomeEvidence);
 
-        return _db.insert(DATABASE_TABLE_LOOUTCOME,null,cv);
+        return _db.insert(DATABASE_TABLE_LOUTCOME,null,cv);
     }
 
-    public long InsertIntoEvidenceLoOutcomeTable(int _EvidenceCode,double _looutcomeCode)
+    public long InsertIntoEvidenceLOutcomeTable(int _EvidenceCode,double _loutcomeCode)
     {
         ContentValues cv = new ContentValues();
         cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
-        cv.put(KEY_NAME_LOOUTCOMECODE,_looutcomeCode);
+        cv.put(KEY_NAME_LOUTCOMECODE,_loutcomeCode);
 
-        return _db.insert(DATABASE_TABLE_EVIDENCELOOUTCOME,null,cv);
+        return _db.insert(DATABASE_TABLE_EVIDENCELOUTCOME,null,cv);
     }
     //#######################################
     // End of Inserting methords to the table
@@ -466,42 +466,42 @@ public class KinderDBCon {
         return  result;
     }
 
-    // getting data from LOOutCome table
-    public String getLOOutComeData()
+    // getting data from loutcome table
+    public String getLOutcomeData()
     {
         // Creating a string array to store result from database before passing
-        String [] columns = new String[] {KEY_NAME_LOOUTCOMECODE,KEY_NAME_LOOUTCOMEEvidence};
+        String [] columns = new String[] {KEY_NAME_LOUTCOMECODE,KEY_NAME_LOUTCOMEEvidence};
         // Creating a cursor to iterate through db
-        Cursor c = _db.query(DATABASE_TABLE_LOOUTCOME, columns, null, null, null, null, null);
+        Cursor c = _db.query(DATABASE_TABLE_LOUTCOME, columns, null, null, null, null, null);
 
         String result = "";
-        int iLOOutComeCode = c.getColumnIndex(KEY_NAME_LOOUTCOMECODE);
-        int iLOOutComeEvidence = c.getColumnIndex(KEY_NAME_LOOUTCOMEEvidence);
+        int iLOUTCOMECode = c.getColumnIndex(KEY_NAME_LOUTCOMECODE);
+        int iLOUTCOMEEvidence = c.getColumnIndex(KEY_NAME_LOUTCOMEEvidence);
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
         {
-            result = result + c.getDouble(iLOOutComeCode)  + " " + c.getString(iLOOutComeEvidence) + "\n";
+            result = result + c.getDouble(iLOUTCOMECode)  + " " + c.getString(iLOUTCOMEEvidence) + "\n";
         }
 
         return  result;
     }
 
-    // getting data from EvidenceLoOutcome table
-    public String getEvidenceLoOutcomeData()
+    // getting data from EvidenceLOUTCOME table
+    public String getEvidenceLOutcomeData()
     {
         // Creating a string array to store result from database before passing
-        String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_LOOUTCOMECODE};
+        String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_LOUTCOMECODE};
         // Creating a cursor to iterate through db
-        Cursor c = _db.query(DATABASE_TABLE_LOOUTCOME, columns, null, null, null, null, null);
+        Cursor c = _db.query(DATABASE_TABLE_LOUTCOME, columns, null, null, null, null, null);
 
         String result = "";
 
         int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
-        int iLOOutComeCode = c.getColumnIndex(KEY_NAME_LOOUTCOMECODE);
+        int iLOutComeCode = c.getColumnIndex(KEY_NAME_LOUTCOMECODE);
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
         {
-            result = result + c.getInt(iEvidenceCode)  + " " + c.getDouble(iLOOutComeCode) + "\n";
+            result = result + c.getInt(iEvidenceCode)  + " " + c.getDouble(iLOutComeCode) + "\n";
         }
 
         return  result;

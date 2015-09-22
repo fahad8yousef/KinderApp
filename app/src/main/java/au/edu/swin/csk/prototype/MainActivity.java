@@ -80,7 +80,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
         //test database
         testDB = new TestDB();
-        testDB.DoTestDb(this);
+        testDB.TestDB(this);
         //CreateEvidenceCard();
 
     }
@@ -271,12 +271,12 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
     public void CreateEvidenceCard(){
 
-        k = new KinderDBCon(this);
-        k.open();
-        Long result = k.InsertIntoEvidenceTable(222, "18/12/12", "this is comment", 222, "cooking");
-        k.close();
-        Log.d(TAG, "Creating " + result.toString());
-        Toast.makeText(this, result.toString() , Toast.LENGTH_SHORT).show();
+//        k = new KinderDBCon(this);
+//        k.open();
+//        Long result = k.InsertIntoEvidenceTable(222, "18/12/12", "this is comment", 222, "cooking");
+//        k.close();
+//        Log.d(TAG, "Creating " + result.toString());
+//        Toast.makeText(this, result.toString() , Toast.LENGTH_SHORT).show();
 
     }
 
