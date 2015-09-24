@@ -46,7 +46,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     GridView mainGrid;
     KinderDBCon k;
     TestDB testDB;
-
+    private int groupID;
     /*
     * need listening to drawer on slide */
 
@@ -223,10 +223,11 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        TextView group = (TextView) view;
-        //Toast.makeText(this, "you selected"+ group.getText(), Toast.LENGTH_SHORT).show();
+        TextView groupName = (TextView) view;
         drawerLayout.closeDrawer(linear);
-        drawerLayout.clearFocus();
+        groupID = position;
+        Toast.makeText(this, "you selected group: "+ groupName.getText() , Toast.LENGTH_SHORT).show();
+        //drawerLayout.clearFocus();
     }
 
     @Override
