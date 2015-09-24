@@ -1,7 +1,7 @@
 package au.edu.swin.csk.prototype;
 
 /**
- * Created by Subzero on 14/09/2015.
+ * Created by Subzero & Fahad Alhamed on 14/09/2015.
  */
 
 import android.content.ContentValues;
@@ -10,8 +10,13 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 public class KinderDBCon {
+
+    private static final  String TAG="App/ KinderDBCon";
 
     public static final String KEY_ROWID = "_id";
     public static final String KEY_NAME_GROUPID = "groupID";
@@ -35,7 +40,7 @@ public class KinderDBCon {
     public static final String KEY_CREATE_TABLE = " CREATE TABLE IF NOT EXISTS ";
     public static final String KEY_DROP_TABLE = " DROP TABLE IF EXISTS ";
     public static final String KEY_PRIMARY_KEY = " PRIMARY KEY ";
-    public static final String KEY_AUTOINCREMENT = " AUTOINCREMENT ";
+    public static final String KEY_AUTOINCREMENT = "  ";
     public static final String KEY_CONSTRAINT = " CONSTRAINT ";
     public static final String KEY_FOREIGN_KEY = " FOREIGN KEY ";
     public static final String KEY_REFERENCES = " REFERENCES ";
@@ -325,7 +330,7 @@ public class KinderDBCon {
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {" * "};
         // Creating a cursor to iterate through db
-        Cursor c = _db.query(DATABASE_TABLE_GROUP,columns,null,null,null,null,null);
+        Cursor c = _db.query(DATABASE_TABLE_GROUP, columns, null, null, null, null, null);
 
         String result = "";
         int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
@@ -358,6 +363,7 @@ public class KinderDBCon {
         {
             result = result + c.getInt(iChildRowID) + " " + c.getString(iChildFirstName)  + " " + c.getString(iChildSurName) + " " + c.getString(iChildGender) + " " + c.getInt(iGroupRowID) + "\n";
         }
+        //Log.d(TAG, result);
 
         return  result;
     }
@@ -503,10 +509,83 @@ public class KinderDBCon {
         {
             result = result + c.getInt(iEvidenceCode)  + " " + c.getDouble(iLOutComeCode) + "\n";
         }
-
+        Log.d(TAG, result);
         return  result;
+    }
+    //testing to returne only first and surname
+    public ArrayList<String> getChildNames()
+    {
+        // Creating a string array to store result from database before passing
+        String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
+        // Creating a cursor to iterate through db
+        Cursor c = _db.query(DATABASE_TABLE_CHILD,columns,null,null,null,null,null);
+
+        ArrayList<String> firstLastName = new ArrayList<String>();
+        String result= "";
+        int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
+        int iChildFirstName = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
+        int iChildSurName = c.getColumnIndex(KEY_NAME_CHILDSURNAME);
+        int iChildGender = c.getColumnIndex(KEY_NAME_CHILDGENDER);
+        int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
+
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+
+            firstLastName.add(c.getString(iChildFirstName) + " " + c.getString(iChildSurName));
+        }
+
+        return  firstLastName;
+    }
+
+    public ArrayList<String> getActivityNames()
+    {
+        // Creating a string array to store result from database before passing
+        String [] columns = new String[] {KEY_NAME_ACTIVITYNAME,KEY_NAME_ACTIVITYTYPE,KEY_NAME_ACTIVITYDESCRIPTION};
+        // Creating a cursor to iterate through db
+        Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
+        ArrayList<String> activity = new ArrayList<String>();
+
+        int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
+        int iActivityType = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
+        int iActivityDescription = c.getColumnIndex(KEY_NAME_ACTIVITYDESCRIPTION);
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+
+            activity.add(c.getString(iActivityName));
+        }
+
+        return  activity;
+    }
+
+    public ArrayList<Double> getLOCode()
+    {
+        // Creating a string array to store result from database before passing
+        String [] columns = new String[] {KEY_NAME_LOCODE,KEY_NAME_LOCDESCRIPTION};
+        // Creating a cursor to iterate through db
+        Cursor c = _db.query(DATABASE_TABLE_LOCODE, columns, null, null, null, null, null);
+        ArrayList<Double> loCode = new ArrayList<Double>();
+
+        int iLOCode = c.getColumnIndex(KEY_NAME_LOCODE);
+        int iLOCDescription = c.getColumnIndex(KEY_NAME_LOCDESCRIPTION);
+
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
+        {
+            loCode.add(c.getDouble(iLOCode));
+        }
+
+        return  loCode;
     }
 
 
+    //for testing
+    public void dropAll(SQLiteDatabase db) {
+        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_CHILD);
+        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_ACTIVITY);
+        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_GROUP);
+        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_EVIDENCELOUTCOME);
+        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_EVIDENCE);
+        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_LOUTCOME);
+        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_EVIDENCECHILD);
+        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_LOCODE);
+        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_PHOTO);
+    }
 
 }

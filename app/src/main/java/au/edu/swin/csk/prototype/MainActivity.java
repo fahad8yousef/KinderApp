@@ -79,9 +79,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
 
         //test database
-        testDB = new TestDB();
-        testDB.TestDB(this);
-        //CreateEvidenceCard();
+        //testDB = new TestDB(this);
+        k = new KinderDBCon(this); //create database object
+        k.open(); //open database
 
     }
 
@@ -239,24 +239,25 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         if (view.getId() == R.id.nav_list1) {
 
             if (position == 0) {
-                String[] children = {"Adam", "Jack", "John", "Chris"};
-                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, children);
+                //String[] children = {"Adam", "Jack", "John", "Chris"};
+                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getChildNames());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
                 builder.setAdapter(alertAdapter, this);
                 ad = builder.create();
                 ad.show();
+
             } else if (position == 1) {
-                String[] activityType = {"Cooking", "Art", "Music", "Games"};
-                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, activityType);
+                //String[] activityType = {"Cooking", "Art", "Music", "Games"};
+                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getActivityNames());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
                 builder.setAdapter(alertAdapter, this);
                 ad = builder.create();
                 ad.show();
             } else if (position == 2) {
-                String[] lo = {"1.1", "2.2", "3.3", "4.4", "2.2", "3.3", "4.4", "2.2", "3.3", "4.4"};
-                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, lo);
+                //String[] lo = {"1.1", "2.2", "3.3", "4.4", "2.2", "3.3", "4.4", "2.2", "3.3", "4.4"};
+                ArrayAdapter<Double> alertAdapter = new ArrayAdapter<Double>(this, android.R.layout.select_dialog_item, k.getLOCode());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
                 builder.setAdapter(alertAdapter, this);
@@ -266,20 +267,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         } else {
             Toast.makeText(this, " Not implemented yet! " , Toast.LENGTH_SHORT).show();
         }
-
     }
-
-    public void CreateEvidenceCard(){
-
-//        k = new KinderDBCon(this);
-//        k.open();
-//        Long result = k.InsertIntoEvidenceTable(222, "18/12/12", "this is comment", 222, "cooking");
-//        k.close();
-//        Log.d(TAG, "Creating " + result.toString());
-//        Toast.makeText(this, result.toString() , Toast.LENGTH_SHORT).show();
-
-    }
-
 
     @Override
     public void onClick(DialogInterface dialog, int which) {}
