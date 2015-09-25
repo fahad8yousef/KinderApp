@@ -229,7 +229,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         drawerLayout.closeDrawer(linear);
         groupID = position + 1;
         mainGrid.setAdapter(new MainAdapter(this , k, groupID));
-        Toast.makeText(this, "you selected group: "+ groupName.getText() , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "you selected group: "+ groupName.getText() , Toast.LENGTH_SHORT).show();
         //drawerLayout.clearFocus();
     }
 
