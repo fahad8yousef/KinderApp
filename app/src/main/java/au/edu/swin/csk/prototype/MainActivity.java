@@ -39,6 +39,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     private ListView navList2;
     private ListView navList3;
     private FragmentManager manager;
+    private int groupID = 1;
     ImageButton runCommand;
     Spinner spinner;
     LinearLayout linear;
@@ -46,7 +47,8 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     GridView mainGrid;
     KinderDBCon k;
     TestDB testDB;
-    private int groupID;
+    //Context c;
+
     /*
     * need listening to drawer on slide */
 
@@ -72,16 +74,20 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         //managing fragments
         manager = getSupportFragmentManager();
 
+        //#############################################
+        //create database object
+        //#############################################
+        k = new KinderDBCon(this);
+        k.open(); //open database
+        //insert into database
+        testDB = new TestDB(k); //to initiate testing //comment after inserting data to avoid errors
+        //k.close();
+        //#############################################
+
         //Main screen layout
         mainGrid = (GridView)findViewById(R.id.main_grid);
-        mainGrid.setAdapter(new mainAdapter(this));
+        mainGrid.setAdapter(new MainAdapter(this, k, groupID));
         mainGrid.setOnItemClickListener(this);
-
-
-        //test database
-        //testDB = new TestDB(this);
-        k = new KinderDBCon(this); //create database object
-        k.open(); //open database
 
     }
 
@@ -100,7 +106,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         spinner.setOnItemSelectedListener(this);
         spinner.setAdapter(spinAdapter);
 
-//////////////1 Construct Filter list
+        //1 Construct Filter list
         navList1 = (ListView) findViewById(R.id.nav_list1);
         ArrayList<String> navArray1 = new ArrayList<String>();
         navArray1.add("Child");
@@ -112,7 +118,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         navList1.setAdapter(listAdapter1);
         navList1.setOnItemClickListener(this);
 
-//////////////2 Construct Edit List
+        //2 Construct Edit List
         navList2 = (ListView) findViewById(R.id.nav_list2);
         ArrayList<String> navArray2 = new ArrayList<String>();
         navArray2.add("Child");
@@ -124,8 +130,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         navList2.setAdapter(listAdapter2);
         navList2.setOnItemClickListener(this);
 
-
-///////////////3 Construct Options list
+        //3 Construct Options list
         navList3 = (ListView) findViewById(R.id.nav_list3);
         ArrayList<String> navArray3 = new ArrayList<String>();
         navArray3.add("Summary");
@@ -136,7 +141,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         ArrayAdapter<String> listAdapter3 = new ArrayAdapter<String>(this, R.layout.row_layout_drawer, navArray3 );
         navList3.setAdapter(listAdapter3);
         navList3.setOnItemClickListener(this);
-///////////////
+        //End of drawer items
 
         //display drawer Icon in action bar
         ActionBar actionBar = getSupportActionBar();
@@ -178,7 +183,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         }else if (id == R.id.exit_app){
             finish();
             return true;
-            //needs modifications
+            //needs fixing bugs
         }else if (id == android.R.id.home){
 
             if (drawerLayout.isDrawerOpen(linear)) {
@@ -187,9 +192,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 //drawerLayout.bringToFront();
                 //add bring to front for main screen layout and button
                 //testing ------------
-//                runCommand.bringToFront();
-//                mainGrid.bringToFront();
-//                mainGrid.setFocusable(true);
+                //mainGrid.bringToFront();
                 //---------------
 
             }else {
@@ -217,7 +220,6 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             Intent intent = new Intent(MainActivity.this, Picture.class);
             startActivity(intent);
 
-            //CreateEvidenceCard();
         }
     }
 
@@ -225,7 +227,8 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         TextView groupName = (TextView) view;
         drawerLayout.closeDrawer(linear);
-        groupID = position;
+        groupID = position + 1;
+        mainGrid.setAdapter(new MainAdapter(this , k, groupID));
         Toast.makeText(this, "you selected group: "+ groupName.getText() , Toast.LENGTH_SHORT).show();
         //drawerLayout.clearFocus();
     }
@@ -240,8 +243,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         if (view.getId() == R.id.nav_list1) {
 
             if (position == 0) {
-                //String[] children = {"Adam", "Jack", "John", "Chris"};
-                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getChildNames());
+                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getChildNames(groupID));
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
                 builder.setAdapter(alertAdapter, this);
@@ -249,7 +251,6 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 ad.show();
 
             } else if (position == 1) {
-                //String[] activityType = {"Cooking", "Art", "Music", "Games"};
                 ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getActivityNames());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
@@ -257,7 +258,6 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 ad = builder.create();
                 ad.show();
             } else if (position == 2) {
-                //String[] lo = {"1.1", "2.2", "3.3", "4.4", "2.2", "3.3", "4.4", "2.2", "3.3", "4.4"};
                 ArrayAdapter<Double> alertAdapter = new ArrayAdapter<Double>(this, android.R.layout.select_dialog_item, k.getLOCode());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");

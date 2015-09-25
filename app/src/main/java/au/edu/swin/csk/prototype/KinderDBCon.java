@@ -509,19 +509,43 @@ public class KinderDBCon {
         {
             result = result + c.getInt(iEvidenceCode)  + " " + c.getDouble(iLOutComeCode) + "\n";
         }
-        Log.d(TAG, result);
+        //Log.d(TAG, result);
         return  result;
     }
+
+    // getting data from Evidence table
+    public ArrayList<String> getEvidenceInfo(int groupID)
+    {
+        // Creating a string array to store result from database before passing
+        String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
+        // Creating a cursor to iterate through db
+        Cursor c = _db.query(DATABASE_TABLE_EVIDENCE,columns,KEY_NAME_GROUPID + "=" + groupID,null,null,null,null);
+
+        ArrayList<String> result = new ArrayList<String>();
+        //String result = "";
+        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+        int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
+        int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
+        int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
+        int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
+
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
+        {
+            result.add( c.getString(iEvidenceDate) + "," + c.getString(iActivityName) );
+        }
+        return  result;
+    }
+
     //testing to returne only first and surname
-    public ArrayList<String> getChildNames()
+    public ArrayList<String> getChildNames(int groupID)
     {
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
         // Creating a cursor to iterate through db
-        Cursor c = _db.query(DATABASE_TABLE_CHILD,columns,null,null,null,null,null);
+        Cursor c = _db.query(DATABASE_TABLE_CHILD,columns,KEY_NAME_GROUPID + "=" + groupID ,null,null,null,null);
 
-        ArrayList<String> firstLastName = new ArrayList<String>();
-        String result= "";
+        ArrayList<String> result = new ArrayList<String>();
+
         int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
         int iChildFirstName = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
         int iChildSurName = c.getColumnIndex(KEY_NAME_CHILDSURNAME);
@@ -530,10 +554,10 @@ public class KinderDBCon {
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            firstLastName.add(c.getString(iChildFirstName) + " " + c.getString(iChildSurName));
+            result.add(c.getString(iChildFirstName) + " " + c.getString(iChildSurName));
         }
 
-        return  firstLastName;
+        return  result;
     }
 
     public ArrayList<String> getActivityNames()
@@ -542,17 +566,17 @@ public class KinderDBCon {
         String [] columns = new String[] {KEY_NAME_ACTIVITYNAME,KEY_NAME_ACTIVITYTYPE,KEY_NAME_ACTIVITYDESCRIPTION};
         // Creating a cursor to iterate through db
         Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
-        ArrayList<String> activity = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<String>();
 
         int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
         int iActivityType = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
         int iActivityDescription = c.getColumnIndex(KEY_NAME_ACTIVITYDESCRIPTION);
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            activity.add(c.getString(iActivityName));
+            result.add(c.getString(iActivityName));
         }
 
-        return  activity;
+        return  result;
     }
 
     public ArrayList<Double> getLOCode()
@@ -561,17 +585,17 @@ public class KinderDBCon {
         String [] columns = new String[] {KEY_NAME_LOCODE,KEY_NAME_LOCDESCRIPTION};
         // Creating a cursor to iterate through db
         Cursor c = _db.query(DATABASE_TABLE_LOCODE, columns, null, null, null, null, null);
-        ArrayList<Double> loCode = new ArrayList<Double>();
+        ArrayList<Double> result = new ArrayList<Double>();
 
         int iLOCode = c.getColumnIndex(KEY_NAME_LOCODE);
         int iLOCDescription = c.getColumnIndex(KEY_NAME_LOCDESCRIPTION);
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
         {
-            loCode.add(c.getDouble(iLOCode));
+            result.add(c.getDouble(iLOCode));
         }
 
-        return  loCode;
+        return  result;
     }
 
 
