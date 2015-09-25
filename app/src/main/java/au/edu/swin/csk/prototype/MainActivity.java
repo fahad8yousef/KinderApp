@@ -30,7 +30,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener, DialogInterface.OnClickListener {
+public class MainActivity extends ActionBarActivity implements
+        AdapterView.OnItemClickListener,
+        AdapterView.OnItemSelectedListener,
+        DialogInterface.OnClickListener,
+        DrawerLayout.DrawerListener {
 
     private static final  String TAG="App/ MainActivity";
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -97,6 +101,8 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         //construct drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer );
+
+        linear.bringToFront();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
 
         //construct spinner
@@ -189,7 +195,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             if (drawerLayout.isDrawerOpen(linear)) {
                 drawerLayout.bringToFront();
                 drawerLayout.closeDrawer(linear);
-                //drawerLayout.bringToFront();
+                linear.bringToFront();
                 //add bring to front for main screen layout and button
                 //testing ------------
                 //mainGrid.bringToFront();
@@ -197,8 +203,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
             }else {
                 drawerLayout.openDrawer(linear);
-                drawerLayout.bringToFront();
-            }
+                linear.bringToFront();            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -273,4 +278,25 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
     @Override
     public void onClick(DialogInterface dialog, int which) {}
 
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+        linear.bringToFront();
+
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        linear.bringToFront();
+
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+        linear.bringToFront();
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
+    }
 }

@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/parent">
     <!-- android:focusableInTouchMode="true"-->
 
     <include layout="@layout/add_button_layout" />
@@ -15,22 +16,24 @@
         <FrameLayout
             android:id="@+id/fragment_holder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <include layout="@layout/drawer_linear"/>
 
+        <GridView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/main_grid"
+            android:numColumns="1"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
 </android.support.v4.widget.DrawerLayout>
 
-    <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:id="@+id/main_grid"
-        android:numColumns="1"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+
 
 
 </RelativeLayout>
