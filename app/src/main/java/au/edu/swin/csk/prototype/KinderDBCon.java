@@ -378,7 +378,7 @@ public class KinderDBCon {
 
         String result = "";
         int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
-        int iActivityType = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
+        int iActivityType = c.getColumnIndex(KEY_NAME_ACTIVITYTYPE);
         int iActivityDescription = c.getColumnIndex(KEY_NAME_ACTIVITYDESCRIPTION);
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
