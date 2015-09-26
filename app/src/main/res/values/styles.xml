@@ -17,11 +17,11 @@
         <item name="android:textStyle">bold</item>
         <item name="android:checkMark">?android:attr/listChoiceIndicatorSingle</item>
     </style>
-<style name="seven_inches" parent="@android:style/Theme">
-    <item name="android:textSize">21sp</item>
+    <style name="seven_inches" parent="@android:style/Theme">
+        <item name="android:textSize">21sp</item>
 
 
-</style>
+    </style>
 
     <style name="ten_inches" parent="@android:style/Theme">
         <item name="android:textSize">28sp</item>
@@ -31,7 +31,7 @@
     <style name="ten_inches_portrait" parent="@android:style/Theme">
         <item name="android:textSize">35sp</item>
         <item name="android:textStyle">bold</item>
-        </style>
+    </style>
 
 
 </resources>

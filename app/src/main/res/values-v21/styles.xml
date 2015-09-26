@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
 
         <item name="android:textColorPrimary">@color/primary_text_material_light</item>
+        <item name="android:navigationBarColor">#00b0ff</item>
     </style>
 
 
