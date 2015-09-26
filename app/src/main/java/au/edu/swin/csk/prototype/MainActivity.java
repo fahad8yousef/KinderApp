@@ -51,6 +51,7 @@ public class MainActivity extends ActionBarActivity implements
     GridView mainGrid;
     KinderDBCon k;
     TestDB testDB;
+    ActionBar actionBar;
     //Context c;
 
     /*
@@ -150,7 +151,8 @@ public class MainActivity extends ActionBarActivity implements
         //End of drawer items
 
         //display drawer Icon in action bar
-        ActionBar actionBar = getSupportActionBar();
+
+        actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -237,8 +239,7 @@ public class MainActivity extends ActionBarActivity implements
         drawerLayout.closeDrawer(linear);
         groupID = position + 1;
         mainGrid.setAdapter(new MainAdapter(this , k, groupID));
-        //Toast.makeText(this, "you selected group: "+ groupName.getText() , Toast.LENGTH_SHORT).show();
-        //drawerLayout.clearFocus();
+        actionBar.setTitle(groupName.getText()); //set title to group selected
     }
 
     @Override
