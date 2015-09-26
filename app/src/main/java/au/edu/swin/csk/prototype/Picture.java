@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,6 +31,8 @@ import java.util.Locale;
  * Created by Somesh on 8/31/2015.
  */
 public class Picture extends FragmentActivity implements DialogInterface.OnClickListener {
+
+    private static final String TAG = "Somesh/ Picture Activity";
     protected static final int CAMERA_REQUEST = 0;
     protected static final int GALLERY_PICTURE = 1;
     private ImageView photo_ImageView;
@@ -47,7 +50,7 @@ public class Picture extends FragmentActivity implements DialogInterface.OnClick
     private EditText activity_Edit;
     private EditText children_Edit;
     private EditText lo_Edit;
-
+    private EditText comment_Edit;
 
     private Button changeDate;
 
@@ -55,8 +58,8 @@ public class Picture extends FragmentActivity implements DialogInterface.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.picture_layout);
-        initializeUI();
 
+        initializeUI();
     }
 
     public void initializeUI() {
@@ -64,6 +67,7 @@ public class Picture extends FragmentActivity implements DialogInterface.OnClick
         add_Image = (ImageView) findViewById(R.id.takepicture_image);
         delete_Image = (ImageView) findViewById(R.id.deletepicture_image);
         photo_ImageView = (ImageView) findViewById(R.id.showpicture_image);
+
         save_Image=(ImageView)findViewById(R.id.savepicture_image);
         save_Image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,9 +119,9 @@ public class Picture extends FragmentActivity implements DialogInterface.OnClick
         delete_Image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                photo_ImageView.setImageDrawable(null);
-                image_Text.setVisibility(View.VISIBLE);
-                photo_ImageView.setImageResource(R.color.material_blue_grey_950);
+
+                clearEverything();
+
             }
         });
 
@@ -127,8 +131,9 @@ public class Picture extends FragmentActivity implements DialogInterface.OnClick
         children_Edit.setKeyListener(null);
         lo_Edit=(EditText)findViewById(R.id.lo_edit);
         lo_Edit.setKeyListener(null);
+        comment_Edit=(EditText)findViewById(R.id.comment_edit);
     }
-//Setting up date picker.
+    //Setting up date picker.
     Calendar myCalendar = Calendar.getInstance();
 
     DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -150,6 +155,18 @@ public class Picture extends FragmentActivity implements DialogInterface.OnClick
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         dateView.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    public void clearEverything()
+    {
+        photo_ImageView.setImageDrawable(null);
+        image_Text.setVisibility(View.VISIBLE);
+        photo_ImageView.setImageResource(R.color.material_blue_grey_950);
+        activity_Edit.setText(null);
+        lo_Edit.setText(null);
+        children_Edit.setText(null);
+        comment_Edit.setText(null);
+        dateView.setText(null);
     }
 
     public void showActivityList()
@@ -211,7 +228,7 @@ public class Picture extends FragmentActivity implements DialogInterface.OnClick
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         Intent pictureActionIntent = new Intent(
-                                android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                                MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(pictureActionIntent,
                                 CAMERA_REQUEST);
 
@@ -240,8 +257,8 @@ public class Picture extends FragmentActivity implements DialogInterface.OnClick
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
             image_Text.setVisibility(View.INVISIBLE);
-            photo_ImageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-
+            photo = BitmapFactory.decodeFile(picturePath);
+            photo_ImageView.setImageBitmap(photo);
         }
 
         }
@@ -258,10 +275,25 @@ public class Picture extends FragmentActivity implements DialogInterface.OnClick
 
 
     }
-
+    //The following function is used to save the image visible on screen to a bundle, from where it will be retreived later on.
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        outState.putParcelable("bitmap", photo);
         super.onSaveInstanceState(outState);
+
+    }
+
+    //The following function is used to retrieve the image visible on screen after orientation change.
+    @Override
+    protected void onRestoreInstanceState(Bundle savedState)
+    {
+        if(savedState!=null)
+        {
+            photo=(Bitmap)savedState.getParcelable("bitmap");
+            photo_ImageView.setImageBitmap((Bitmap) savedState.getParcelable("bitmap"));
+            image_Text.setVisibility(View.INVISIBLE);
+        }
     }
 }
 

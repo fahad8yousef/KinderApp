@@ -4,7 +4,9 @@
     style="?android:attr/spinnerDropDownItemStyle"
     android:layout_width="240dp"
     android:layout_height="wrap_content"
-    android:padding="5dp"
-    android:textSize="15sp"
+    android:padding="8dp"
+    android:textSize="18sp"
+    android:textColor="#ffffff"
+    android:background="#00b0ff"
     />
 

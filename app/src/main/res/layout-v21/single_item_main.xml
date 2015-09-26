@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@drawable/border"
     android:id="@+id/main_row_layout">
 
 
@@ -10,28 +10,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:layout_centerVertical="true"
         android:cropToPadding="false"
         android:clickable="false"
-        android:contentDescription="image" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/cardChild"
-        android:layout_toRightOf="@+id/imageView"
+        android:scaleType="center"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
-        android:clickable="false"/>
+        android:contentDescription="image" />
+    <!-- android:padding="10dp"-->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/cardActivity"
-        android:layout_toRightOf="@+id/imageView"
         android:layout_centerHorizontal="true"
-        android:clickable="false"/>
+        android:layout_below="@+id/imageView"
+        android:clickable="false"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/cardDate"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/cardActivity"
+        android:clickable="false"
+        />
 
 </RelativeLayout>

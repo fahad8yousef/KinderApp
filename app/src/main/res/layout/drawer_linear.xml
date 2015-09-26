@@ -5,6 +5,7 @@
     android:id="@+id/drawer_linear"
     android:layout_gravity="start"
     android:layout_width="@dimen/navigation_drawer_width"
+    android:background="#ffffff"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Spinner
@@ -12,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="start"
-        android:background="#262626"
+        android:background="#00b0ff"
         />
 
     <TextView
@@ -21,7 +22,6 @@
         android:text="Filter"
         android:paddingLeft="5dp"
         style="?android:attr/textAppearanceLarge"
-        android:background="#dedede"
         />
 
     <ListView
@@ -31,7 +31,6 @@
         android:layout_gravity="start"
         android:divider="@android:color/transparent"
         android:dividerHeight="0sp"
-        android:background="#dedede"
         android:paddingLeft="15dp" />
 
     <View
@@ -44,15 +43,13 @@
         android:layout_height="28dp"
         android:text="Edit"
         android:paddingLeft="5dp"
-        style="?android:attr/textAppearanceLarge"
-        android:background="#dedede"/>
+        style="?android:attr/textAppearanceLarge"/>
 
     <ListView
         android:id="@+id/nav_list2"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:background="#dedede"
         android:paddingLeft="15dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="0sp"
@@ -66,15 +63,13 @@
         android:layout_height="28dp"
         android:text="Options"
         android:paddingLeft="5dp"
-        style="?android:attr/textAppearanceLarge"
-        android:background="#dedede"/>
+        style="?android:attr/textAppearanceLarge"/>
 
     <ListView
         android:id="@+id/nav_list3"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:background="#dedede"
         android:divider="@android:color/transparent"
         android:dividerHeight="0sp"
         android:paddingLeft="15dp" />
@@ -82,7 +77,6 @@
     <!--add space at the end of drawer-->
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="400dp"
-        android:background="#dedede"/>
+        android:layout_height="400dp"/>
 
 </LinearLayout>

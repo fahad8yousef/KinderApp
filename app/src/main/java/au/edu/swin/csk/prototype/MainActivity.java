@@ -84,7 +84,7 @@ public class MainActivity extends ActionBarActivity implements
         k = new KinderDBCon(this);
         k.open(); //open database
         //insert into database
-        testDB = new TestDB(k); //to initiate testing //comment after inserting data to avoid errors
+        //testDB = new TestDB(k); //to initiate testing //comment after inserting data to avoid errors
         //k.close();
         //#############################################
 
@@ -186,10 +186,13 @@ public class MainActivity extends ActionBarActivity implements
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }else if (id == R.id.exit_app){
+        }else if (id == R.id.exit_app) {
             finish();
             return true;
-            //needs fixing bugs
+        }else if (id == R.id.action_import){
+            testDB = new TestDB(k);
+            mainGrid.setAdapter(new MainAdapter(this, k, groupID));
+
         }else if (id == android.R.id.home){
 
             if (drawerLayout.isDrawerOpen(linear)) {
@@ -281,13 +284,11 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
         linear.bringToFront();
-
     }
 
     @Override
     public void onDrawerOpened(View drawerView) {
         linear.bringToFront();
-
     }
 
     @Override

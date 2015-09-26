@@ -68,14 +68,14 @@ public class MainAdapter extends BaseAdapter
     class ViewHolder
     {
         ImageView cardImage;
-        TextView cardText;
+        TextView cardDate;
         TextView cardActivity;
 
         ViewHolder(View v)
         {
             cardImage = (ImageView) v.findViewById(R.id.imageView);
-            cardText = (TextView) v.findViewById(R.id.cardChild);
             cardActivity = (TextView) v.findViewById(R.id.cardActivity);
+            cardDate = (TextView) v.findViewById(R.id.cardDate);
 
         }
     }
@@ -98,7 +98,7 @@ public class MainAdapter extends BaseAdapter
         }
         Card temp = list.get(i);
         holder.cardImage.setImageResource(temp.imageId);
-        holder.cardText.setText(temp.date);
+        holder.cardDate.setText(temp.date);
         holder.cardActivity.setText(temp.activityName);
         return row;
     }

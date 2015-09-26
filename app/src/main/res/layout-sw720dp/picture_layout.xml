@@ -240,9 +240,5 @@
         android:src="@drawable/ic_save_black_24dp"
         android:clickable="true"
         android:layout_alignTop="@+id/deletepicture_image"
-        android:layout_centerHorizontal="true" /><![CDATA[
-
-    >
-
-]]>
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -162,7 +162,9 @@
             android:textColor="#FFFFFF"
             android:layout_alignBottom="@+id/view"
             android:layout_alignRight="@+id/select_activity"
-            android:layout_alignEnd="@+id/select_activity" />
+            android:layout_alignEnd="@+id/select_activity"
+            android:layout_alignLeft="@+id/select_activity"
+            android:layout_alignStart="@+id/select_activity" />
 
         <Button
             android:layout_width="220sp"
