@@ -1,4 +1,4 @@
-package au.edu.swin.csk.prototype;
+package au.edu.swin.csk.KinderApp;
 
 /**
  * Created by Subzero & Fahad Alhamed on 14/09/2015.
@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 

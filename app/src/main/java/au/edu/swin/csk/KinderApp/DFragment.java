@@ -1,12 +1,10 @@
-package au.edu.swin.csk.prototype;
+package au.edu.swin.csk.KinderApp;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -14,6 +12,9 @@ import java.util.ArrayList;
  * Created by Somesh on 9/11/2015.
  */
 public class DFragment extends DialogFragment {
+
+    private DialogClickListener callback;
+
 
     private static final String TAG="Somesh/ Dfragment";
     protected String[] activityNames = new String[]{"Cooking", "Running", "Sports", "Drinking", "Working", "Studying"};
@@ -23,10 +24,16 @@ public class DFragment extends DialogFragment {
     ArrayList mSelectedChildren;
     ArrayList mSelectedLO;
     AlertDialog.Builder builder;
+
     /*protected boolean checkedActivityNames[] = new boolean[activityNames.length];
     protected boolean checkedChildrenNames[] = new boolean[childrenNames.length];
     protected boolean checkedLoNames[] = new boolean[loNames.length];*/
 
+    //The following interface is used to pass the data back to the pictureFragment
+    public interface DialogClickListener {
+        public void onYesClick(ArrayList selectedValues, int dialogIdentifier);
+        public void onNoClick(int toastMessage);
+    }
 
     public static DFragment newInstance(int title, int dialogIdentifier) {
         DFragment frag = new DFragment();
@@ -39,6 +46,12 @@ public class DFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        try {
+            callback = (DialogClickListener) getTargetFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Calling fragment must implement DialogClickListener interface");
+        }
         int title = getArguments().getInt("title");
         int dialogIdentifier = getArguments().getInt("dialogIdentifier");
         switch (dialogIdentifier) {
@@ -58,12 +71,10 @@ public class DFragment extends DialogFragment {
                                 if (isChecked) {
                                     // If the user checked the item, add it to the selected items
                                     mSelectedActivities.add(activityNames[which]);
-                                    //checkedActivityNames[which]=isChecked;
                                 }
 
                                 else if(mSelectedActivities.contains(activityNames[which]))
                                     {
-                                        //checkedActivityNames[which]=!isChecked;
                                         mSelectedActivities.remove(activityNames[which]);
 
                                 }
@@ -75,14 +86,14 @@ public class DFragment extends DialogFragment {
                             public void onClick(DialogInterface dialog, int id) {
                                 // User clicked OK, so save the mSelectedItems results somewhere
                                 // or return them to the component that opened the dialog
-                                //showBooleanValues(checkedActivityNames);
-                                returnDataToPicture(mSelectedActivities, 1);
+                                callback.onYesClick(mSelectedActivities, 1);
                             }
                         })
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(getActivity(), R.string.activity_not_selected, Toast.LENGTH_SHORT);
+                                callback.onNoClick(R.string.activity_not_selected);
+
 
                             }
                         });
@@ -109,8 +120,7 @@ public class DFragment extends DialogFragment {
                                 }
                                 else if(mSelectedChildren.contains(childrenNames[which]))
                                 {
-                                   // checkedChildrenNames[which]=!isChecked;
-                                    mSelectedChildren.remove(childrenNames[which]);
+                                   mSelectedChildren.remove(childrenNames[which]);
 
                                 }
 
@@ -122,13 +132,14 @@ public class DFragment extends DialogFragment {
                             public void onClick(DialogInterface dialog, int id) {
                                 // User clicked OK, so save the mSelectedItems results somewhere
                                 // or return them to the component that opened the dialog
-                                returnDataToPicture(mSelectedChildren, 2);
+                                callback.onYesClick(mSelectedChildren, 2);
                             }
                         })
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(getActivity(), R.string.children_not_selected, Toast.LENGTH_SHORT);
+                                callback.onNoClick(R.string.children_not_selected);
+
 
                             }
                         });
@@ -147,11 +158,9 @@ public class DFragment extends DialogFragment {
                                                 boolean isChecked) {
                                 if (isChecked) {
                                     // If the user checked the item, add it to the selected items
-                                    //checkedLoNames[which]=isChecked;
                                     mSelectedLO.add(loNames[which]);
                                 } else if (mSelectedLO.contains(which)) {
                                     // Else, if the item is already in the array, remove it
-                                   // checkedLoNames[which]=!isChecked;
                                     mSelectedLO.remove(Integer.valueOf(which));
                                 }
 
@@ -168,13 +177,14 @@ public class DFragment extends DialogFragment {
                             public void onClick(DialogInterface dialog, int id) {
                                 // User clicked OK, so save the mSelectedItems results somewhere
                                 // or return them to the component that opened the dialog
-                                returnDataToPicture(mSelectedLO, 3);
+                                callback.onYesClick(mSelectedLO, 3);
+
                             }
                         })
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(getActivity(), R.string.lo_not_selected, Toast.LENGTH_SHORT);
+                                callback.onNoClick(R.string.lo_not_selected);
 
                             }
                         });
@@ -185,23 +195,5 @@ public class DFragment extends DialogFragment {
 
     }
 
-    public void returnDataToPicture(ArrayList selectedValues, int dialogIdentifier)
-    {
-        String s="";
-        for(int i=0; i<selectedValues.size(); i++)
-        {
-            s= s  + selectedValues.get(i) + ", ";
-        }
-        Picture callingActivity = (Picture) getActivity();
-        callingActivity.onUserSelectValue(s.substring(0, s.lastIndexOf(",")), dialogIdentifier);
-    }
-/*
-    public void showBooleanValues(boolean mCheckedActivityNames[])
-    {
-        for(int i=0; i<mCheckedActivityNames.length; i++)
-        {
-            Log.d(TAG, String.valueOf(mCheckedActivityNames[i]));
 
-        }
-    }*/
 }

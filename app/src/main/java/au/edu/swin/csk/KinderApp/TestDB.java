@@ -1,4 +1,4 @@
-package au.edu.swin.csk.prototype;
+package au.edu.swin.csk.KinderApp;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -21,18 +21,6 @@
 
         <include layout="@layout/drawer_linear"/>
 
-        <GridView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/main_grid"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="10dp"
-            android:horizontalSpacing="10dp"
-            android:stretchMode="columnWidth"
-            android:columnWidth="140dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            />
 
 </android.support.v4.widget.DrawerLayout>
 

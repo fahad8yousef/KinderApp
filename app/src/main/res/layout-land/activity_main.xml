@@ -5,7 +5,7 @@
     tools:context=".MainActivity"
     android:id="@+id/parent"
     android:background="#ffffff">
-
+    <!-- android:focusableInTouchMode="true"-->
 
     <include layout="@layout/add_button_layout" />
 
@@ -21,19 +21,11 @@
 
         <include layout="@layout/drawer_linear"/>
 
-        <GridView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:id="@+id/main_grid"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="10dp"
-            android:horizontalSpacing="10dp"
-            android:columnWidth="140dp"
-            android:stretchMode="columnWidth"
-            />
 
 </android.support.v4.widget.DrawerLayout>
+
+
+
 
 </RelativeLayout>
 

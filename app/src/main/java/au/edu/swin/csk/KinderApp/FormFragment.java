@@ -1,12 +1,11 @@
-package au.edu.swin.csk.prototype;
+package au.edu.swin.csk.KinderApp;
 
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
-import android.content.Context;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,7 +14,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,24 +25,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PictureFragment extends Fragment implements DialogInterface.OnClickListener {
+public class FormFragment extends Fragment implements DialogInterface.OnClickListener, DFragment.DialogClickListener {
 
-    public static PictureFragment newInstance() {
-        PictureFragment fragment = new PictureFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    private static final String TAG = "Somesh/ Picture Activity";
+
+    private static final String TAG = "Somesh/ Picture Frag";
     protected static final int CAMERA_REQUEST = 0;
     protected static final int GALLERY_PICTURE = 1;
     private ImageView photo_ImageView;
@@ -65,7 +62,9 @@ public class PictureFragment extends Fragment implements DialogInterface.OnClick
 
     private Button changeDate;
 
-    public PictureFragment() {
+    //Setting up DialogFragment vairbales
+
+    public FormFragment() {
         // Required empty public constructor
     }
 
@@ -132,6 +131,8 @@ public class PictureFragment extends Fragment implements DialogInterface.OnClick
             }
         });
         dateView=(TextView)getView().findViewById(R.id.date_view);
+        String ct = DateFormat.getDateInstance().format(new Date());
+        dateView.setText(ct);
         changeDate=(Button)getView().findViewById(R.id.changeDate_button);
         changeDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,54 +194,37 @@ public class PictureFragment extends Fragment implements DialogInterface.OnClick
     {
         photo_ImageView.setImageDrawable(null);
         image_Text.setVisibility(View.VISIBLE);
-        photo_ImageView.setImageResource(R.color.material_blue_grey_950);
-        activity_Edit.setText(null);
-        lo_Edit.setText(null);
-        children_Edit.setText(null);
+        photo_ImageView.setImageResource(R.color.primary_material_dark);
         comment_Edit.setText(null);
-        dateView.setText(null);
+        activity_Edit.setText(null);
+        children_Edit.setText(null);
+        lo_Edit.setText(null);
     }
 
     public void showActivityList()
     {
-        DialogFragment newFragment = DFragment.newInstance(R.string.activities_dialog_title, 1);
-        newFragment.show(getActivity().getFragmentManager(), "dialog");
+        DialogFragment dialogFragment = DFragment.newInstance(R.string.activities_dialog_title, 1);
+        dialogFragment.setTargetFragment(this, 0);
+        dialogFragment.show(getActivity().getFragmentManager(), "dialog");
 
     }
 
     public void showChildrenList()
     {
-        DialogFragment newFragment = DFragment.newInstance(R.string.children_dialog_title, 2);
-        newFragment.show(getActivity().getFragmentManager(), "dialog");
+        DialogFragment dialogFragment = DFragment.newInstance(R.string.children_dialog_title, 2);
+        dialogFragment.setTargetFragment(this, 0);
+        dialogFragment.show(getActivity().getFragmentManager(), "dialog");
     }
 
     public void showLoList()
     {
-        DialogFragment newFragment = DFragment.newInstance(R.string.lo_dialog_title, 3);
-        newFragment.show(getActivity().getFragmentManager(), "dialog");
+        DialogFragment dialogFragment = DFragment.newInstance(R.string.lo_dialog_title, 3);
+        dialogFragment.setTargetFragment(this, 0);
+        dialogFragment.show(getActivity().getFragmentManager(), "dialog");
+
     }
 
-    public void onUserSelectValue(String selectedValues, int dialogIdentifier)
-    {
-        switch (dialogIdentifier)
-        {
-            case 1:
-            {
-                activity_Edit.setText(selectedValues);
-                break;
-            }
-            case 2:
-            {
-                children_Edit.setText(selectedValues);
-                break;
-            }
-            case 3:
-            {
-                lo_Edit.setText(selectedValues);
-                break;
-            }
-        }
-    }
+
     public void startDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());//can't use getActivity() as it doesn't exists in Activity.
         builder.setTitle("Add from:");
@@ -303,7 +287,9 @@ public class PictureFragment extends Fragment implements DialogInterface.OnClick
 
     public void savePictureToDatabase()
     {
+
         Toast.makeText(getActivity(), "Not implemented yet", Toast.LENGTH_SHORT);
+
 
 
 
@@ -316,20 +302,6 @@ public class PictureFragment extends Fragment implements DialogInterface.OnClick
         super.onSaveInstanceState(outState);
 
     }
-
-    //The following function is used to retrieve the image visible on screen after orientation change.
- /*   @Override
-    public void onRestoreInstanceState(Bundle savedState)
-    {
-        if(savedState!=null)
-        {
-            photo=(Bitmap)savedState.getParcelable("bitmap");
-            photo_ImageView.setImageBitmap((Bitmap) savedState.getParcelable("bitmap"));
-            image_Text.setVisibility(View.INVISIBLE);
-        }
-    }*/
-
-
 
     @Override
     public void onActivityCreated(Bundle savedState) {
@@ -355,4 +327,44 @@ public class PictureFragment extends Fragment implements DialogInterface.OnClick
     public void onDetach() {
         super.onDetach();
     }
+
+
+    @Override
+    public void onYesClick(ArrayList selectedValues, int dialogIdentifier) {
+        String selectedValuesString="";
+
+        for(int i = 0; i<selectedValues.size(); i++)
+        {
+            selectedValuesString= selectedValuesString  + selectedValues.get(i) + ", ";
+        }
+        selectedValuesString = selectedValuesString.substring(0, selectedValuesString.lastIndexOf(","));
+                Log.d(TAG,selectedValuesString);
+        switch (dialogIdentifier)
+        {
+            case 1:
+            {
+                activity_Edit.setText(selectedValuesString);
+                break;
+            }
+            case 2:
+            {
+                children_Edit.setText(selectedValuesString);
+                break;
+            }
+            case 3:
+            {
+                lo_Edit.setText(selectedValuesString);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onNoClick(int toastMessage) {
+
+        Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
+
+    }
 }
+
+

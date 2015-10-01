@@ -1,14 +1,11 @@
-package au.edu.swin.csk.prototype;
+package au.edu.swin.csk.KinderApp;
 
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.Fragment;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -20,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -28,7 +24,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements
         AdapterView.OnItemClickListener,
@@ -44,15 +39,14 @@ public class MainActivity extends ActionBarActivity implements
     private ListView navList3;
     private FragmentManager manager;
     private int groupID = 1;
+    private FragmentTransaction transaction;
     ImageButton runCommand;
     Spinner spinner;
     LinearLayout linear;
     AlertDialog ad;
-    GridView mainGrid;
     KinderDBCon k;
     TestDB testDB;
     ActionBar actionBar;
-    //Context c;
 
     /*
     * need listening to drawer on slide */
@@ -68,31 +62,28 @@ public class MainActivity extends ActionBarActivity implements
         runCommand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // (( MainActivity)getActivity()).switchToFragmentOne();
-                Intent intent = new Intent(MainActivity.this, Picture.class);
-                startActivity(intent);
+
+                showFormFragment();
+
             }
         });
         runCommand.bringToFront();
         //constructing drawer
         createDrawer();
         //managing fragments
-        manager = getSupportFragmentManager();
+        manager = getFragmentManager();
 
         //#############################################
         //create database object
         //#############################################
-        k = new KinderDBCon(this);
-        k.open(); //open database
+        k=new KinderDBCon(this);
+        k.open();
+        testDB= new TestDB(k);
         //insert into database
         //testDB = new TestDB(k); //to initiate testing //comment after inserting data to avoid errors
         //k.close();
         //#############################################
 
-        //Main screen layout
-        mainGrid = (GridView)findViewById(R.id.main_grid);
-        mainGrid.setAdapter(new MainAdapter(this, k, groupID));
-        mainGrid.setOnItemClickListener(this);
 
     }
 
@@ -187,13 +178,18 @@ public class MainActivity extends ActionBarActivity implements
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
             return true;
         }else if (id == R.id.exit_app) {
             finish();
             return true;
         }else if (id == R.id.action_import){
-            testDB = new TestDB(k);
-            mainGrid.setAdapter(new MainAdapter(this, k, groupID));
+            Log.d(TAG, String.valueOf(groupID));
+
+            //If users clicks on import, we call the showMainFragment function and pass the current group ID, 1, through a bundle.
+            Bundle bundle= new Bundle();
+            bundle.putInt("id", groupID);
+            showMainFragment(bundle);
 
         }else if (id == android.R.id.home){
 
@@ -219,16 +215,9 @@ public class MainActivity extends ActionBarActivity implements
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         View a = (View) view.getParent();
-        if (a.getId() == R.id.nav_list1 || a.getId() == R.id.nav_list2 || a.getId() == R.id.nav_list3 ){
+        if (a.getId() == R.id.nav_list1 || a.getId() == R.id.nav_list2 || a.getId() == R.id.nav_list3 ) {
             showDialogAlert(a, position); //calling showDialogAlert
             drawerLayout.closeDrawer(linear);
-
-        } else {
-
-                Toast.makeText(getApplicationContext(),
-                    "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(MainActivity.this, Picture.class);
-            startActivity(intent);
 
         }
     }
@@ -238,7 +227,10 @@ public class MainActivity extends ActionBarActivity implements
         TextView groupName = (TextView) view;
         drawerLayout.closeDrawer(linear);
         groupID = position + 1;
-        mainGrid.setAdapter(new MainAdapter(this , k, groupID));
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", groupID);
+        //Instead of calling the mainAdapter directly, I'm calling the mainFragment from where we'll call the mainAdapter
+        showMainFragment(bundle);
         actionBar.setTitle(groupName.getText()); //set title to group selected
     }
 
@@ -248,9 +240,11 @@ public class MainActivity extends ActionBarActivity implements
     public void showDialogAlert(View view, int position){
         //create alertdialog to show a list
         //Toast.makeText(this, " you selected:  "+ navList1.getPositionForView(view) , Toast.LENGTH_SHORT).show();
+        drawerLayout.closeDrawer(linear);
 
         if (view.getId() == R.id.nav_list1) {
-
+            Log.d(TAG, String.valueOf(R.id.view));
+            Log.d(TAG, String.valueOf(position));
             if (position == 0) {
                 ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getChildNames(groupID));
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -279,6 +273,28 @@ public class MainActivity extends ActionBarActivity implements
         }
     }
 
+
+    //The following function calls the mainFragment
+    public void showMainFragment(Bundle bundle)
+    {
+        MainFragment mainFragment= new MainFragment();
+        mainFragment.setArguments(bundle);
+        transaction = manager.beginTransaction();
+        transaction.replace(R.id.fragment_holder, mainFragment);
+        transaction.commit();
+    }
+
+    //The following function calls the pictureFragment
+    public void showFormFragment()
+    {
+        FormFragment formFragment = new FormFragment();
+        transaction = manager.beginTransaction();
+        transaction.replace(R.id.fragment_holder, formFragment);
+        runCommand.setVisibility(View.INVISIBLE);
+        runCommand.setClickable(false);
+        transaction.commit();
+    }
+
     @Override
     public void onClick(DialogInterface dialog, int which) {}
 
@@ -300,5 +316,35 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onDrawerStateChanged(int newState) {
 
+    }
+    @Override
+    public void onBackPressed() {
+        // If the drawer is open, then back button should just close the drawer
+       if (drawerLayout != null && drawerLayout.isDrawerOpen(linear)) {
+            drawerLayout.closeDrawer(linear);
+            return;
+        }
+
+        // Get current active fragment
+        Fragment currentFrag = getFragmentManager().findFragmentById(R.id.fragment_holder);
+
+        // Current fragment is Main fragment, close the app
+        if (currentFrag instanceof MainFragment){
+            finish();}
+
+        // Current fragment is not the main fragment, show the main fragment
+       else if (currentFrag instanceof FormFragment) {
+            runCommand.setVisibility(View.VISIBLE);
+            runCommand.setClickable(true);
+
+            Bundle bundle= new Bundle();
+            bundle.putInt("id", 1);
+            showMainFragment(bundle);
+        }
+
+        else{
+            super.onBackPressed();
+            //moveTaskToBack(true);
+        }
     }
 }
