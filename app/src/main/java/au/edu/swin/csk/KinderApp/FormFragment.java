@@ -6,13 +6,16 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +28,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.channels.FileChannel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,17 +62,20 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     private ImageView add_Image;
     private ImageView save_Image;
     private Bitmap photo;
+    String picturePath;
     private TextView dateView;
     private AlertDialog dialog;
+
 
     private EditText activity_Edit;
     private EditText children_Edit;
     private EditText lo_Edit;
     private EditText comment_Edit;
-
+    private String mCurrentPhotoPath;
+    private String imageFileName;
     private Button changeDate;
 
-    //Setting up DialogFragment vairbales
+    //Setting up DialogFragment variables
 
     public FormFragment() {
         // Required empty public constructor
@@ -83,11 +96,8 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.picture_layout, container, false);
-        //initializeUI();
 
-        return view;
-
+        return inflater.inflate(R.layout.picture_layout, container, false);
     }
 
 
@@ -152,7 +162,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
             @Override
             public void onClick(View v) {
 
-                clearEverything();
+                deleteFormData();
 
             }
         });
@@ -190,15 +200,54 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         dateView.setText(sdf.format(myCalendar.getTime()));
     }
 
-    public void clearEverything()
+    public void deleteFormData()
     {
-        photo_ImageView.setImageDrawable(null);
-        image_Text.setVisibility(View.VISIBLE);
-        photo_ImageView.setImageResource(R.color.primary_material_dark);
-        comment_Edit.setText(null);
-        activity_Edit.setText(null);
-        children_Edit.setText(null);
-        lo_Edit.setText(null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("This will delete the image and any data associated with it. Do you wish to continue?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                //Clearing the image and deleting it from ImagesForKinder
+                photo_ImageView.setImageDrawable(null);
+                image_Text.setVisibility(View.VISIBLE);
+
+                if (mCurrentPhotoPath != null) {
+                    File file = new File(mCurrentPhotoPath);
+                    Log.d(TAG, String.valueOf(mCurrentPhotoPath) + "mCurrentPhotoPath");
+                    file.delete();
+                    galleryAddPic(mCurrentPhotoPath);
+
+                }
+
+            else if(picturePath!=null)
+
+            {
+                File file = new File(picturePath);
+                Log.d(TAG, String.valueOf(picturePath) + "picturePath");
+                file.delete();
+                galleryAddPic(picturePath);
+            }
+
+            photo_ImageView.setImageResource(R.color.primary_material_dark);
+            comment_Edit.setText(null);
+            activity_Edit.setText(null);
+            children_Edit.setText(null);
+            lo_Edit.setText(null);
+
+
+            }
+        });
+
+        alert.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+                });
+
+        alert.show();
+
+
     }
 
     public void showActivityList()
@@ -226,7 +275,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
 
     public void startDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());//can't use getActivity() as it doesn't exists in Activity.
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add from:");
         builder.setPositiveButton("Gallery",
                 new DialogInterface.OnClickListener() {
@@ -234,6 +283,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
                         Intent pictureActionIntent = new Intent(
                                 Intent.ACTION_GET_CONTENT, null);
                         pictureActionIntent.setType("image/*");
+
                         pictureActionIntent.putExtra("return-data", true);
                         startActivityForResult(pictureActionIntent,
                                 GALLERY_PICTURE);
@@ -245,12 +295,71 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
                     public void onClick(DialogInterface arg0, int arg1) {
                         Intent pictureActionIntent = new Intent(
                                 MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(pictureActionIntent,
-                                CAMERA_REQUEST);
 
+                        File photoFile = null;
+
+                        photoFile = createImageFile();
+
+                        if (photoFile != null) {
+
+                            pictureActionIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                            startActivityForResult(pictureActionIntent, CAMERA_REQUEST);
+                        }
                     }
                 });
         builder.show();
+    }
+
+   public  void galleryAddPic(String imagePath) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(imagePath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        getActivity().sendBroadcast(mediaScanIntent);
+    }
+
+        public void setPic() {
+        // Get the dimensions of the View
+        int targetH = photo_ImageView.getHeight();
+        int targetW = photo_ImageView.getWidth();
+        Log.d(TAG,String.valueOf(targetH));
+        Log.d(TAG,String.valueOf(targetW));
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+        Log.d(TAG, mCurrentPhotoPath);
+         photo = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+            Log.d(TAG, String.valueOf(photo));
+        photo_ImageView.setImageBitmap(photo);
+    }
+    public File createImageFile()
+    {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "Wombat" + timeStamp + "_";
+        File myDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/ImagesForKinder/");
+        if (!myDir.isDirectory())
+        {myDir.mkdirs();}
+        File image = null;
+        try {
+            image = File.createTempFile(imageFileName, ".jpg", myDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mCurrentPhotoPath=image.getAbsolutePath();
+        Log.d(TAG, mCurrentPhotoPath);
+        return image;
     }
 
     //We have to use Activity.RESULT_OK because it's a constant of Activity class.
@@ -259,36 +368,68 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == CAMERA_REQUEST  && resultCode == Activity.RESULT_OK) {
-            photo = (Bitmap) data.getExtras().get("data");
             image_Text.setVisibility(View.INVISIBLE);
-            photo_ImageView.setImageBitmap(photo);
+            setPic();
+            galleryAddPic(mCurrentPhotoPath);
+
         }
         else if (requestCode ==GALLERY_PICTURE && resultCode==Activity.RESULT_OK)
         {
 
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
-            Cursor cursor = getActivity().getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+            Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
+            picturePath = cursor.getString(columnIndex);
             cursor.close();
+            Log.d(TAG, picturePath);
             image_Text.setVisibility(View.INVISIBLE);
             photo = BitmapFactory.decodeFile(picturePath);
             photo_ImageView.setImageBitmap(photo);
+            File sourceFile = new File(picturePath);
+            try {
+                copyImageFromGallery(sourceFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
 
+    public void copyImageFromGallery(File sourceFile) throws IOException {
+        File myDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/ImagesForKinder/");
+        if (!myDir.isDirectory())
+        {myDir.mkdirs();}
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        imageFileName = "Wombat" + timeStamp + ".jpg";
+
+        File destinationFile = new File(myDir, imageFileName);
+        FileChannel source = null;
+        FileChannel destination = null;
+        Log.d(TAG, String.valueOf(sourceFile) + "Source File");
+        source = new FileInputStream(sourceFile).getChannel();
+        destination = new FileOutputStream(destinationFile).getChannel();
+        if (destination != null && source != null) {
+            destination.transferFrom(source, 0, source.size());
+        }
+        if (source != null) {
+            source.close();
+        }
+        if (destination != null) {
+            destination.close();
+        }
+        Log.d(TAG, String.valueOf(destinationFile) + "Destination File");
+        galleryAddPic(imageFileName);
+    }
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
 
     }
-
     public void savePictureToDatabase()
     {
 
-        Toast.makeText(getActivity(), "Not implemented yet", Toast.LENGTH_SHORT);
+        Toast.makeText(getActivity(), "Not implemented yet", Toast.LENGTH_SHORT).show();
 
 
 
@@ -305,12 +446,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
     @Override
     public void onActivityCreated(Bundle savedState) {
-        if(savedState!=null)
-        {
-            photo=(Bitmap)savedState.getParcelable("bitmap");
-            photo_ImageView.setImageBitmap((Bitmap) savedState.getParcelable("bitmap"));
-            image_Text.setVisibility(View.INVISIBLE);
-        }
+
         initializeUI();
         super.onActivityCreated(savedState);
     }

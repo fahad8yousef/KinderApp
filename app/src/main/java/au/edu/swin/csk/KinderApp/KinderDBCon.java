@@ -10,8 +10,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -78,6 +76,7 @@ public class KinderDBCon {
     private final Context _context;
     private SQLiteDatabase _db;
 
+
     // DbHelperClass
     private static class DbHelper extends SQLiteOpenHelper {
 
@@ -138,16 +137,16 @@ public class KinderDBCon {
                     // Creating  EvidenceChild Table
                     KEY_CREATE_TABLE + DATABASE_TABLE_EVIDENCECHILD + KEY_OPEN_PARENTHESIS +
                             KEY_NAME_CHILDID + KEY_INTEGER + KEY_COMMA +
-                            KEY_NAME_EvidenceCODE + KEY_INTEGER + KEY_COMMA +
-                            KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_CHILDID + KEY_COMMA + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
-                            KEY_CONSTRAINT + "EVIDENCECHILD_FK_GROUPID" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_CHILDID + KEY_CLOSE_PARENTHESIS +
+                            KEY_NAME_EvidenceDATE + KEY_INTEGER + KEY_COMMA +
+                            KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_CHILDID + KEY_COMMA + KEY_NAME_EvidenceDATE + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
+                            KEY_CONSTRAINT + "EVIDENCECHILD_FK_GROPID" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_CHILDID + KEY_CLOSE_PARENTHESIS +
                             KEY_REFERENCES + DATABASE_TABLE_CHILD + KEY_OPEN_PARENTHESIS + KEY_NAME_CHILDID + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
-                            KEY_CONSTRAINT + "EVIDENCECHILD_FK_EvidenceCODE" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS +
-                            KEY_REFERENCES + DATABASE_TABLE_EVIDENCE + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS +
+                            KEY_CONSTRAINT + "EVIDENCECHILD_FK_ACTIVITYNAME" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceDATE + KEY_CLOSE_PARENTHESIS +
+                            KEY_REFERENCES + DATABASE_TABLE_EVIDENCE + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceDATE + KEY_CLOSE_PARENTHESIS +
                             KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
             );
             db.execSQL(
-                    // Creating  EvidencePhoto Table
+                    // Creating  EvidenceChild Table
                     KEY_CREATE_TABLE + DATABASE_TABLE_PHOTO + KEY_OPEN_PARENTHESIS +
                             KEY_NAME_PHOTOFILENAME + KEY_TEXT + KEY_COMMA +
                             KEY_NAME_EvidenceCODE + KEY_INTEGER + KEY_COMMA +
@@ -226,21 +225,21 @@ public class KinderDBCon {
     // Inserting methods for each table
     //#################################
 
-    public long InsertIntoGroupTable(String _name)
+    public long InsertIntoGroupTable(int _groupID,String _name)
     {
         ContentValues cv = new ContentValues();
 
-        //cv.put(KEY_NAME_GROUPID,_groupID);
+        cv.put(KEY_NAME_GROUPID,_groupID);
         cv.put(KEY_NAME_GROUPNAME, _name);
 
 
         return _db.insert(DATABASE_TABLE_GROUP,null,cv);
     }
 
-    public long InsertIntoChildTable(String _childFirstName,String _childSurName,String _childGender,int _groupID)
+    public long InsertIntoChildTable(int _childID,String _childFirstName,String _childSurName,String _childGender,int _groupID)
     {
         ContentValues cv = new ContentValues();
-        //cv.put(KEY_NAME_CHILDID,_childID);
+        cv.put(KEY_NAME_CHILDID,_childID);
         cv.put(KEY_NAME_CHILDFIRSTNAME, _childFirstName);
         cv.put(KEY_NAME_CHILDSURNAME, _childSurName);
         cv.put(KEY_NAME_CHILDGENDER, _childGender);
@@ -259,10 +258,10 @@ public class KinderDBCon {
     }
 
 
-    public long InsertIntoEvidenceTable(String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName)
+    public long InsertIntoEvidenceTable(int _EvidenceCode,String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName)
     {
         ContentValues cv = new ContentValues();
-        //cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
+        cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
         cv.put(KEY_NAME_EvidenceDATE, _EvidenceDate);
         cv.put(KEY_NAME_EvidenceCOMMENT, _EvidenceComment);
         cv.put(KEY_NAME_GROUPID,_groupID);
@@ -276,7 +275,7 @@ public class KinderDBCon {
         ContentValues cv = new ContentValues();
         cv.put(KEY_NAME_CHILDID,_childID);
         cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
-//fix error here
+
         return _db.insert(DATABASE_TABLE_EVIDENCECHILD,null,cv);
     }
 
@@ -298,7 +297,7 @@ public class KinderDBCon {
         return _db.insert(DATABASE_TABLE_LOCODE,null,cv);
     }
 
-    public long InsertIntoLOutcomeTable(double _loutcomeCode,String _loutcomeEvidence)
+    public long InsertIntoLOUTCOMETable(double _loutcomeCode,String _loutcomeEvidence)
     {
         ContentValues cv = new ContentValues();
         cv.put(KEY_NAME_LOUTCOMECODE,_loutcomeCode);
@@ -554,7 +553,7 @@ public class KinderDBCon {
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            result.add(c.getString(iChildFirstName) + "," + c.getString(iChildSurName));
+            result.add(c.getString(iChildFirstName) + " " + c.getString(iChildSurName));
         }
 
         return  result;
@@ -595,50 +594,6 @@ public class KinderDBCon {
             result.add(c.getDouble(iLOCode));
         }
 
-        return  result;
-    }
-
-    public ArrayList<String> getEvidenceByChild(String firstName, String lastName) {
-
-        // Creating a string array to store result from database before passing
-        String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_EvidenceCODE};
-        // Creating a cursor to iterate through db
-        final String query = "SELECT Child.childFirstName, Child.ChildSurName, Child.childID, EvidenceChild.EvidenceCode FROM Child INNER JOIN EvidenceChild where Child.childFirstName=\""+firstName+"\" AND Child.childSurName=\""+lastName+"\";\n" +"\n";
-        Cursor c = _db.rawQuery(query, null);
-        //Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
-        ArrayList<String> result = new ArrayList<String>();
-
-        int iChildCode = c.getColumnIndex(KEY_NAME_CHILDID);
-        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
-
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
-
-            result.add(c.getString(iEvidenceCode));
-        }
-
-        Log.d(TAG, result.toString());
-        return  result;
-    }
-
-    public ArrayList<String> getEvidenceByID(String evidenceCode) {
-
-        // Creating a string array to store result from database before passing
-        String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
-        // Creating a cursor to iterate through db
-        Cursor c = _db.query(DATABASE_TABLE_EVIDENCE,columns,KEY_NAME_EvidenceCODE + "=" + evidenceCode,null,null,null,null);
-
-        ArrayList<String> result = new ArrayList<String>();
-        //String result = "";
-        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
-        int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
-        int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
-        int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
-        int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
-
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
-        {
-            result.add( c.getString(iEvidenceDate) + "," + c.getString(iActivityName) );
-        }
         return  result;
     }
 
