@@ -78,7 +78,6 @@ public class MainActivity extends ActionBarActivity implements
         //#############################################
         k=new KinderDBCon(this);
         k.open();
-        testDB= new TestDB(k);
         //insert into database
         //testDB = new TestDB(k); //to initiate testing //comment after inserting data to avoid errors
         //k.close();
@@ -185,7 +184,7 @@ public class MainActivity extends ActionBarActivity implements
             return true;
         }else if (id == R.id.action_import){
             Log.d(TAG, String.valueOf(groupID));
-
+            testDB= new TestDB(k);
             //If users clicks on import, we call the showMainFragment function and pass the current group ID, 1, through a bundle.
             Bundle bundle= new Bundle();
             bundle.putInt("id", groupID);
@@ -224,18 +223,28 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        TextView groupName = (TextView) view;
-        drawerLayout.closeDrawer(linear);
-        groupID = position + 1;
-        Bundle bundle = new Bundle();
-        bundle.putInt("id", groupID);
-        //Instead of calling the mainAdapter directly, I'm calling the mainFragment from where we'll call the mainAdapter
-        showMainFragment(bundle);
-        actionBar.setTitle(groupName.getText()); //set title to group selected
+
+        //if (view.getParent() == spinner){
+
+            drawerLayout.closeDrawer(linear);
+            groupID = position + 1;
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", groupID);
+
+            //Instead of calling the mainAdapter directly, I'm calling the mainFragment from where we'll call the mainAdapter
+            showMainFragment(bundle);
+            TextView groupName = (TextView) view;
+            actionBar.setTitle(groupName.getText()); //set title to group selected
+        //}
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
+
+
+    ArrayAdapter<String> alertAdapterChild;
+    ArrayAdapter<String> alertAdapterActivity;
+    ArrayAdapter<Double> alertAdapterLoCode;
 
     public void showDialogAlert(View view, int position){
         //create alertdialog to show a list
@@ -246,25 +255,47 @@ public class MainActivity extends ActionBarActivity implements
             Log.d(TAG, String.valueOf(R.id.view));
             Log.d(TAG, String.valueOf(position));
             if (position == 0) {
-                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getChildNames(groupID));
+                alertAdapterChild = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getChildNames(groupID));
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
-                builder.setAdapter(alertAdapter, this);
+                builder.setAdapter(alertAdapterChild, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "This child is selected : " + String.valueOf(which));
+                        String childName = alertAdapterChild.getItem(which);
+                      /*  Bundle bundle = new Bundle();
+                        bundle.putInt("id", groupID );
+                        bundle.putString("childName", childName);
+                        showMainFragment(bundle);*/
+                    }
+                });
                 ad = builder.create();
                 ad.show();
 
             } else if (position == 1) {
-                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getActivityNames());
+                alertAdapterActivity = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getActivityNames());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
-                builder.setAdapter(alertAdapter, this);
+                builder.setAdapter(alertAdapterActivity, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "This child is selected : " + String.valueOf(which));
+                        alertAdapterActivity.getItem(which);
+                    }
+                });
                 ad = builder.create();
                 ad.show();
             } else if (position == 2) {
-                ArrayAdapter<Double> alertAdapter = new ArrayAdapter<Double>(this, android.R.layout.select_dialog_item, k.getLOCode());
+                alertAdapterLoCode = new ArrayAdapter<Double>(this, android.R.layout.select_dialog_item, k.getLOCode());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
-                builder.setAdapter(alertAdapter, this);
+                builder.setAdapter(alertAdapterLoCode, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "This child is selected : " + String.valueOf(which));
+                        alertAdapterLoCode.getItem(which);
+                    }
+                });
                 ad = builder.create();
                 ad.show();
             } else ad.dismiss();
@@ -296,7 +327,16 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onClick(DialogInterface dialog, int which) {}
+    public void onClick(DialogInterface dialog, int which) {
+
+        if (which == 0){
+
+
+        }else {
+
+            Toast.makeText(this, " second  " , Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {

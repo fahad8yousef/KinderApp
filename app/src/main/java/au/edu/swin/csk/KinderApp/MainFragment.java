@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -33,6 +34,9 @@ public class MainFragment extends Fragment implements
     TestDB testDB;
     private static final String TAG= "Somesh/ Main Fragment";
     int groupID;
+    String childName;
+    String activity;
+    String loCode;
     public MainFragment() {
         // Required empty public constructor
     }
@@ -47,27 +51,30 @@ public class MainFragment extends Fragment implements
         k.open(); //open database
 
         //The following line is used to retrieve the groupID that was stored in a bundle and associated with the mainFragment.
-        groupID=getArguments().getInt("id");
+        groupID = getArguments().getInt("id");
+        childName = getArguments().getString("childName");
+        activity = getArguments().getString("activity");
+        loCode = getArguments().getString("loCode");
+
         mainGrid = (GridView)view.findViewById(R.id.main_grid);
-        testDB=new TestDB(k);
-        mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID));
+//        testDB=new TestDB(k);
+        //testing
+        childName="Chris,T";
+        mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID, childName, activity, loCode));
+
+
         Log.d(TAG, String.valueOf(groupID));
         mainGrid.setOnItemClickListener(this);
         return view;
-
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
             Toast.makeText(getActivity(),
                     "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
-
-
             (( MainActivity)getActivity()).showFormFragment();
-
 
     }
 
@@ -89,34 +96,51 @@ class MainAdapter extends BaseAdapter
     Context context;
     KinderDBCon k;
     int groupID;
+    String firstName;
+    String lastName;
 
-    MainAdapter(Context c, KinderDBCon k , int groupID)
+    MainAdapter(Context c, KinderDBCon k , int groupID, String fullName, String activity, String loCode)
     {
         this.context = c;
         this.k = k;
         this.groupID = groupID;
 
         list = new ArrayList<Card>();
-        //Resources res = context.getResources();
-        int[] activityImages = {R.drawable.cooking1, R.drawable.cooking2, R.drawable.cooking3,
-                R.drawable.cooking4, R.drawable.cooking5, R.drawable.cooking6, R.drawable.cooking7,
-                R.drawable.cooking8, R.drawable.cooking9, R.drawable.cooking10,
-                R.drawable.cooking11, R.drawable.cooking12, R.drawable.cooking12,
-                R.drawable.cooking12, R.drawable.cooking12, R.drawable.cooking12,
-                R.drawable.cooking12, R.drawable.cooking12};
 
+        int img = R.drawable.cooking1;
         ArrayList<String> evidenceDateActivity;
         evidenceDateActivity = k.getEvidenceInfo(groupID);
 
-//        String[] tempChildNames = res.getStringArray(R.array.childArray);
-//        String[] tempActivityNames = res.getStringArray(R.array.activityArray);
-
         for (int i=0; i<evidenceDateActivity.size() ; i++)
         {
-            Card tempCard = new Card(activityImages[i], evidenceDateActivity.get(i));
+            Card tempCard = new Card(img, evidenceDateActivity.get(i));
             list.add(tempCard);
         }
+
+        //attempt to get Evidence cards by child name
+/*        if (fullName.length() !=0 ) {
+            this.firstName = fullName.substring(0, fullName.indexOf(","));
+            this.lastName = fullName.substring(fullName.indexOf(",") + 1, fullName.length());
+
+            ArrayList<String> evidenceByChild;
+            evidenceByChild = k.getEvidenceByChild(firstName, lastName);
+            //k.getEvidenceByID(evidanceByChild.get(3));
+            for (int i = 0; i < evidenceByChild.size(); i++) {
+                //String[] name = k.getEvidenceByID(evidanceByChild.get(i));
+                ArrayList<String> a = new ArrayList<>();
+                a.add(evidenceByChild.get(i));
+                for (int x = 0; i < a.size(); x++) {
+                    ArrayList<String> result;
+                    result = k.getEvidenceByID(a.get(i));
+                    Card tempCard = new Card(img, result.get(i));
+
+                    list.add(tempCard);
+                }
+
+            }
+        }*/
     }
+
 
     @Override
     public int getCount() {
@@ -180,6 +204,7 @@ class Card {
     String date;
     String activityName;
     int imageId;
+
 
     Card(int imageId, String info)
     {
