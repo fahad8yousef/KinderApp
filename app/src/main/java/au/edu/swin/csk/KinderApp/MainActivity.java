@@ -25,6 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
+/*
+*
+* Main Class
+* @Author Fahad Alhamed
+* @Author Somesh
+*
+* */
 public class MainActivity extends ActionBarActivity implements
         AdapterView.OnItemClickListener,
         AdapterView.OnItemSelectedListener,
@@ -32,11 +39,22 @@ public class MainActivity extends ActionBarActivity implements
         DrawerLayout.DrawerListener {
 
     private static final  String TAG="App/ MainActivity";
+    /*
+    * Drawer component
+    */
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    /*
+    * Drawer layout
+    */
     private DrawerLayout drawerLayout;
+    /*
+    * Navigation lists
+    */
     private ListView navList1;
     private ListView navList2;
     private ListView navList3;
+    /*
+    * Handling fragments transitioning */
     private FragmentManager manager;
     private int groupID = 1;
     private FragmentTransaction transaction;
@@ -49,8 +67,8 @@ public class MainActivity extends ActionBarActivity implements
     ActionBar actionBar;
 
     /*
-    * need listening to drawer on slide */
-
+    * This method is call when the app is running to create all components
+    * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,9 +80,7 @@ public class MainActivity extends ActionBarActivity implements
         runCommand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 showFormFragment();
-
             }
         });
         runCommand.bringToFront();
@@ -72,18 +88,9 @@ public class MainActivity extends ActionBarActivity implements
         createDrawer();
         //managing fragments
         manager = getFragmentManager();
-
-        //#############################################
         //create database object
-        //#############################################
         k=new KinderDBCon(this);
         k.open();
-        //insert into database
-        //testDB = new TestDB(k); //to initiate testing //comment after inserting data to avoid errors
-        //k.close();
-        //#############################################
-
-
     }
 
     /*This function creates navigation drawer and
@@ -94,6 +101,7 @@ public class MainActivity extends ActionBarActivity implements
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer );
 
         linear.bringToFront();
+        //sets listener for drawer
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
 
         //construct spinner
@@ -141,11 +149,9 @@ public class MainActivity extends ActionBarActivity implements
         //End of drawer items
 
         //display drawer Icon in action bar
-
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-
     }
 
     /*
@@ -177,40 +183,34 @@ public class MainActivity extends ActionBarActivity implements
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
             return true;
         }else if (id == R.id.exit_app) {
             finish();
             return true;
         }else if (id == R.id.action_import){
-            Log.d(TAG, "Group"+ String.valueOf(groupID));
+            //imports data and populate DB tables
+            //Log.d(TAG, "Group"+ String.valueOf(groupID));
             testDB= new TestDB(k);
-
             //If users clicks on import, we call the showMainFragment function and pass the current group ID, 1, through a bundle.
             Bundle bundle= new Bundle();
             bundle.putInt("id", groupID);
             showMainFragment(bundle);
-
+        //handles drawer button when clicked
         }else if (id == android.R.id.home){
-
             if (drawerLayout.isDrawerOpen(linear)) {
                 drawerLayout.bringToFront();
                 drawerLayout.closeDrawer(linear);
                 linear.bringToFront();
-                //add bring to front for main screen layout and button
-                //testing ------------
-                //mainGrid.bringToFront();
-                //---------------
-
             }else {
                 drawerLayout.openDrawer(linear);
-                linear.bringToFront();            }
+                linear.bringToFront();
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
     /*
-    * Listens to items clicked */
+    * Listens to items clicked within drawer*/
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -218,10 +218,12 @@ public class MainActivity extends ActionBarActivity implements
         if (a.getId() == R.id.nav_list1 || a.getId() == R.id.nav_list2 || a.getId() == R.id.nav_list3 ) {
             showDialogAlert(a, position); //calling showDialogAlert
             drawerLayout.closeDrawer(linear);
-
         }
     }
 
+    /*
+    * This method handles the drop down for groups
+    * */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         TextView groupName = (TextView) view;
@@ -237,13 +239,20 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
 
-
+    /*
+    * Array to hold children list based on group selected
+    */
     ArrayAdapter<String> alertAdapterChild;
+    /*
+    * Array to hold activities list
+    */
     ArrayAdapter<String> alertAdapterActivity;
+    /*
+    * Array to hold Learning Outcome Codes list
+    */
     ArrayAdapter<Double> alertAdapterLoCode;
     public void showDialogAlert(View view, int position){
         //create alertdialog to show a list
-        //Toast.makeText(this, " you selected:  "+ navList1.getPositionForView(view) , Toast.LENGTH_SHORT).show();
         drawerLayout.closeDrawer(linear);
 
         if (view.getId() == R.id.nav_list1) {
@@ -253,6 +262,7 @@ public class MainActivity extends ActionBarActivity implements
                 alertAdapterChild = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getChildNames(groupID));
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
+                //sets adapter and listener for items in the alert list
                 builder.setAdapter(alertAdapterChild, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -271,6 +281,7 @@ public class MainActivity extends ActionBarActivity implements
                 alertAdapterActivity = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getActivityNames());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
+                //sets adapter and listener for items in the alert list
                 builder.setAdapter(alertAdapterActivity, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -284,6 +295,7 @@ public class MainActivity extends ActionBarActivity implements
                 alertAdapterLoCode = new ArrayAdapter<Double>(this, android.R.layout.select_dialog_item, k.getLOCode());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
+                //sets adapter and listener for items in the alert list
                 builder.setAdapter(alertAdapterLoCode, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -300,7 +312,10 @@ public class MainActivity extends ActionBarActivity implements
     }
 
 
-    //The following function calls the mainFragment
+    /*
+    *   The following method calls the mainFragment
+    *   passes a bundle containing info
+    */
     public void showMainFragment(Bundle bundle)
     {
         MainFragment mainFragment= new MainFragment();
@@ -310,7 +325,9 @@ public class MainActivity extends ActionBarActivity implements
         transaction.commit();
     }
 
-    //The following function calls the pictureFragment
+    /*
+    *   The following function calls the pictureFragment
+    */
     public void showFormFragment()
     {
         FormFragment formFragment = new FormFragment();
@@ -343,6 +360,10 @@ public class MainActivity extends ActionBarActivity implements
     public void onDrawerStateChanged(int newState) {
 
     }
+
+    /*
+    * This method is called when back button is clicked
+    * */
     @Override
     public void onBackPressed() {
         // If the drawer is open, then back button should just close the drawer
@@ -350,14 +371,12 @@ public class MainActivity extends ActionBarActivity implements
             drawerLayout.closeDrawer(linear);
             return;
         }
-
         // Get current active fragment
         Fragment currentFrag = getFragmentManager().findFragmentById(R.id.fragment_holder);
 
         // Current fragment is Main fragment, close the app
         if (currentFrag instanceof MainFragment){
             finish();}
-
         // Current fragment is not the main fragment, show the main fragment
        else if (currentFrag instanceof FormFragment) {
             runCommand.setVisibility(View.VISIBLE);
@@ -367,7 +386,6 @@ public class MainActivity extends ActionBarActivity implements
             bundle.putInt("id", 1);
             showMainFragment(bundle);
         }
-
         else{
             super.onBackPressed();
             //moveTaskToBack(true);

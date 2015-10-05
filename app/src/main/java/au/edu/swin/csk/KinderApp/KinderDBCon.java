@@ -1,7 +1,12 @@
 package au.edu.swin.csk.KinderApp;
 
 /**
- * Created by Subzero & Fahad Alhamed on 14/09/2015.
+ * Created by Subzero on 14/09/2015.
+ * @Author Fahad Alhamed
+ * This class construct database and create tables
+ * Contains methods for inserting data
+ * Contains methods for getting data
+ *
  */
 
 import android.content.ContentValues;
