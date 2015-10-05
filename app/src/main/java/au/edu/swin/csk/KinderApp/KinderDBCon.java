@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -594,6 +595,50 @@ public class KinderDBCon {
             result.add(c.getDouble(iLOCode));
         }
 
+        return  result;
+    }
+
+    public ArrayList<String> getEvidenceByChild(String firstName, String lastName) {
+
+        // Creating a string array to store result from database before passing
+        String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_EvidenceCODE};
+        // Creating a cursor to iterate through db
+        final String query = "SELECT Child.childFirstName, Child.ChildSurName, Child.childID, EvidenceChild.EvidenceCode FROM Child INNER JOIN EvidenceChild where Child.childFirstName=\""+firstName+"\" AND Child.childSurName=\""+lastName+"\";\n" +"\n";
+        Cursor c = _db.rawQuery(query, null);
+        //Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
+        ArrayList<String> result = new ArrayList<String>();
+
+        int iChildCode = c.getColumnIndex(KEY_NAME_CHILDID);
+        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+
+            result.add(c.getString(iEvidenceCode));
+        }
+
+        Log.d(TAG, result.toString());
+        return  result;
+    }
+
+    public ArrayList<String> getEvidenceByID(String evidenceCode) {
+
+        // Creating a string array to store result from database before passing
+        String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
+        // Creating a cursor to iterate through db
+        Cursor c = _db.query(DATABASE_TABLE_EVIDENCE,columns,KEY_NAME_EvidenceCODE + "=" + evidenceCode,null,null,null,null);
+
+        ArrayList<String> result = new ArrayList<String>();
+        //String result = "";
+        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+        int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
+        int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
+        int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
+        int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
+
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
+        {
+            result.add( c.getString(iEvidenceDate) + "," + c.getString(iActivityName) );
+        }
         return  result;
     }
 

@@ -237,6 +237,10 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
 
+
+    ArrayAdapter<String> alertAdapterChild;
+    ArrayAdapter<String> alertAdapterActivity;
+    ArrayAdapter<Double> alertAdapterLoCode;
     public void showDialogAlert(View view, int position){
         //create alertdialog to show a list
         //Toast.makeText(this, " you selected:  "+ navList1.getPositionForView(view) , Toast.LENGTH_SHORT).show();
@@ -246,25 +250,47 @@ public class MainActivity extends ActionBarActivity implements
             Log.d(TAG, String.valueOf(R.id.view));
             Log.d(TAG, String.valueOf(position));
             if (position == 0) {
-                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getChildNames(groupID));
+                alertAdapterChild = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getChildNames(groupID));
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
-                builder.setAdapter(alertAdapter, this);
+                builder.setAdapter(alertAdapterChild, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "This child is selected : " + String.valueOf(which));
+                        String childName = alertAdapterChild.getItem(which);
+                      /*  Bundle bundle = new Bundle();
+                        bundle.putInt("id", groupID );
+                        bundle.putString("childName", childName);
+                        showMainFragment(bundle);*/
+                    }
+                });
                 ad = builder.create();
                 ad.show();
 
             } else if (position == 1) {
-                ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getActivityNames());
+                alertAdapterActivity = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getActivityNames());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
-                builder.setAdapter(alertAdapter, this);
+                builder.setAdapter(alertAdapterActivity, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "This child is selected : " + String.valueOf(which));
+                        alertAdapterActivity.getItem(which);
+                    }
+                });
                 ad = builder.create();
                 ad.show();
             } else if (position == 2) {
-                ArrayAdapter<Double> alertAdapter = new ArrayAdapter<Double>(this, android.R.layout.select_dialog_item, k.getLOCode());
+                alertAdapterLoCode = new ArrayAdapter<Double>(this, android.R.layout.select_dialog_item, k.getLOCode());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
-                builder.setAdapter(alertAdapter, this);
+                builder.setAdapter(alertAdapterLoCode, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "This child is selected : " + String.valueOf(which));
+                        alertAdapterLoCode.getItem(which);
+                    }
+                });
                 ad = builder.create();
                 ad.show();
             } else ad.dismiss();
