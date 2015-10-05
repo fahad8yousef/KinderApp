@@ -5,7 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 
 /**
- * Created by Fahad Alhamed on 22/09/15.
+ *
+ * Test class used for constructing inserting data to db for testing
+ * @Author  Fahad Alhamed 747234x
  */
 public class TestDB {
 

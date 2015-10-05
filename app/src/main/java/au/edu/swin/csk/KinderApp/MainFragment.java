@@ -68,20 +68,13 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
             Toast.makeText(getActivity(),
                     "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
-
-
             (( MainActivity)getActivity()).showFormFragment();
-
-
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
     }
 
     @Override
@@ -90,6 +83,14 @@ public class MainFragment extends Fragment implements
     }
 }
 
+/*
+*
+* @Author Fahad Alhamed 747234x
+* This class handles querying the db to get Evidence cards based on group selected.
+* Querying the db to get Evidence cards based on Child selected
+* Querying the db to get Evidence cards based on Activity selected
+* Querying the db to get Evidence cards based on LOCode selected
+* */
 class MainAdapter extends BaseAdapter
 {
     private static final String TAG = "Fahad/ MainAdapter" ;
@@ -99,10 +100,17 @@ class MainAdapter extends BaseAdapter
     int groupID;
     String firstName;
     String lastName;
-    ArrayList<String> evidenceByChild;
     String fullName;
+    String activity;
 
-
+    /*
+    * This is the constructor for mainAdapter it receives the following and query the db to filter evidence cards displayed in main screen
+    * @Param Context from main activity
+    * @Param object KinderDBCon created for db
+    * @Param integer Group selected for filtering
+    * @Param String to hold full child name for filtering
+    * @Param String to hold activity selected for filtering
+    * */
     MainAdapter(Context c, KinderDBCon k , int groupID, String fullName, String activity)
     {
         this.context = c;
@@ -111,22 +119,32 @@ class MainAdapter extends BaseAdapter
         list = new ArrayList<Card>();
         int img = R.drawable.cooking1;
         this.fullName = fullName;
+        this.activity = activity;
 
         //attempt to get Evidence cards by child name
         if (fullName != null) {
             this.firstName = fullName.substring(0, fullName.indexOf(","));
             this.lastName = fullName.substring(fullName.indexOf(",") + 1, fullName.length());
 
-            evidenceByChild = k.getEvidenceByChild(firstName, lastName);
+            ArrayList<String> evidenceByChild = k.getEvidenceByChild(firstName, lastName);
             Log.d(TAG, "This is evid id for Child selected" + evidenceByChild.toString());
 
-            for (int i=0; i<evidenceByChild.size() ; i++)
-            {
+            for (int i = 0; i < evidenceByChild.size(); i++) {
                 String s = k.getEvidenceByID(evidenceByChild.get(i));
                 Card tempCard = new Card(img, s);
                 list.add(tempCard);
             }
             this.fullName = null;
+
+        } else if (activity !=null && groupID != 0) {
+            ArrayList<String> evidenceByActivity = k.getEvidenceByActivity(groupID, activity);
+            for (int i = 0; i < evidenceByActivity.size(); i++) {
+                String s = k.getEvidenceByID(evidenceByActivity.get(i));
+                Card tempCard = new Card(img, s);
+                list.add(tempCard);
+            }
+            this.activity = null;
+
         } else {
             Log.d(TAG, "Null full name");
 
@@ -156,6 +174,12 @@ class MainAdapter extends BaseAdapter
         return i;
     }
 
+    /*
+    * @Author Fahad Alhamed 747234x
+    * This class used to hold each cell component on the main screen
+    * it holds Image & Date & Activity components
+    *
+    * */
     class ViewHolder
     {
         ImageView cardImage;
@@ -171,6 +195,13 @@ class MainAdapter extends BaseAdapter
         }
     }
 
+    /*
+    * This override method used to Assign Evidence cards to rows in the grid layout and
+    * return the view of each card
+    * @Param int i
+    * @Param View the row
+    * @Return returns the row requested
+    * */
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
@@ -178,6 +209,7 @@ class MainAdapter extends BaseAdapter
         ViewHolder holder;
         if (row == null)
         {
+            //inflate row and assign to holder
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.single_item_main, viewGroup, false);
             holder = new ViewHolder(row);
@@ -187,13 +219,13 @@ class MainAdapter extends BaseAdapter
         {
             holder = (ViewHolder) row.getTag();
         }
+        //get each object from the Card Class and set parameters
         Card temp = list.get(i);
         holder.cardImage.setImageResource(temp.imageId);
         holder.cardDate.setText(temp.date);
         holder.cardActivity.setText(temp.activityName);
         return row;
     }
-
 }
 
 /*
@@ -229,7 +261,6 @@ class Card {
     /*
     * A method to get the evidence ID
     * @Return String Id
-    *
     * */
     public String getID(){
 

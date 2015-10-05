@@ -285,8 +285,12 @@ public class MainActivity extends ActionBarActivity implements
                 builder.setAdapter(alertAdapterActivity, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        Log.d(TAG, "This child is selected : " + alertAdapterActivity.getItem(which));
-//                        alertAdapterActivity.getItem(which);
+                        String activity = alertAdapterActivity.getItem(which);
+                        Log.d(TAG, "This child is selected : " + activity);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id", groupID );
+                        bundle.putString("activity", activity);
+                        showMainFragment(bundle);
                     }
                 });
                 ad = builder.create();
@@ -310,7 +314,6 @@ public class MainActivity extends ActionBarActivity implements
             Toast.makeText(this, " Not implemented yet! " , Toast.LENGTH_SHORT).show();
         }
     }
-
 
     /*
     *   The following method calls the mainFragment
