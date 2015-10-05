@@ -58,7 +58,7 @@ public class KinderDBCon {
 
     private static final String DATABASE_NAME = "KinderGardenDB";
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_TABLE_GROUP = "Group_Table";
+    private static final String DATABASE_TABLE_GROUP = "GroupName";
     private static final String DATABASE_TABLE_CHILD = "Child";
     private static final String DATABASE_TABLE_ACTIVITY = "Activity";
     private static final String DATABASE_TABLE_EVIDENCE = "Evidence";
