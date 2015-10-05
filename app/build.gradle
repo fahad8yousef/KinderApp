@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "au.edu.swin.csk.prototype"
+        applicationId "au.edu.swin.csk.KinderApp"
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 1

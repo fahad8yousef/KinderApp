@@ -78,7 +78,6 @@ public class MainActivity extends ActionBarActivity implements
         //#############################################
         k=new KinderDBCon(this);
         k.open();
-        testDB= new TestDB(k);
         //insert into database
         //testDB = new TestDB(k); //to initiate testing //comment after inserting data to avoid errors
         //k.close();
@@ -184,7 +183,8 @@ public class MainActivity extends ActionBarActivity implements
             finish();
             return true;
         }else if (id == R.id.action_import){
-            Log.d(TAG, String.valueOf(groupID));
+            Log.d(TAG, "Group"+ String.valueOf(groupID));
+            testDB= new TestDB(k);
 
             //If users clicks on import, we call the showMainFragment function and pass the current group ID, 1, through a bundle.
             Bundle bundle= new Bundle();
@@ -247,8 +247,8 @@ public class MainActivity extends ActionBarActivity implements
         drawerLayout.closeDrawer(linear);
 
         if (view.getId() == R.id.nav_list1) {
-            Log.d(TAG, String.valueOf(R.id.view));
-            Log.d(TAG, String.valueOf(position));
+            //Log.d(TAG, String.valueOf(R.id.view));
+            //Log.d(TAG, String.valueOf(position));
             if (position == 0) {
                 alertAdapterChild = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getChildNames(groupID));
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -256,12 +256,12 @@ public class MainActivity extends ActionBarActivity implements
                 builder.setAdapter(alertAdapterChild, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "This child is selected : " + String.valueOf(which));
-                        String childName = alertAdapterChild.getItem(which);
-                      /*  Bundle bundle = new Bundle();
+                        String fullName = alertAdapterChild.getItem(which);
+                        Log.d(TAG, "This child is selected : " + fullName);
+                        Bundle bundle = new Bundle();
                         bundle.putInt("id", groupID );
-                        bundle.putString("childName", childName);
-                        showMainFragment(bundle);*/
+                        bundle.putString("fullName", fullName);
+                        showMainFragment(bundle);
                     }
                 });
                 ad = builder.create();
@@ -274,8 +274,8 @@ public class MainActivity extends ActionBarActivity implements
                 builder.setAdapter(alertAdapterActivity, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "This child is selected : " + String.valueOf(which));
-                        alertAdapterActivity.getItem(which);
+//                        Log.d(TAG, "This child is selected : " + alertAdapterActivity.getItem(which));
+//                        alertAdapterActivity.getItem(which);
                     }
                 });
                 ad = builder.create();
@@ -287,7 +287,7 @@ public class MainActivity extends ActionBarActivity implements
                 builder.setAdapter(alertAdapterLoCode, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "This child is selected : " + String.valueOf(which));
+                        //Log.d(TAG, "This child is selected : " + String.valueOf(which));
                         alertAdapterLoCode.getItem(which);
                     }
                 });

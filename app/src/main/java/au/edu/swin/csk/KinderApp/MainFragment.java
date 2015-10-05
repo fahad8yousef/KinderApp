@@ -33,6 +33,9 @@ public class MainFragment extends Fragment implements
     TestDB testDB;
     private static final String TAG= "Somesh/ Main Fragment";
     int groupID;
+    String fullName;
+    String activity;
+    String loCode;
     public MainFragment() {
         // Required empty public constructor
     }
@@ -48,9 +51,14 @@ public class MainFragment extends Fragment implements
 
         //The following line is used to retrieve the groupID that was stored in a bundle and associated with the mainFragment.
         groupID=getArguments().getInt("id");
+        fullName = getArguments().getString("fullName");
+        Log.d(TAG, "Name received in bundle " + fullName);
+        activity = getArguments().getString("activity");
+        //loCode = getArguments().getString("loCode");
+
         mainGrid = (GridView)view.findViewById(R.id.main_grid);
-        testDB=new TestDB(k);
-        mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID));
+        //testDB=new TestDB(k);
+        mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID, fullName, activity));
         Log.d(TAG, String.valueOf(groupID));
         mainGrid.setOnItemClickListener(this);
         return view;
@@ -84,53 +92,53 @@ public class MainFragment extends Fragment implements
 
 class MainAdapter extends BaseAdapter
 {
-    private static final String TAG = "dd" ;
+    private static final String TAG = "Fahad/ MainAdapter" ;
     ArrayList<Card> list;
     Context context;
     KinderDBCon k;
     int groupID;
+    String firstName;
+    String lastName;
+    ArrayList<String> evidenceByChild;
+    String fullName;
 
-    MainAdapter(Context c, KinderDBCon k , int groupID)
+
+    MainAdapter(Context c, KinderDBCon k , int groupID, String fullName, String activity)
     {
         this.context = c;
         this.k = k;
         this.groupID = groupID;
-
         list = new ArrayList<Card>();
-        //Resources res = context.getResources();
         int img = R.drawable.cooking1;
-
-        ArrayList<String> evidenceDateActivity;
-        evidenceDateActivity = k.getEvidenceInfo(groupID);
-
-        for (int i=0; i<evidenceDateActivity.size() ; i++)
-        {
-            Card tempCard = new Card(img, evidenceDateActivity.get(i));
-            list.add(tempCard);
-        }
+        this.fullName = fullName;
 
         //attempt to get Evidence cards by child name
-/*        if (fullName.length() !=0 ) {
+        if (fullName != null) {
             this.firstName = fullName.substring(0, fullName.indexOf(","));
             this.lastName = fullName.substring(fullName.indexOf(",") + 1, fullName.length());
 
-            ArrayList<String> evidenceByChild;
             evidenceByChild = k.getEvidenceByChild(firstName, lastName);
-            //k.getEvidenceByID(evidanceByChild.get(3));
-            for (int i = 0; i < evidenceByChild.size(); i++) {
-                //String[] name = k.getEvidenceByID(evidanceByChild.get(i));
-                ArrayList<String> a = new ArrayList<>();
-                a.add(evidenceByChild.get(i));
-                for (int x = 0; i < a.size(); x++) {
-                    ArrayList<String> result;
-                    result = k.getEvidenceByID(a.get(i));
-                    Card tempCard = new Card(img, result.get(i));
+            Log.d(TAG, "This is evid id for Child selected" + evidenceByChild.toString());
 
-                    list.add(tempCard);
-                }
-
+            for (int i=0; i<evidenceByChild.size() ; i++)
+            {
+                String s = k.getEvidenceByID(evidenceByChild.get(i));
+                Card tempCard = new Card(img, s);
+                list.add(tempCard);
             }
-        }*/
+            this.fullName = null;
+        } else {
+            Log.d(TAG, "Null full name");
+
+            ArrayList<String> evidenceDateActivity;
+            evidenceDateActivity = k.getEvidenceInfo(groupID);
+
+            for (int i=0; i<evidenceDateActivity.size() ; i++)
+            {
+                Card tempCard = new Card(img, evidenceDateActivity.get(i));
+                list.add(tempCard);
+            }
+        }
     }
 
     @Override
@@ -188,6 +196,11 @@ class MainAdapter extends BaseAdapter
 
 }
 
+/*
+* This class holds each cell in the main screen
+* @Author Fahad Alhamed 747234x
+*
+* */
 
 class Card {
 
@@ -195,7 +208,13 @@ class Card {
     String date;
     String activityName;
     int imageId;
+    String evidID;
 
+    /*
+    * Constructor
+    * @Param String image name
+    * @param String info contains activity name and date
+    * */
     Card(int imageId, String info)
     {
         if (info.length() !=0 ) {
@@ -205,6 +224,16 @@ class Card {
         this.imageId = imageId;
         //this.date = date;
         //this.activityName = activityName;
+    }
+
+    /*
+    * A method to get the evidence ID
+    * @Return String Id
+    *
+    * */
+    public String getID(){
+
+        return evidID;
     }
 }
 

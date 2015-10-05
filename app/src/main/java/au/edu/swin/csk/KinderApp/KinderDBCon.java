@@ -134,28 +134,35 @@ public class KinderDBCon {
                             KEY_REFERENCES + DATABASE_TABLE_ACTIVITY + KEY_OPEN_PARENTHESIS + KEY_NAME_ACTIVITYNAME + KEY_CLOSE_PARENTHESIS +
                             KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
             );
+
+/*            CREATE TABLE Name_Category ( name_id INTEGER NOT NULL,
+                    category_id INTEGER NOT NULL,
+                    PRIMARY KEY (name_id, category_id),
+                    foreign key (name_id) references Names(_id),
+                    foreign key (category_id) references Categories(_id));*/
+
             db.execSQL(
                     // Creating  EvidenceChild Table
                     KEY_CREATE_TABLE + DATABASE_TABLE_EVIDENCECHILD + KEY_OPEN_PARENTHESIS +
                             KEY_NAME_CHILDID + KEY_INTEGER + KEY_COMMA +
-                            KEY_NAME_EvidenceDATE + KEY_INTEGER + KEY_COMMA +
-                            KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_CHILDID + KEY_COMMA + KEY_NAME_EvidenceDATE + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
-                            KEY_CONSTRAINT + "EVIDENCECHILD_FK_GROPID" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_CHILDID + KEY_CLOSE_PARENTHESIS +
+                            KEY_NAME_EvidenceCODE + KEY_INTEGER + KEY_COMMA +
+                            KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_CHILDID + KEY_COMMA + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
+                            KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_CHILDID + KEY_CLOSE_PARENTHESIS +
                             KEY_REFERENCES + DATABASE_TABLE_CHILD + KEY_OPEN_PARENTHESIS + KEY_NAME_CHILDID + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
-                            KEY_CONSTRAINT + "EVIDENCECHILD_FK_ACTIVITYNAME" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceDATE + KEY_CLOSE_PARENTHESIS +
-                            KEY_REFERENCES + DATABASE_TABLE_EVIDENCE + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceDATE + KEY_CLOSE_PARENTHESIS +
+                            KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_CHILDID + KEY_CLOSE_PARENTHESIS +
+                            KEY_REFERENCES + DATABASE_TABLE_EVIDENCE + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS +
                             KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
             );
-            db.execSQL(
-                    // Creating  EvidenceChild Table
+/*            db.execSQL(
+                    // Creating  Photo Table
                     KEY_CREATE_TABLE + DATABASE_TABLE_PHOTO + KEY_OPEN_PARENTHESIS +
-                            KEY_NAME_PHOTOFILENAME + KEY_TEXT + KEY_COMMA +
+                            KEY_NAME_CHILDID + KEY_INTEGER + KEY_COMMA +
                             KEY_NAME_EvidenceCODE + KEY_INTEGER + KEY_COMMA +
                             KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_PHOTOFILENAME + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
                             KEY_CONSTRAINT + "PHOTO_FK_EvidenceCODE" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_PHOTOFILENAME + KEY_CLOSE_PARENTHESIS +
                             KEY_REFERENCES + DATABASE_TABLE_EVIDENCE + KEY_OPEN_PARENTHESIS + KEY_NAME_PHOTOFILENAME + KEY_CLOSE_PARENTHESIS +
                             KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
-            );
+            );*/
             db.execSQL(
                     // Creating  LOCode Table
                     KEY_CREATE_TABLE + DATABASE_TABLE_LOCODE + KEY_OPEN_PARENTHESIS +
@@ -280,14 +287,14 @@ public class KinderDBCon {
         return _db.insert(DATABASE_TABLE_EVIDENCECHILD,null,cv);
     }
 
-    public long InsertIntoPhotoTable(String _photoFilename,int _EvidenceCode)
+/*    public long InsertIntoPhotoTable(String _photoFilename,int _EvidenceCode)
     {
         ContentValues cv = new ContentValues();
         cv.put(KEY_NAME_PHOTOFILENAME,_photoFilename);
         cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
 
         return _db.insert(DATABASE_TABLE_PHOTO,null,cv);
-    }
+    }*/
 
     public long InsertIntoLOCodeTable(double _locCode,String _locDescription)
     {
@@ -433,7 +440,7 @@ public class KinderDBCon {
     }
 
     // getting data from Photo table
-    public String getPhotoData()
+/*    public String getPhotoData()
     {
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_PHOTOFILENAME,KEY_NAME_EvidenceCODE};
@@ -450,7 +457,7 @@ public class KinderDBCon {
         }
 
         return  result;
-    }
+    }*/
 
     // getting data from LOCode table
     public String getLOCodeData()
@@ -554,7 +561,7 @@ public class KinderDBCon {
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            result.add(c.getString(iChildFirstName) + " " + c.getString(iChildSurName));
+            result.add(c.getString(iChildFirstName) + "," + c.getString(iChildSurName));
         }
 
         return  result;
@@ -603,7 +610,7 @@ public class KinderDBCon {
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_EvidenceCODE};
         // Creating a cursor to iterate through db
-        final String query = "SELECT Child.childFirstName, Child.ChildSurName, Child.childID, EvidenceChild.EvidenceCode FROM Child INNER JOIN EvidenceChild where Child.childFirstName=\""+firstName+"\" AND Child.childSurName=\""+lastName+"\";\n" +"\n";
+        final String query = "SELECT Child.childFirstName, Child.ChildSurName, Child.childID, EvidenceChild.EvidenceCode FROM Child INNER JOIN EvidenceChild where Child.childID=EvidenceChild.childID AND Child.childFirstName=\""+firstName+"\" AND Child.childSurName=\""+lastName+"\";\n" +"\n";
         Cursor c = _db.rawQuery(query, null);
         //Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
         ArrayList<String> result = new ArrayList<String>();
@@ -620,14 +627,14 @@ public class KinderDBCon {
         return  result;
     }
 
-    public ArrayList<String> getEvidenceByID(String evidenceCode) {
+    public String getEvidenceByID(String evidenceCode) {
 
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
         // Creating a cursor to iterate through db
         Cursor c = _db.query(DATABASE_TABLE_EVIDENCE,columns,KEY_NAME_EvidenceCODE + "=" + evidenceCode,null,null,null,null);
 
-        ArrayList<String> result = new ArrayList<String>();
+        String result = "";
         //String result = "";
         int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
         int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
@@ -637,7 +644,7 @@ public class KinderDBCon {
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
         {
-            result.add( c.getString(iEvidenceDate) + "," + c.getString(iActivityName) );
+            result =  c.getString(iEvidenceDate) + "," + c.getString(iActivityName) ;
         }
         return  result;
     }

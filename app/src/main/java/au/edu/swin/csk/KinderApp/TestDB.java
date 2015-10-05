@@ -31,8 +31,8 @@ public class TestDB {
         addLoCode();
         addGroup();
         addEvidenceData();
-        //addEvidChild();
-        addEvidImage();
+        addEvidChild();
+       // addEvidImage();
         addLOEvidence();
 
     }
@@ -72,7 +72,7 @@ public class TestDB {
         k.InsertIntoEvidenceTable("2/4/2012", "this is comment", 3, "Art");
         k.InsertIntoEvidenceTable("22/12/2012", "this is comment", 1, "Sport");
         k.InsertIntoEvidenceTable("18/3/2012", "this is comment", 3, "Drawing");
-        k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 1, "cooking");
+        k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 2, "cooking");
         k.InsertIntoEvidenceTable("18/02/2012", "this is comment", 4, "Swimming");
         k.InsertIntoEvidenceTable("3/5/2012", "this is comment", 3, "cooking");
         k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art");
@@ -97,7 +97,7 @@ public class TestDB {
     }
 
     public void addChildList() {
-        k.InsertIntoChildTable("Jack", "A", "male", 1);
+        k.InsertIntoChildTable("Jack", "A", "male", 3);
         k.InsertIntoChildTable("John" , "M" , "male" , 2);
         k.InsertIntoChildTable("Chris" , "T" , "male" , 3);
         k.InsertIntoChildTable("Tim", "K", "male", 1);
@@ -114,15 +114,15 @@ public class TestDB {
         k.InsertIntoEvidenceChildTable(1, 1);
         k.InsertIntoEvidenceChildTable(1, 2);
         k.InsertIntoEvidenceChildTable(1, 3);
-        k.InsertIntoEvidenceChildTable(1, 1);
-        k.InsertIntoEvidenceChildTable(2, 1);
+        k.InsertIntoEvidenceChildTable(1, 4);
+        k.InsertIntoEvidenceChildTable(2, 7);
         k.InsertIntoEvidenceChildTable(3, 1);
         k.InsertIntoEvidenceChildTable(3, 2);
         k.InsertIntoEvidenceChildTable(3, 3);
         k.InsertIntoEvidenceChildTable(3, 4);
-        k.InsertIntoEvidenceChildTable(4, 5);
+        k.InsertIntoEvidenceChildTable(4, 8);
     }
-
+/*
     public void addEvidImage() {
         k.InsertIntoPhotoTable("img001", 1);
         k.InsertIntoPhotoTable("img002", 2);
@@ -130,7 +130,7 @@ public class TestDB {
         k.InsertIntoPhotoTable("img004", 4);
         k.InsertIntoPhotoTable("img005", 5);
         k.InsertIntoPhotoTable("img006", 6);
-    }
+    }*/
 
     public void addLOEvidence() {
         k.InsertIntoEvidenceLOutcomeTable(1, 1.2);
