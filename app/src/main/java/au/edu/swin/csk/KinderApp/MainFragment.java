@@ -98,24 +98,39 @@ class MainAdapter extends BaseAdapter
 
         list = new ArrayList<Card>();
         //Resources res = context.getResources();
-        int[] activityImages = {R.drawable.cooking1, R.drawable.cooking2, R.drawable.cooking3,
-                R.drawable.cooking4, R.drawable.cooking5, R.drawable.cooking6, R.drawable.cooking7,
-                R.drawable.cooking8, R.drawable.cooking9, R.drawable.cooking10,
-                R.drawable.cooking11, R.drawable.cooking12, R.drawable.cooking12,
-                R.drawable.cooking12, R.drawable.cooking12, R.drawable.cooking12,
-                R.drawable.cooking12, R.drawable.cooking12};
+        int img = R.drawable.cooking1;
 
         ArrayList<String> evidenceDateActivity;
         evidenceDateActivity = k.getEvidenceInfo(groupID);
 
-//        String[] tempChildNames = res.getStringArray(R.array.childArray);
-//        String[] tempActivityNames = res.getStringArray(R.array.activityArray);
-
         for (int i=0; i<evidenceDateActivity.size() ; i++)
         {
-            Card tempCard = new Card(activityImages[i], evidenceDateActivity.get(i));
+            Card tempCard = new Card(img, evidenceDateActivity.get(i));
             list.add(tempCard);
         }
+
+        //attempt to get Evidence cards by child name
+/*        if (fullName.length() !=0 ) {
+            this.firstName = fullName.substring(0, fullName.indexOf(","));
+            this.lastName = fullName.substring(fullName.indexOf(",") + 1, fullName.length());
+
+            ArrayList<String> evidenceByChild;
+            evidenceByChild = k.getEvidenceByChild(firstName, lastName);
+            //k.getEvidenceByID(evidanceByChild.get(3));
+            for (int i = 0; i < evidenceByChild.size(); i++) {
+                //String[] name = k.getEvidenceByID(evidanceByChild.get(i));
+                ArrayList<String> a = new ArrayList<>();
+                a.add(evidenceByChild.get(i));
+                for (int x = 0; i < a.size(); x++) {
+                    ArrayList<String> result;
+                    result = k.getEvidenceByID(a.get(i));
+                    Card tempCard = new Card(img, result.get(i));
+
+                    list.add(tempCard);
+                }
+
+            }
+        }*/
     }
 
     @Override

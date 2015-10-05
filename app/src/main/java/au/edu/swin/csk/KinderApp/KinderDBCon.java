@@ -225,21 +225,21 @@ public class KinderDBCon {
     // Inserting methods for each table
     //#################################
 
-    public long InsertIntoGroupTable(int _groupID,String _name)
+    public long InsertIntoGroupTable(String _name)
     {
         ContentValues cv = new ContentValues();
 
-        cv.put(KEY_NAME_GROUPID,_groupID);
+        //cv.put(KEY_NAME_GROUPID,_groupID);
         cv.put(KEY_NAME_GROUPNAME, _name);
 
 
         return _db.insert(DATABASE_TABLE_GROUP,null,cv);
     }
 
-    public long InsertIntoChildTable(int _childID,String _childFirstName,String _childSurName,String _childGender,int _groupID)
+    public long InsertIntoChildTable(String _childFirstName,String _childSurName,String _childGender,int _groupID)
     {
         ContentValues cv = new ContentValues();
-        cv.put(KEY_NAME_CHILDID,_childID);
+        //cv.put(KEY_NAME_CHILDID,_childID);
         cv.put(KEY_NAME_CHILDFIRSTNAME, _childFirstName);
         cv.put(KEY_NAME_CHILDSURNAME, _childSurName);
         cv.put(KEY_NAME_CHILDGENDER, _childGender);
@@ -258,10 +258,10 @@ public class KinderDBCon {
     }
 
 
-    public long InsertIntoEvidenceTable(int _EvidenceCode,String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName)
+    public long InsertIntoEvidenceTable(String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName)
     {
         ContentValues cv = new ContentValues();
-        cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
+        //cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
         cv.put(KEY_NAME_EvidenceDATE, _EvidenceDate);
         cv.put(KEY_NAME_EvidenceCOMMENT, _EvidenceComment);
         cv.put(KEY_NAME_GROUPID,_groupID);
