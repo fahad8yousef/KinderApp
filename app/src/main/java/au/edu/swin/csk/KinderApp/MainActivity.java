@@ -400,6 +400,7 @@ public class MainActivity extends ActionBarActivity implements
         }
         else{
             super.onBackPressed();
+            //k.close();
             //moveTaskToBack(true);
         }
     }

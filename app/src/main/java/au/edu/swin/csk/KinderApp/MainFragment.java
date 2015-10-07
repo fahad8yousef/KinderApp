@@ -131,45 +131,13 @@ class MainAdapter extends BaseAdapter
         this.groupID = groupID;
         list = new ArrayList<Card>();
         int img = R.drawable.cooking1;
-        this.fullName = fullName;
-        this.activity = activity;
-
-        //attempt to get Evidence cards by child name
- /*       if (fullName != null) {
-            this.firstName = fullName.substring(0, fullName.indexOf(","));
-            this.lastName = fullName.substring(fullName.indexOf(",") + 1, fullName.length());
-
-            ArrayList<String> evidenceByChild = k.getEvidenceByChild(firstName, lastName);
-            Log.d(TAG, "This is evid id for Child selected" + evidenceByChild.toString());
-
-            for (int i = 0; i < evidenceByChild.size(); i++) {
-                String s = k.getEvidenceByID(evidenceByChild.get(i));
-                Card tempCard = new Card(img, s);
-                list.add(tempCard);
-            }
-            this.fullName = null;
-
-        } else if (activity !=null && groupID != 0) {
-            ArrayList<String> evidenceByActivity = k.getEvidenceByActivity(groupID, activity);
-            for (int i = 0; i < evidenceByActivity.size(); i++) {
-                String s = k.getEvidenceByID(evidenceByActivity.get(i));
-                Card tempCard = new Card(img, s);
-                list.add(tempCard);
-            }
-            this.activity = null;
-
-        } else {
-            Log.d(TAG, "Null full name");*/
-
-            ArrayList<String> evidenceDateActivity;
-            evidenceDateActivity = k.getEvidenceInfo(groupID);
-
-            for (int i=0; i<evidenceDateActivity.size() ; i++)
-            {
-                Card tempCard = new Card(img, evidenceDateActivity.get(i));
-                list.add(tempCard);
-            }
-        //}
+        ArrayList<String> evidenceDateActivity;
+        evidenceDateActivity = k.getEvidenceInfo(groupID);
+        for (int i=0; i<evidenceDateActivity.size() ; i++)
+        {
+            Card tempCard = new Card(img, evidenceDateActivity.get(i));
+            list.add(tempCard);
+        }
     }
 
     MainAdapter(Context c, KinderDBCon k ,String fullName){
