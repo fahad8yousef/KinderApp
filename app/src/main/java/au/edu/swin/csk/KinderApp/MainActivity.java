@@ -395,7 +395,7 @@ public class MainActivity extends ActionBarActivity implements
             runCommand.setClickable(true);
 
             Bundle bundle= new Bundle();
-            bundle.putInt("id", 1);
+            bundle.putInt("id", groupID);
             showMainFragment(bundle);
         }
         else{

@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -62,11 +63,11 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     private ImageView add_Image;
     private ImageView save_Image;
     private Bitmap photo;
-    String picturePath;
     private TextView dateView;
     private AlertDialog dialog;
 
-
+    final int THUMBSIZE = 256;
+    Bitmap thumbImage;
     private EditText activity_Edit;
     private EditText children_Edit;
     private EditText lo_Edit;
@@ -75,7 +76,8 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     private String imageFileName;
     private Button changeDate;
 
-    //Setting up DialogFragment variables
+    private KinderDBCon k;
+    private TestDB testDB;
 
     public FormFragment() {
         // Required empty public constructor
@@ -113,7 +115,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
             @Override
             public void onClick(View v) {
 
-                savePictureToDatabase();
+                saveFormDataToDatabase();
 
             }
         });
@@ -213,19 +215,20 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
                 if (mCurrentPhotoPath != null) {
                     File file = new File(mCurrentPhotoPath);
-                    Log.d(TAG, String.valueOf(mCurrentPhotoPath) + "mCurrentPhotoPath");
+                    Log.d(TAG, String.valueOf(mCurrentPhotoPath) + "mCurrentPhotoPath, the one getting deleted");
                     file.delete();
                     galleryAddPic(mCurrentPhotoPath);
 
                 }
 
-            else if(picturePath!=null)
+            else if(imageFileName!=null)
 
             {
-                File file = new File(picturePath);
-                Log.d(TAG, String.valueOf(picturePath) + "picturePath");
+                File file = new File(imageFileName);
+                Log.d(TAG, String.valueOf(file) + "file getting deleted");
+                Log.d(TAG, String.valueOf(imageFileName) + "imageFileName, the one getting deleted");
                 file.delete();
-                galleryAddPic(picturePath);
+                galleryAddPic(imageFileName);
             }
 
             photo_ImageView.setImageResource(R.color.primary_material_dark);
@@ -296,9 +299,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
                         Intent pictureActionIntent = new Intent(
                                 MediaStore.ACTION_IMAGE_CAPTURE);
 
-                        File photoFile = null;
-
-                        photoFile = createImageFile();
+                        File photoFile = createImageFile();
 
                         if (photoFile != null) {
 
@@ -318,31 +319,27 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         getActivity().sendBroadcast(mediaScanIntent);
     }
 
-        public void setPic() {
-        // Get the dimensions of the View
-        int targetH = photo_ImageView.getHeight();
-        int targetW = photo_ImageView.getWidth();
-        Log.d(TAG,String.valueOf(targetH));
-        Log.d(TAG,String.valueOf(targetW));
+    public void saveThumbnailOfCurrentImage(String fullImagePath)
+    {
 
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
+        thumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(fullImagePath), THUMBSIZE, THUMBSIZE);
+        File myDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/KinderThumbnails/");
+        if (!myDir.isDirectory())
+        {myDir.mkdirs();}
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "thumbWombat" + timeStamp + ".jpg";
+        File file = new File (myDir, imageFileName);
+        if (file.exists ()) file.delete ();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            thumbImage.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
 
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-        Log.d(TAG, mCurrentPhotoPath);
-         photo = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-            Log.d(TAG, String.valueOf(photo));
-        photo_ImageView.setImageBitmap(photo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        photo_ImageView.setImageBitmap(thumbImage);
     }
     public File createImageFile()
     {
@@ -369,7 +366,8 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
         if (requestCode == CAMERA_REQUEST  && resultCode == Activity.RESULT_OK) {
             image_Text.setVisibility(View.INVISIBLE);
-            setPic();
+            //setPic();
+            saveThumbnailOfCurrentImage(mCurrentPhotoPath);
             galleryAddPic(mCurrentPhotoPath);
 
         }
@@ -381,15 +379,14 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
             Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            picturePath = cursor.getString(columnIndex);
+            String picturePath = cursor.getString(columnIndex);
             cursor.close();
-            Log.d(TAG, picturePath);
             image_Text.setVisibility(View.INVISIBLE);
             photo = BitmapFactory.decodeFile(picturePath);
-            photo_ImageView.setImageBitmap(photo);
+           // photo_ImageView.setImageBitmap(photo);
             File sourceFile = new File(picturePath);
             try {
-                copyImageFromGallery(sourceFile);
+                copyImageFromGallery(sourceFile, picturePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -397,7 +394,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
     }
 
-    public void copyImageFromGallery(File sourceFile) throws IOException {
+    public void copyImageFromGallery(File sourceFile, String picturePath) throws IOException {
         File myDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/ImagesForKinder/");
         if (!myDir.isDirectory())
         {myDir.mkdirs();}
@@ -419,17 +416,22 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         if (destination != null) {
             destination.close();
         }
-        Log.d(TAG, String.valueOf(destinationFile) + "Destination File");
-        galleryAddPic(imageFileName);
+        Log.d(TAG, picturePath + "picturePath source File");
+        Log.d(TAG, imageFileName + "imageFileName Destination File");
+        saveThumbnailOfCurrentImage(picturePath);
+      //  galleryAddPic();
     }
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
 
     }
-    public void savePictureToDatabase()
+    public void saveFormDataToDatabase()
     {
 
         Toast.makeText(getActivity(), "Not implemented yet", Toast.LENGTH_SHORT).show();
+        k = new KinderDBCon(getActivity());
+        k.open(); //open database
+        testDB=new TestDB(k);
 
 
 
