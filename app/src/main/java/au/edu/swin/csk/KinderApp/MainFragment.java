@@ -50,6 +50,7 @@ public class MainFragment extends Fragment implements
         k.open(); //open database
 
         //The following line is used to retrieve the groupID that was stored in a bundle and associated with the mainFragment.
+
         groupID=getArguments().getInt("id");
         fullName = getArguments().getString("fullName");
         Log.d(TAG, "Name received in bundle " + fullName);
@@ -58,7 +59,19 @@ public class MainFragment extends Fragment implements
 
         mainGrid = (GridView)view.findViewById(R.id.main_grid);
         //testDB=new TestDB(k);
-        mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID, fullName, activity));
+
+        if (fullName == null && activity == null) {
+            mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID));
+        } else if (fullName !=null && activity == null){
+            mainGrid.setAdapter(new MainAdapter(getActivity(), k, fullName));
+            fullName=null;
+        } else if (fullName == null && activity !=null){
+            mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID, activity));
+            activity = null;
+
+        }else {fullName = null;
+                activity = null;}
+
         Log.d(TAG, String.valueOf(groupID));
         mainGrid.setOnItemClickListener(this);
         return view;
@@ -111,7 +124,7 @@ class MainAdapter extends BaseAdapter
     * @Param String to hold full child name for filtering
     * @Param String to hold activity selected for filtering
     * */
-    MainAdapter(Context c, KinderDBCon k , int groupID, String fullName, String activity)
+    MainAdapter(Context c, KinderDBCon k , int groupID)
     {
         this.context = c;
         this.k = k;
@@ -122,7 +135,7 @@ class MainAdapter extends BaseAdapter
         this.activity = activity;
 
         //attempt to get Evidence cards by child name
-        if (fullName != null) {
+ /*       if (fullName != null) {
             this.firstName = fullName.substring(0, fullName.indexOf(","));
             this.lastName = fullName.substring(fullName.indexOf(",") + 1, fullName.length());
 
@@ -146,7 +159,7 @@ class MainAdapter extends BaseAdapter
             this.activity = null;
 
         } else {
-            Log.d(TAG, "Null full name");
+            Log.d(TAG, "Null full name");*/
 
             ArrayList<String> evidenceDateActivity;
             evidenceDateActivity = k.getEvidenceInfo(groupID);
@@ -156,8 +169,47 @@ class MainAdapter extends BaseAdapter
                 Card tempCard = new Card(img, evidenceDateActivity.get(i));
                 list.add(tempCard);
             }
+        //}
+    }
+
+    MainAdapter(Context c, KinderDBCon k ,String fullName){
+        this.context = c;
+        this.k = k;
+        list = new ArrayList<Card>();
+        int img = R.drawable.cooking1;
+        this.fullName = fullName;
+
+        this.firstName = fullName.substring(0, fullName.indexOf(","));
+        this.lastName = fullName.substring(fullName.indexOf(",") + 1, fullName.length());
+
+        ArrayList<String> evidenceByChild = k.getEvidenceByChild(firstName, lastName);
+        Log.d(TAG, "This is evid id for Child selected" + evidenceByChild.toString());
+
+        for (int i = 0; i < evidenceByChild.size(); i++) {
+            String s = k.getEvidenceByID(evidenceByChild.get(i));
+            Card tempCard = new Card(img, s);
+            list.add(tempCard);
         }
     }
+
+    MainAdapter(Context c, KinderDBCon k ,int groupID, String activity){
+        this.context = c;
+        this.k = k;
+        list = new ArrayList<Card>();
+        int img = R.drawable.cooking1;
+        this.groupID = groupID;
+        this.activity = activity;
+
+        ArrayList<String> evidenceByActivity = k.getEvidenceByActivity(groupID, activity);
+        for (int i = 0; i < evidenceByActivity.size(); i++) {
+            String s = k.getEvidenceByID(evidenceByActivity.get(i));
+            Card tempCard = new Card(img, s);
+            list.add(tempCard);
+
+        }
+    }
+
+
 
     @Override
     public int getCount() {

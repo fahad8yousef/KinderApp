@@ -662,15 +662,19 @@ public class KinderDBCon {
 
         String result = "";
         //String result = "";
-        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
-        int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
-        int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
-        int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
-        int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
+        try {
+            int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+            int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
+            int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
+            int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
+            int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
-        {
-            result =  c.getString(iEvidenceDate) + "," + c.getString(iActivityName) ;
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
+            {
+                result =  c.getString(iEvidenceDate) + "," + c.getString(iActivityName) ;
+            }
+        } finally {
+            c.close();
         }
         return  result;
     }

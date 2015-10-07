@@ -68,30 +68,30 @@ public class TestDB {
 
     public void addEvidenceData(){
 
-        k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 3, "cooking");
+        k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 3, "Cooking");
         k.InsertIntoEvidenceTable("18/02/2012", "this is comment", 3, "Swimming");
-        k.InsertIntoEvidenceTable("3/5/2012", "this is comment", 3, "cooking");
+        k.InsertIntoEvidenceTable("3/5/2012", "this is comment", 3, "Cooking");
         k.InsertIntoEvidenceTable("2/4/2012", "this is comment", 3, "Art");
         k.InsertIntoEvidenceTable("22/12/2012", "this is comment", 1, "Sport");
         k.InsertIntoEvidenceTable("18/3/2012", "this is comment", 3, "Drawing");
-        k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 2, "cooking");
+        k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 2, "Cooking");
         k.InsertIntoEvidenceTable("18/02/2012", "this is comment", 4, "Swimming");
-        k.InsertIntoEvidenceTable("3/5/2012", "this is comment", 3, "cooking");
+        k.InsertIntoEvidenceTable("3/5/2012", "this is comment", 3, "Cooking");
         k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art");
         k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport");
         k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 2, "Drawing");
-        k.InsertIntoEvidenceTable( "18/12/2012", "this is comment", 4, "cooking");
+        k.InsertIntoEvidenceTable( "18/12/2012", "this is comment", 4, "Cooking");
         k.InsertIntoEvidenceTable( "18/02/2012", "this is comment", 2, "Swimming");
-        k.InsertIntoEvidenceTable( "3/5/2012", "this is comment", 3, "cooking");
+        k.InsertIntoEvidenceTable( "3/5/2012", "this is comment", 3, "Cooking");
         k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art");
         k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport");
         k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 4, "Drawing");
         k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art");
         k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport");
         k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 2, "Drawing");
-        k.InsertIntoEvidenceTable( "18/12/2012", "this is comment", 4, "cooking");
+        k.InsertIntoEvidenceTable( "18/12/2012", "this is comment", 4, "Cooking");
         k.InsertIntoEvidenceTable( "18/02/2012", "this is comment", 2, "Swimming");
-        k.InsertIntoEvidenceTable( "3/5/2012", "this is comment", 3, "cooking");
+        k.InsertIntoEvidenceTable( "3/5/2012", "this is comment", 3, "Cooking");
         k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art");
         k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport");
         k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 4, "Drawing");

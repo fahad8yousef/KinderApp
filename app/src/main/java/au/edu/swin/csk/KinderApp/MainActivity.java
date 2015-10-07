@@ -36,6 +36,7 @@ public class MainActivity extends ActionBarActivity implements
         AdapterView.OnItemClickListener,
         AdapterView.OnItemSelectedListener,
         DialogInterface.OnClickListener,
+        View.OnClickListener,
         DrawerLayout.DrawerListener {
 
     private static final  String TAG="App/ MainActivity";
@@ -59,6 +60,7 @@ public class MainActivity extends ActionBarActivity implements
     private int groupID = 1;
     private FragmentTransaction transaction;
     ImageButton runCommand;
+    ImageButton cancelButton;
     Spinner spinner;
     LinearLayout linear;
     AlertDialog ad;
@@ -77,13 +79,15 @@ public class MainActivity extends ActionBarActivity implements
         linear = (LinearLayout) findViewById(R.id.drawer_linear);
         //add button to create new EvidCards
         runCommand = (ImageButton) findViewById(R.id.runCommand);
-        runCommand.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFormFragment();
-            }
-        });
+        runCommand.setOnClickListener(this);
         runCommand.bringToFront();
+
+        //add button to create new EvidCards
+        cancelButton = (ImageButton) findViewById(R.id.cancelButton);
+        cancelButton.setOnClickListener(this);
+        cancelButton.setVisibility(View.INVISIBLE);
+        cancelButton.bringToFront();
+
         //constructing drawer
         createDrawer();
         //managing fragments
@@ -269,9 +273,11 @@ public class MainActivity extends ActionBarActivity implements
                         String fullName = alertAdapterChild.getItem(which);
                         Log.d(TAG, "This child is selected : " + fullName);
                         Bundle bundle = new Bundle();
-                        bundle.putInt("id", groupID );
+                        bundle.putInt("id", groupID);
                         bundle.putString("fullName", fullName);
                         showMainFragment(bundle);
+                        cancelButton.setVisibility(View.VISIBLE);
+                        cancelButton.bringToFront();
                     }
                 });
                 ad = builder.create();
@@ -288,9 +294,11 @@ public class MainActivity extends ActionBarActivity implements
                         String activity = alertAdapterActivity.getItem(which);
                         Log.d(TAG, "This child is selected : " + activity);
                         Bundle bundle = new Bundle();
-                        bundle.putInt("id", groupID );
+                        bundle.putInt("id", groupID);
                         bundle.putString("activity", activity);
                         showMainFragment(bundle);
+                        cancelButton.setVisibility(View.VISIBLE);
+                        cancelButton.bringToFront();
                     }
                 });
                 ad = builder.create();
@@ -305,6 +313,7 @@ public class MainActivity extends ActionBarActivity implements
                     public void onClick(DialogInterface dialog, int which) {
                         //Log.d(TAG, "This child is selected : " + String.valueOf(which));
                         alertAdapterLoCode.getItem(which);
+                        cancelButton.setVisibility(View.VISIBLE);
                     }
                 });
                 ad = builder.create();
@@ -392,6 +401,19 @@ public class MainActivity extends ActionBarActivity implements
         else{
             super.onBackPressed();
             //moveTaskToBack(true);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    if (v.getId() == R.id.runCommand) {
+        showFormFragment();
+    } else if (v.getId() == R.id.cancelButton){
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", groupID);
+        showMainFragment(bundle);
+        cancelButton.setVisibility(View.INVISIBLE);
         }
     }
 }

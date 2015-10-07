@@ -8,6 +8,7 @@
     <!-- android:focusableInTouchMode="true"-->
 
     <include layout="@layout/add_button_layout" />
+    <include layout="@layout/cancel_button_layout"/>
 
     <android.support.v4.widget.DrawerLayout
     android:layout_width="match_parent"
@@ -20,7 +21,6 @@
             android:layout_height="match_parent" />
 
         <include layout="@layout/drawer_linear"/>
-
 
 </android.support.v4.widget.DrawerLayout>
 
