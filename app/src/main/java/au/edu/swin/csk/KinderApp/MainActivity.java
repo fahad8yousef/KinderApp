@@ -185,7 +185,7 @@ public class MainActivity extends ActionBarActivity implements
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //handles the action bar components
         if (id == R.id.action_settings) {
             return true;
         }else if (id == R.id.exit_app) {
@@ -202,12 +202,17 @@ public class MainActivity extends ActionBarActivity implements
         //handles drawer button when clicked
         }else if (id == android.R.id.home){
             if (drawerLayout.isDrawerOpen(linear)) {
-                drawerLayout.bringToFront();
+                //drawerLayout.bringToFront();
+                //linear.bringToFront();
                 drawerLayout.closeDrawer(linear);
-                linear.bringToFront();
+                //linear.bringToFront();
+                //cancelButton.setVisibility(View.VISIBLE);
+                cancelButton.bringToFront();
             }else {
                 drawerLayout.openDrawer(linear);
+                drawerLayout.bringToFront();
                 linear.bringToFront();
+                //cancelButton.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -230,14 +235,17 @@ public class MainActivity extends ActionBarActivity implements
     * */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        TextView groupName = (TextView) view;
-        drawerLayout.closeDrawer(linear);
-        groupID = position + 1;
-        Bundle bundle = new Bundle();
-        bundle.putInt("id", groupID);
-        //Instead of calling the mainAdapter directly, I'm calling the mainFragment from where we'll call the mainAdapter
-        showMainFragment(bundle);
-        actionBar.setTitle(groupName.getText()); //set title to group selected
+
+        if (view != null) {
+            TextView groupName = (TextView) view;
+            drawerLayout.closeDrawer(linear);
+            groupID = position + 1;
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", groupID);
+            //Instead of calling the mainAdapter directly, I'm calling the mainFragment from where we'll call the mainAdapter
+            showMainFragment(bundle);
+            actionBar.setTitle(groupName.getText()); //set title to group selected
+        } else {actionBar.setTitle("KinderApp");}
     }
 
     @Override
@@ -355,22 +363,46 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
-        linear.bringToFront();
+        //drawerLayout.bringToFront();
+        drawerView.bringToFront();
+        drawerLayout.bringChildToFront(drawerView);
+        drawerLayout.requestLayout();
+        //cancelButton.setVisibility(View.INVISIBLE);
+
+        /*super.onDrawerSlide(drawerView, slideOffset);
+        mDrawerLayout.bringChildToFront(drawerView);
+        mDrawerLayout.requestLayout();*/
+
     }
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        linear.bringToFront();
+        drawerView.bringToFront();
+        drawerLayout.bringChildToFront(drawerView);
+        drawerLayout.requestLayout();
+        //cancelButton.setVisibility(View.INVISIBLE);
+
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        linear.bringToFront();
+        //linear.bringToFront();
+        //cancelButton.setVisibility(View.VISIBLE);
+        cancelButton.bringToFront();
+
     }
 
     @Override
     public void onDrawerStateChanged(int newState) {
-
+     /*   if (newState == DrawerLayout.STATE_DRAGGING) {
+                // starts opening
+            drawerLayout.bringChildToFront(linear);
+            linear.bringToFront();
+            drawerLayout.requestLayout();
+        } else {
+                // closing drawer
+            cancelButton.bringToFront();
+        }*/
     }
 
     /*
@@ -400,7 +432,7 @@ public class MainActivity extends ActionBarActivity implements
         }
         else{
             super.onBackPressed();
-            //k.close();
+            k.close();
             //moveTaskToBack(true);
         }
     }

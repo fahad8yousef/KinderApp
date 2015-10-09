@@ -83,6 +83,9 @@ public class MainFragment extends Fragment implements
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Toast.makeText(getActivity(),
                     "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
+            //sending evidence code to form fragment
+            //Card card;
+            //card.getID();
             (( MainActivity)getActivity()).showFormFragment();
     }
 
@@ -137,6 +140,7 @@ class MainAdapter extends BaseAdapter
         {
             Card tempCard = new Card(img, evidenceDateActivity.get(i));
             list.add(tempCard);
+            //Log.d(TAG, "evidance Code =" + tempCard.getID());
         }
     }
 
@@ -270,10 +274,12 @@ class Card {
     Card(int imageId, String info)
     {
         if (info.length() !=0 ) {
-            this.date = info.substring(0, info.indexOf(","));
+            this.evidID = info.substring(0, info.indexOf(";"));
+            this.date = info.substring(info.indexOf(";") + 1 , info.indexOf(","));
             this.activityName = info.substring(info.indexOf(",") + 1, info.length());
         }
         this.imageId = imageId;
+
         //this.date = date;
         //this.activityName = activityName;
     }

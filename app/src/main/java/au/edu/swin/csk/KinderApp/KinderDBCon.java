@@ -543,7 +543,7 @@ public class KinderDBCon {
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
         {
-            result.add( c.getString(iEvidenceDate) + "," + c.getString(iActivityName) );
+            result.add( c.getString(iEvidenceCode) + ";" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) );
         }
         return  result;
     }
