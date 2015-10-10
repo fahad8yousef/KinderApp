@@ -41,13 +41,14 @@
     <string name="select_lo">Select L.O.</string>
     <string name="ok">Okay</string>
     <string name="cancel">Cancel</string>
-    <string name="activity_not_selected">"You haven't selected any activity"</string>
+    <string name="activity_not_selected">"You didn't select any activity"</string>
     <string name="activities_dialog_title">"Select from the following activities: "</string>
-    <string name="children_not_selected">"You haven't selected any child"</string>
+    <string name="children_not_selected">"You didn't select any child"</string>
     <string name="children_dialog_title">Select from the following children: </string>
-    <string name="lo_not_selected">"You haven't selected any learning outcome"</string>
+    <string name="lo_not_selected">"You didn't select any learning outcome"</string>
     <string name="lo_dialog_title">"Select from the following Learning Outcomes:" </string>
-
+    <string name="delete_data_message">This will delete the image and any data associated with it. Do you wish to continue?</string>
+    <string name="incomplete_form_alert">Warning: Form Data is incomplete. Do you still wish to continue?</string>
     <string-array name="childArray">
         <item>Jim</item>
         <item>Jack</item>

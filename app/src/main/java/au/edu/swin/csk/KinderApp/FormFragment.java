@@ -46,6 +46,10 @@ import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
+ * This fragment is used to create and deal with the data associated with pictures.
+ * We are implementing two interfaces here: DialogInterface.OnClickListener, and DFragment.DialogClickListener.
+ * First interface deals with DialogInterface and the second one with DFragment
+ * @Author Somesh Bahuguna
  */
 public class FormFragment extends Fragment implements DialogInterface.OnClickListener, DFragment.DialogClickListener {
 
@@ -68,6 +72,8 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
     final int THUMBSIZE = 256;
     Bitmap thumbImage;
+
+    private int groupID;
     private EditText activity_Edit;
     private EditText children_Edit;
     private EditText lo_Edit;
@@ -77,7 +83,6 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     private Button changeDate;
 
     private KinderDBCon k;
-    private TestDB testDB;
 
     public FormFragment() {
         // Required empty public constructor
@@ -97,6 +102,8 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        groupID=getArguments().getInt("groupID");
         // Inflate the layout for this fragment
 
         return inflater.inflate(R.layout.picture_layout, container, false);
@@ -205,7 +212,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     public void deleteFormData()
     {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setTitle("This will delete the image and any data associated with it. Do you wish to continue?");
+        alert.setTitle(R.string.delete_data_message);
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
@@ -430,8 +437,8 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
         Toast.makeText(getActivity(), "Not implemented yet", Toast.LENGTH_SHORT).show();
         k = new KinderDBCon(getActivity());
-        k.open(); //open database
-        testDB=new TestDB(k);
+        k.open();
+        k.InsertIntoEvidenceTable(dateView.getText().toString(), comment_Edit.getText().toString(), groupID, "testing");
 
 
 
@@ -479,11 +486,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
                 Log.d(TAG,selectedValuesString);
         switch (dialogIdentifier)
         {
-            case 1:
-            {
-                activity_Edit.setText(selectedValuesString);
-                break;
-            }
+
             case 2:
             {
                 children_Edit.setText(selectedValuesString);
@@ -501,6 +504,12 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     public void onNoClick(int toastMessage) {
 
         Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onYesClickActivity(String selectedActivity, int dialogIdentifier) {
+        activity_Edit.setText(selectedActivity);
 
     }
 }

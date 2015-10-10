@@ -24,6 +24,7 @@ public class DFragment extends DialogFragment {
     ArrayList mSelectedChildren;
     ArrayList mSelectedLO;
     AlertDialog.Builder builder;
+    String selectedActivity;
 
     /*protected boolean checkedActivityNames[] = new boolean[activityNames.length];
     protected boolean checkedChildrenNames[] = new boolean[childrenNames.length];
@@ -31,8 +32,10 @@ public class DFragment extends DialogFragment {
 
     //The following interface is used to pass the data back to the pictureFragment
     public interface DialogClickListener {
-        public void onYesClick(ArrayList selectedValues, int dialogIdentifier);
-        public void onNoClick(int toastMessage);
+         void onYesClick(ArrayList selectedValues, int dialogIdentifier);
+         void onNoClick(int toastMessage);
+         void onYesClickActivity(String selectedActivity, int dialogIdentifier);
+
     }
 
     public static DFragment newInstance(int title, int dialogIdentifier) {
@@ -61,43 +64,35 @@ public class DFragment extends DialogFragment {
                 mSelectedActivities = new ArrayList();
                 builder = new AlertDialog.Builder(getActivity());
 
+              //  callback.onYesClick(mSelectedActivities, 1);
 
                 builder.setTitle(title)
-                        .setMultiChoiceItems(activityNames, null, new DialogInterface.OnMultiChoiceClickListener() {
+                        .setSingleChoiceItems(activityNames, -1, new DialogInterface.OnClickListener() {
                             @Override
 
-                            public void onClick(DialogInterface dialog, int which,
-                                                boolean isChecked) {
-                                if (isChecked) {
-                                    // If the user checked the item, add it to the selected items
-                                    mSelectedActivities.add(activityNames[which]);
-                                }
 
-                                else if(mSelectedActivities.contains(activityNames[which]))
-                                    {
-                                        mSelectedActivities.remove(activityNames[which]);
-
-                                }
-
-                            }})
-                                // Set the action buttons
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                // User clicked OK, so save the mSelectedItems results somewhere
-                                // or return them to the component that opened the dialog
-                                callback.onYesClick(mSelectedActivities, 1);
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                callback.onNoClick(R.string.activity_not_selected);
-
+                            public void onClick(DialogInterface dialog, int which) {
+                                // If the user checked the item, add it to the selected items
+                                selectedActivity=null;
+                                selectedActivity=activityNames[which];
 
                             }
-                        });
+
+                        }).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callback.onYesClickActivity(selectedActivity, 1);
+
+                    }
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callback.onNoClick(R.string.activity_not_selected);
+
+                    }
+                });
                 break;
+
             }
 
             case 2:
@@ -194,6 +189,7 @@ public class DFragment extends DialogFragment {
         return builder.create();
 
     }
+
 
 
 }
