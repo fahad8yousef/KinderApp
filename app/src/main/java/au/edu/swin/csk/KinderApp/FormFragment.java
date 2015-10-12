@@ -441,8 +441,6 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         k.InsertIntoEvidenceTable(dateView.getText().toString(), comment_Edit.getText().toString(), groupID, "testing");
 
 
-
-
     }
     //The following function is used to save the image visible on screen to a bundle, from where it will be retreived later on.
     @Override

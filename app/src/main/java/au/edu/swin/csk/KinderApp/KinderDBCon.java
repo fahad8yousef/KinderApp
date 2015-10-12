@@ -287,6 +287,9 @@ public class KinderDBCon {
         //Log.d(TAG, "evid code dded = " + evidID);
         //return evidID;
 
+//        Long l = _db.insert(DATABASE_TABLE_EVIDENCE,null,cv);
+//        String s = String.valueOf(l);
+//        Log.d(TAG, "evid code added Long = "+ s);
         return _db.insert(DATABASE_TABLE_EVIDENCE,null,cv);
     }
 

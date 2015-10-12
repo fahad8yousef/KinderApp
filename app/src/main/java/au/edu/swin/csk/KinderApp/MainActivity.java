@@ -324,7 +324,7 @@ public class MainActivity extends ActionBarActivity implements
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String activity = alertAdapterActivity.getItem(which);
-                        Log.d(TAG, "This child is selected : " + activity);
+                        Log.d(TAG, "This Activity is selected : " + activity);
                         Bundle bundle = new Bundle();
                         bundle.putInt("id", groupID);
                         bundle.putString("activity", activity);
@@ -343,7 +343,7 @@ public class MainActivity extends ActionBarActivity implements
                 builder.setAdapter(alertAdapterLoCode, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //Log.d(TAG, "This child is selected : " + String.valueOf(which));
+                        //Log.d(TAG, "This LoCode is selected : " + String.valueOf(which));
                         alertAdapterLoCode.getItem(which);
                         cancelButton.setVisibility(View.VISIBLE);
                     }

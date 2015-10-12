@@ -81,12 +81,17 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(getActivity(),
-                    "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
-            //sending evidence code to form fragment
-            //Card card;
-            //card.getID();
-            (( MainActivity)getActivity()).showFormFragment();
+        /*Toast.makeText(getActivity(),
+                "Card Clicked: " + position + " item", Toast.LENGTH_SHORT).show();*/
+        //sending evidence code to form fragment
+        //Card card;
+        //card.getID();
+        //MainAdapter m = new MainAdapter();
+
+        //String evidID = m.getEvidenceIDSelected(position);
+        Toast.makeText(getActivity(),
+                "Card Clicked: " + position + " Card EvidId = " + MainAdapter.getEvidenceIDSelected(position) , Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).showFormFragment();
     }
 
     @Override
@@ -99,6 +104,7 @@ public class MainFragment extends Fragment implements
     }
 }
 
+
 /*
 *
 * @Author Fahad Alhamed 747234x
@@ -110,7 +116,7 @@ public class MainFragment extends Fragment implements
 class MainAdapter extends BaseAdapter
 {
     private static final String TAG = "Fahad/ MainAdapter" ;
-    ArrayList<Card> list;
+    public static ArrayList<Card> list;
     Context context;
     KinderDBCon k;
     int groupID;
@@ -184,7 +190,11 @@ class MainAdapter extends BaseAdapter
         }
     }
 
-
+    public static String getEvidenceIDSelected(int position){
+        String result;
+        result = list.get(position).getID();
+        return result;
+    }
 
     @Override
     public int getCount() {
