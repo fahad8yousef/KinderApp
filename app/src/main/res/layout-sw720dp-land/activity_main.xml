@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:id="@+id/parent"
-    android:background="#ffffff">
+    android:background="#e4e4e4">
     <!-- android:focusableInTouchMode="true"-->
 
     <include layout="@layout/add_button_layout" />
@@ -23,9 +23,6 @@
         <include layout="@layout/drawer_linear"/>
 
 </android.support.v4.widget.DrawerLayout>
-
-
-
 
 </RelativeLayout>
 

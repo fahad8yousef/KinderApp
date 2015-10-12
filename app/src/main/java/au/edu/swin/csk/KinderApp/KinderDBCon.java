@@ -271,7 +271,7 @@ public class KinderDBCon {
     }
 
 
-    public long InsertIntoEvidenceTable(String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName)
+    public Long InsertIntoEvidenceTable(String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName)
     {
         ContentValues cv = new ContentValues();
         //cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
@@ -279,6 +279,13 @@ public class KinderDBCon {
         cv.put(KEY_NAME_EvidenceCOMMENT, _EvidenceComment);
         cv.put(KEY_NAME_GROUPID,_groupID);
         cv.put(KEY_NAME_ACTIVITYNAME, _activityName);
+
+//        String[] columns =  new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
+//        Cursor c = _db.query(DATABASE_TABLE_EVIDENCE, columns, null, null, null, null, null);
+//        String evidID = c.getString(c.getColumnIndex(KEY_NAME_EvidenceCODE));
+//        //Log.d(TAG, "clicked" + c.getString(c.getColumnIndex(KEY_NAME_EvidenceCODE)));
+        //Log.d(TAG, "evid code dded = " + evidID);
+        //return evidID;
 
         return _db.insert(DATABASE_TABLE_EVIDENCE,null,cv);
     }
@@ -543,7 +550,7 @@ public class KinderDBCon {
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
         {
-            result.add( c.getString(iEvidenceCode) + ";" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) );
+            result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) );
         }
         return  result;
     }
@@ -653,14 +660,14 @@ public class KinderDBCon {
         return  result;
     }
 
-    public String getEvidenceByID(String evidenceCode) {
+    public ArrayList<String> getEvidenceByID(String evidenceCode) {
 
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
         // Creating a cursor to iterate through db
         Cursor c = _db.query(DATABASE_TABLE_EVIDENCE,columns,KEY_NAME_EvidenceCODE + "=" + evidenceCode,null,null,null,null);
 
-        String result = "";
+        ArrayList<String> result = new ArrayList<String>();
         //String result = "";
         try {
             int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
@@ -671,7 +678,7 @@ public class KinderDBCon {
 
             for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
             {
-                result =  c.getString(iEvidenceDate) + "," + c.getString(iActivityName) ;
+                result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) );
             }
         } finally {
             c.close();

@@ -158,9 +158,11 @@ class MainAdapter extends BaseAdapter
         Log.d(TAG, "This is evid id for Child selected" + evidenceByChild.toString());
 
         for (int i = 0; i < evidenceByChild.size(); i++) {
-            String s = k.getEvidenceByID(evidenceByChild.get(i));
-            Card tempCard = new Card(img, s);
+            ArrayList<String> s = k.getEvidenceByID(evidenceByChild.get(i));
+            for (int j=0 ;j < s.size(); j++ ) {
+            Card tempCard = new Card(img, s.get(j));
             list.add(tempCard);
+            }
         }
     }
 
@@ -174,10 +176,11 @@ class MainAdapter extends BaseAdapter
 
         ArrayList<String> evidenceByActivity = k.getEvidenceByActivity(groupID, activity);
         for (int i = 0; i < evidenceByActivity.size(); i++) {
-            String s = k.getEvidenceByID(evidenceByActivity.get(i));
-            Card tempCard = new Card(img, s);
-            list.add(tempCard);
-
+            ArrayList<String> s = k.getEvidenceByID(evidenceByActivity.get(i));
+            for (int j=0 ;j < s.size(); j++ ) {
+                Card tempCard = new Card(img, s.get(j));
+                list.add(tempCard);
+            }
         }
     }
 
@@ -265,6 +268,8 @@ class Card {
     String activityName;
     int imageId;
     String evidID;
+    private static final String TAG= "Fahad/ Card";
+
 
     /*
     * Constructor
@@ -274,14 +279,14 @@ class Card {
     Card(int imageId, String info)
     {
         if (info.length() !=0 ) {
-            this.evidID = info.substring(0, info.indexOf(";"));
-            this.date = info.substring(info.indexOf(";") + 1 , info.indexOf(","));
+            this.evidID = info.substring(0, info.indexOf("|"));
+            this.date = info.substring(info.indexOf("|") + 1, info.indexOf(","));
             this.activityName = info.substring(info.indexOf(",") + 1, info.length());
         }
+
         this.imageId = imageId;
 
-        //this.date = date;
-        //this.activityName = activityName;
+        Log.d(TAG, evidID + date + activityName);
     }
 
     /*

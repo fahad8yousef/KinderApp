@@ -188,7 +188,14 @@ public class MainActivity extends ActionBarActivity implements
         //handles the action bar components
         if (id == R.id.action_settings) {
             return true;
-        }else if (id == R.id.exit_app) {
+        }
+        else if(id==R.id.back_button)
+        {
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", groupID);
+            showMainFragment(bundle);
+        }
+        else if (id == R.id.exit_app) {
             finish();
             return true;
         }else if (id == R.id.action_import){
@@ -203,6 +210,24 @@ public class MainActivity extends ActionBarActivity implements
         }else if (id == android.R.id.home){
             if (drawerLayout.isDrawerOpen(linear)) {
                 //drawerLayout.bringToFront();
+                runCommand.setVisibility(View.INVISIBLE);
+                runCommand.setClickable(false);
+                drawerLayout.closeDrawer(linear);
+                //linear.bringToFront();
+                runCommand.bringToFront();
+                runCommand.setVisibility(View.VISIBLE);
+                runCommand.setClickable(true);
+                //add bring to front for main screen layout and button
+                //testing ------------
+                //mainGrid.bringToFront();
+                //---------------
+
+            }else {
+                drawerLayout.openDrawer(linear);
+                linear.bringToFront();            }
+            }
+            /*if (drawerLayout.isDrawerOpen(linear)) {
+                //drawerLayout.bringToFront();
                 //linear.bringToFront();
                 drawerLayout.closeDrawer(linear);
                 //linear.bringToFront();
@@ -214,8 +239,7 @@ public class MainActivity extends ActionBarActivity implements
                 linear.bringToFront();
                 //cancelButton.setVisibility(View.INVISIBLE);
             }
-        }
-
+        }*/
         return super.onOptionsItemSelected(item);
     }
     /*
@@ -380,6 +404,8 @@ public class MainActivity extends ActionBarActivity implements
         drawerView.bringToFront();
         drawerLayout.bringChildToFront(drawerView);
         drawerLayout.requestLayout();
+//        runCommand.setVisibility(View.INVISIBLE);
+//        runCommand.setClickable(false);
         //cancelButton.setVisibility(View.INVISIBLE);
 
     }
@@ -389,6 +415,8 @@ public class MainActivity extends ActionBarActivity implements
         //linear.bringToFront();
         //cancelButton.setVisibility(View.VISIBLE);
         cancelButton.bringToFront();
+        runCommand.setVisibility(View.VISIBLE);
+        runCommand.setClickable(true);
 
     }
 

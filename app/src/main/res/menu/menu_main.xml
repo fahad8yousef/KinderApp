@@ -13,6 +13,8 @@
         android:title="@string/action_export_text"
 
         />
+    <item android:id="@+id/back_button"
+        android:title="Back"/>
 
     <item android:id="@+id/exit_app"
         android:title="@string/options_exit_text"
