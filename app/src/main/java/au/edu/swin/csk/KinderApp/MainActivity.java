@@ -374,7 +374,10 @@ public class MainActivity extends ActionBarActivity implements
     */
     public void showFormFragment()
     {
+        Bundle bundle = new Bundle();
+        bundle.putInt("groupID", groupID);
         FormFragment formFragment = new FormFragment();
+        formFragment.setArguments(bundle);
         transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_holder, formFragment);
         runCommand.setVisibility(View.INVISIBLE);
@@ -451,6 +454,7 @@ public class MainActivity extends ActionBarActivity implements
             finish();}
         // Current fragment is not the main fragment, show the main fragment
        else if (currentFrag instanceof FormFragment) {
+
             runCommand.setVisibility(View.VISIBLE);
             runCommand.setClickable(true);
 
