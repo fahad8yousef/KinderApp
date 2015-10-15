@@ -439,7 +439,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         k = new KinderDBCon(getActivity());
         k.open();
         //get children Ids and names based on group id, use the same to populate your alerts
-        ArrayList<String> childrenList= k.getAllChildData(groupID);
+        ArrayList<String> childrenList= k.getAllChildNames(groupID);
         Toast.makeText(getActivity(), "Children info : " + childrenList, Toast.LENGTH_SHORT).show();
 
         //Long a = k.InsertIntoEvidenceTable(dateView.getText().toString(), comment_Edit.getText().toString(), groupID, "testing", "photoFileName");

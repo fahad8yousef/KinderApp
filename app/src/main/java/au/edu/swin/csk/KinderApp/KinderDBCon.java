@@ -17,6 +17,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class KinderDBCon {
@@ -182,6 +183,11 @@ public class KinderDBCon {
                             KEY_REFERENCES + DATABASE_TABLE_LOCODE + KEY_OPEN_PARENTHESIS + KEY_NAME_LOUTCOMECODE + KEY_CLOSE_PARENTHESIS +
                             KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
             );
+          /*  try {
+                CSVReader cs = new CSVReader("File_Path",this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
 
         }
 
@@ -423,26 +429,6 @@ public class KinderDBCon {
         return  result;
     }
 
-    // getting data from Photo table
-/*    public String getPhotoData()
-    {
-        // Creating a string array to store result from database before passing
-        String [] columns = new String[] {KEY_NAME_PHOTOFILENAME,KEY_NAME_EvidenceCODE};
-        // Creating a cursor to iterate through db
-        Cursor c = _db.query(DATABASE_TABLE_PHOTO, columns, null, null, null, null, null);
-
-        String result = "";
-        int iPhotoFIleName = c.getColumnIndex(KEY_NAME_PHOTOFILENAME);
-        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
-
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
-        {
-            result = result + c.getString(iPhotoFIleName)  + " " + c.getInt(iEvidenceCode) + "\n";
-        }
-
-        return  result;
-    }*/
-
     // getting data from LOCode table
     public String getLOCodeData()
     {
@@ -527,7 +513,7 @@ public class KinderDBCon {
         return  result;
     }
 
-    //testing to returne only first and surname
+    //to return only first and surname
     public ArrayList<String> getChildNames(int groupID)
     {
         // Creating a string array to store result from database before passing
@@ -551,7 +537,7 @@ public class KinderDBCon {
         return  result;
     }
 
-    public ArrayList<String> getAllChildData(int groupID)
+    public ArrayList<String> getAllChildNames(int groupID)
     {
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
