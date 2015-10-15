@@ -435,11 +435,22 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     public void saveFormDataToDatabase()
     {
 
-        Toast.makeText(getActivity(), "Not implemented yet", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Not implemented yet", Toast.LENGTH_SHORT).show();
         k = new KinderDBCon(getActivity());
         k.open();
-        k.InsertIntoEvidenceTable(dateView.getText().toString(), comment_Edit.getText().toString(), groupID, "testing", "send image file name here");
+        //get children Ids and names based on group id, use the same to populate your alerts
+        ArrayList<String> childrenList= k.getAllChildData(groupID);
+        Toast.makeText(getActivity(), "Children info : " + childrenList, Toast.LENGTH_SHORT).show();
 
+        //Long a = k.InsertIntoEvidenceTable(dateView.getText().toString(), comment_Edit.getText().toString(), groupID, "testing", "photoFileName");
+        //Gets the rowid inserted as Long type, used static values for testing
+        Long a = k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 4, "Cooking", "img003");
+        Toast.makeText(getActivity(), "Row inserted has ID = " + a.toString(), Toast.LENGTH_SHORT).show();
+        //convert Long to int
+        int evidenceID = a.intValue();
+        //then add insert to join table and assign individual children to the newly created evidence id
+        //should have for loop to insert more than child but evidance code is the same
+        //k.InsertIntoEvidenceChildTable(2, evidenceID);
 
     }
     //The following function is used to save the image visible on screen to a bundle, from where it will be retreived later on.

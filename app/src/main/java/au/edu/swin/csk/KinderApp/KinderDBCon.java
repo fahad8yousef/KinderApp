@@ -141,12 +141,6 @@ public class KinderDBCon {
                             KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
             );
 
-/*            CREATE TABLE Name_Category ( name_id INTEGER NOT NULL,
-                    category_id INTEGER NOT NULL,
-                    PRIMARY KEY (name_id, category_id),
-                    foreign key (name_id) references Names(_id),
-                    foreign key (category_id) references Categories(_id));*/
-
             db.execSQL(
                     // Creating  EvidenceChild Table
                     KEY_CREATE_TABLE + DATABASE_TABLE_EVIDENCECHILD + KEY_OPEN_PARENTHESIS +
@@ -159,16 +153,7 @@ public class KinderDBCon {
                             KEY_REFERENCES + DATABASE_TABLE_EVIDENCE + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS +
                             KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
             );
-/*            db.execSQL(
-                    // Creating  Photo Table
-                    KEY_CREATE_TABLE + DATABASE_TABLE_PHOTO + KEY_OPEN_PARENTHESIS +
-                            KEY_NAME_CHILDID + KEY_INTEGER + KEY_COMMA +
-                            KEY_NAME_EvidenceCODE + KEY_INTEGER + KEY_COMMA +
-                            KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_PHOTOFILENAME + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
-                            KEY_CONSTRAINT + "PHOTO_FK_EvidenceCODE" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_PHOTOFILENAME + KEY_CLOSE_PARENTHESIS +
-                            KEY_REFERENCES + DATABASE_TABLE_EVIDENCE + KEY_OPEN_PARENTHESIS + KEY_NAME_PHOTOFILENAME + KEY_CLOSE_PARENTHESIS +
-                            KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
-            );*/
+
             db.execSQL(
                     // Creating  LOCode Table
                     KEY_CREATE_TABLE + DATABASE_TABLE_LOCODE + KEY_OPEN_PARENTHESIS +
@@ -281,18 +266,9 @@ public class KinderDBCon {
         cv.put(KEY_NAME_GROUPID,_groupID);
         cv.put(KEY_NAME_ACTIVITYNAME, _activityName);
         cv.put(KEY_NAME_PHOTOFILENAME, _photoFileName);
-
-//        String[] columns =  new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
-//        Cursor c = _db.query(DATABASE_TABLE_EVIDENCE, columns, null, null, null, null, null);
-//        String evidID = c.getString(c.getColumnIndex(KEY_NAME_EvidenceCODE));
-//        //Log.d(TAG, "clicked" + c.getString(c.getColumnIndex(KEY_NAME_EvidenceCODE)));
-        //Log.d(TAG, "evid code dded = " + evidID);
-        //return evidID;
-
-//        Long l = _db.insert(DATABASE_TABLE_EVIDENCE,null,cv);
-//        String s = String.valueOf(l);
+        Long a;
 //        Log.d(TAG, "evid code added Long = "+ s);
-        return _db.insert(DATABASE_TABLE_EVIDENCE,null,cv);
+        return a = _db.insert(DATABASE_TABLE_EVIDENCE,null,cv);
     }
 
     public long InsertIntoEvidenceChildTable(int _childID,int _EvidenceCode)
@@ -303,15 +279,6 @@ public class KinderDBCon {
 
         return _db.insert(DATABASE_TABLE_EVIDENCECHILD,null,cv);
     }
-
-/*    public long InsertIntoPhotoTable(String _photoFilename,int _EvidenceCode)
-    {
-        ContentValues cv = new ContentValues();
-        cv.put(KEY_NAME_PHOTOFILENAME,_photoFilename);
-        cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
-
-        return _db.insert(DATABASE_TABLE_PHOTO,null,cv);
-    }*/
 
     public long InsertIntoLOCodeTable(double _locCode,String _locDescription)
     {
@@ -579,6 +546,29 @@ public class KinderDBCon {
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
             result.add(c.getString(iChildFirstName) + "," + c.getString(iChildSurName));
+        }
+
+        return  result;
+    }
+
+    public ArrayList<String> getAllChildData(int groupID)
+    {
+        // Creating a string array to store result from database before passing
+        String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
+        // Creating a cursor to iterate through db
+        Cursor c = _db.query(DATABASE_TABLE_CHILD,columns,KEY_NAME_GROUPID + "=" + groupID ,null,null,null,null);
+
+        ArrayList<String> result = new ArrayList<String>();
+
+        int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
+        int iChildFirstName = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
+        int iChildSurName = c.getColumnIndex(KEY_NAME_CHILDSURNAME);
+        int iChildGender = c.getColumnIndex(KEY_NAME_CHILDGENDER);
+        int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
+
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+
+            result.add(c.getString(iChildRowID) + " - " + c.getString(iChildFirstName) + "," + c.getString(iChildSurName));
         }
 
         return  result;
