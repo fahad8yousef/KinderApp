@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
 
         <item name="android:textColorPrimary">@color/primary_text_material_light</item>
+
     </style>
 
 
@@ -30,7 +31,7 @@
     </style>
     <style name="ten_inches_portrait" parent="@android:style/Theme">
         <item name="android:textSize">35sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
-
 
 </resources>

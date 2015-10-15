@@ -438,7 +438,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         Toast.makeText(getActivity(), "Not implemented yet", Toast.LENGTH_SHORT).show();
         k = new KinderDBCon(getActivity());
         k.open();
-        k.InsertIntoEvidenceTable(dateView.getText().toString(), comment_Edit.getText().toString(), groupID, "testing");
+        k.InsertIntoEvidenceTable(dateView.getText().toString(), comment_Edit.getText().toString(), groupID, "testing", "send image file name here");
 
 
     }

@@ -84,11 +84,6 @@ public class MainFragment extends Fragment implements
         /*Toast.makeText(getActivity(),
                 "Card Clicked: " + position + " item", Toast.LENGTH_SHORT).show();*/
         //sending evidence code to form fragment
-        //Card card;
-        //card.getID();
-        //MainAdapter m = new MainAdapter();
-
-        //String evidID = m.getEvidenceIDSelected(position);
         Toast.makeText(getActivity(),
                 "Card Clicked: " + position + " Card EvidId = " + MainAdapter.getEvidenceIDSelected(position) , Toast.LENGTH_SHORT).show();
                 ((MainActivity) getActivity()).showFormFragment();

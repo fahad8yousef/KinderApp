@@ -209,13 +209,14 @@ public class MainActivity extends ActionBarActivity implements
         //handles drawer button when clicked
         }else if (id == android.R.id.home){
             if (drawerLayout.isDrawerOpen(linear)) {
-                //drawerLayout.bringToFront();
-                runCommand.setVisibility(View.INVISIBLE);
+                //linear.bringToFront();
+                drawerLayout.bringChildToFront(linear);
+//                runCommand.setVisibility(View.INVISIBLE);
                 runCommand.setClickable(false);
                 drawerLayout.closeDrawer(linear);
                 //linear.bringToFront();
                 runCommand.bringToFront();
-                runCommand.setVisibility(View.VISIBLE);
+                //runCommand.setVisibility(View.VISIBLE);
                 runCommand.setClickable(true);
                 //add bring to front for main screen layout and button
                 //testing ------------
@@ -390,10 +391,10 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
-        //drawerLayout.bringToFront();
-        drawerView.bringToFront();
-        drawerLayout.bringChildToFront(drawerView);
-        drawerLayout.requestLayout();
+        linear.bringToFront();
+//        drawerView.bringToFront();
+//        drawerLayout.bringChildToFront(drawerView);
+//        drawerLayout.requestLayout();
         //cancelButton.setVisibility(View.INVISIBLE);
 
         /*super.onDrawerSlide(drawerView, slideOffset);
@@ -404,9 +405,10 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        drawerView.bringToFront();
-        drawerLayout.bringChildToFront(drawerView);
-        drawerLayout.requestLayout();
+        linear.bringToFront();
+//        drawerView.bringToFront();
+//        drawerLayout.bringChildToFront(drawerView);
+//        drawerLayout.requestLayout();
 //        runCommand.setVisibility(View.INVISIBLE);
 //        runCommand.setClickable(false);
         //cancelButton.setVisibility(View.INVISIBLE);
@@ -415,11 +417,11 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        //linear.bringToFront();
+        linear.bringToFront();
         //cancelButton.setVisibility(View.VISIBLE);
-        cancelButton.bringToFront();
-        runCommand.setVisibility(View.VISIBLE);
-        runCommand.setClickable(true);
+//        cancelButton.bringToFront();
+//        runCommand.setVisibility(View.VISIBLE);
+//        runCommand.setClickable(true);
 
     }
 

@@ -132,6 +132,7 @@ public class KinderDBCon {
                             KEY_NAME_EvidenceCOMMENT + KEY_TEXT + KEY_COMMA +
                             KEY_NAME_GROUPID + KEY_INTEGER + KEY_COMMA +
                             KEY_NAME_ACTIVITYNAME + KEY_TEXT + KEY_COMMA +
+                            KEY_NAME_PHOTOFILENAME + KEY_TEXT + KEY_COMMA +
                             KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
                             KEY_CONSTRAINT + "Evidence_FK_GROPID" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_GROUPID + KEY_CLOSE_PARENTHESIS +
                             KEY_REFERENCES + DATABASE_TABLE_GROUP + KEY_OPEN_PARENTHESIS + KEY_NAME_GROUPID + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
@@ -271,7 +272,7 @@ public class KinderDBCon {
     }
 
 
-    public Long InsertIntoEvidenceTable(String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName)
+    public Long InsertIntoEvidenceTable(String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName, String _photoFileName)
     {
         ContentValues cv = new ContentValues();
         //cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
@@ -279,6 +280,7 @@ public class KinderDBCon {
         cv.put(KEY_NAME_EvidenceCOMMENT, _EvidenceComment);
         cv.put(KEY_NAME_GROUPID,_groupID);
         cv.put(KEY_NAME_ACTIVITYNAME, _activityName);
+        cv.put(KEY_NAME_PHOTOFILENAME, _photoFileName);
 
 //        String[] columns =  new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
 //        Cursor c = _db.query(DATABASE_TABLE_EVIDENCE, columns, null, null, null, null, null);
