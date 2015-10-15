@@ -449,7 +449,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         //convert Long to int
         int evidenceID = a.intValue();
         //then add insert to join table and assign individual children to the newly created evidence id
-        //should have for loop to insert more than child but evidance code is the same
+        //should have for loop to insert more than child but evidence code is the same
         //k.InsertIntoEvidenceChildTable(2, evidenceID);
 
     }

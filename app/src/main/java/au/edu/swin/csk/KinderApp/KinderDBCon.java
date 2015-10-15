@@ -568,7 +568,7 @@ public class KinderDBCon {
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            result.add(c.getString(iChildRowID) + " - " + c.getString(iChildFirstName) + "," + c.getString(iChildSurName));
+            result.add(c.getString(iChildRowID) + " : " + c.getString(iChildFirstName) + "," + c.getString(iChildSurName));
         }
 
         return  result;
