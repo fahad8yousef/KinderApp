@@ -1,6 +1,7 @@
 package au.edu.swin.csk.KinderApp;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -35,7 +36,7 @@ public class MainFragment extends Fragment implements
     int groupID;
     String fullName;
     String activity;
-    String loCode;
+    Double loCode;
     public MainFragment() {
         // Required empty public constructor
     }
@@ -55,22 +56,29 @@ public class MainFragment extends Fragment implements
         fullName = getArguments().getString("fullName");
         Log.d(TAG, "Name received in bundle " + fullName);
         activity = getArguments().getString("activity");
-        //loCode = getArguments().getString("loCode");
+        loCode = getArguments().getDouble("loCode");
+        Log.d(TAG,"hereee-- " +loCode);
 
         mainGrid = (GridView)view.findViewById(R.id.main_grid);
         //testDB=new TestDB(k);
 
-        if (fullName == null && activity == null) {
+        if (fullName == null && activity == null && loCode == 0.0) {
             mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID));
-        } else if (fullName !=null && activity == null){
+        } else if (fullName !=null && activity == null && loCode == 0.0){
             mainGrid.setAdapter(new MainAdapter(getActivity(), k, fullName));
             fullName=null;
-        } else if (fullName == null && activity !=null){
+        } else if (fullName == null && activity !=null && loCode == 0.0){
             mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID, activity));
             activity = null;
 
-        }else {fullName = null;
-                activity = null;}
+        } else if (fullName == null && activity == null && loCode != 0.0){
+            mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID, loCode));
+            loCode = null;
+
+        }else {
+                fullName = null;
+                activity = null;
+                loCode = null;}
 
         Log.d(TAG, String.valueOf(groupID));
         mainGrid.setOnItemClickListener(this);
@@ -119,6 +127,7 @@ class MainAdapter extends BaseAdapter
     String lastName;
     String fullName;
     String activity;
+    Double loCode;
 
     /*
     * This is the constructor for mainAdapter it receives the following and query the db to filter evidence cards displayed in main screen
@@ -178,6 +187,24 @@ class MainAdapter extends BaseAdapter
         ArrayList<String> evidenceByActivity = k.getEvidenceByActivity(groupID, activity);
         for (int i = 0; i < evidenceByActivity.size(); i++) {
             ArrayList<String> s = k.getEvidenceByID(evidenceByActivity.get(i));
+            for (int j=0 ;j < s.size(); j++ ) {
+                Card tempCard = new Card(img, s.get(j));
+                list.add(tempCard);
+            }
+        }
+    }
+
+    public MainAdapter(Context c, KinderDBCon k, int groupID, Double loCode) {
+        this.context = c;
+        this.k = k;
+        list = new ArrayList<Card>();
+        int img = R.drawable.cooking1;
+        this.groupID = groupID;
+        this.loCode = loCode;
+
+        ArrayList<String> evidenceByLoCode = k.getEvidenceByLoCode(loCode);
+        for (int i = 0; i < evidenceByLoCode.size(); i++) {
+            ArrayList<String> s = k.getEvidenceByID(evidenceByLoCode.get(i));
             for (int j=0 ;j < s.size(); j++ ) {
                 Card tempCard = new Card(img, s.get(j));
                 list.add(tempCard);

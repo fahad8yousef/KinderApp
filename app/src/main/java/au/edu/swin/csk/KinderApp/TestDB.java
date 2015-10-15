@@ -34,16 +34,15 @@ public class TestDB {
         addGroup();
         addEvidenceData();
         addEvidChild();
-       // addEvidImage();
         addLOEvidence();
 
     }
 
     public void addGroup() {
-        k.InsertIntoGroupTable( "Koala");
-        k.InsertIntoGroupTable( "Wombat");
-        k.InsertIntoGroupTable( "4YO");
-        k.InsertIntoGroupTable( "3YO");
+        k.InsertIntoGroupTable("Koala");
+        k.InsertIntoGroupTable("Wombat");
+        k.InsertIntoGroupTable("4YO");
+        k.InsertIntoGroupTable("3YO");
     }
 
     public void addActivity() {
@@ -52,18 +51,6 @@ public class TestDB {
         k.InsertIntoActivityTable("Sport", "cookies", "baked");
         k.InsertIntoActivityTable("Drawing", "cookies", "baked");
         k.InsertIntoActivityTable("Swimming", "cookies", "baked");
-    }
-
-    public void addLoCode() {
-        k.InsertIntoLOCodeTable(1.1, "first");
-        k.InsertIntoLOCodeTable(1.2, "first");
-        k.InsertIntoLOCodeTable(1.3, "first");
-        k.InsertIntoLOCodeTable(1.4, "first");
-        k.InsertIntoLOCodeTable(1.5, "first");
-        k.InsertIntoLOCodeTable(2.1, "first");
-        k.InsertIntoLOCodeTable(2.2, "first");
-        k.InsertIntoLOCodeTable(3.1, "first");
-        k.InsertIntoLOCodeTable(3.2, "first");
     }
 
     public void addEvidenceData(){
@@ -100,15 +87,15 @@ public class TestDB {
 
     public void addChildList() {
         k.InsertIntoChildTable("Jack", "A", "male", 3);
-        k.InsertIntoChildTable("John" , "M" , "male" , 2);
-        k.InsertIntoChildTable("Chris" , "T" , "male" , 3);
+        k.InsertIntoChildTable("John", "M", "male", 2);
+        k.InsertIntoChildTable("Chris", "T", "male", 3);
         k.InsertIntoChildTable("Tim", "K", "male", 1);
-        k.InsertIntoChildTable("James" , "Y" , "male" , 1);
+        k.InsertIntoChildTable("James", "Y", "male", 1);
         k.InsertIntoChildTable("Tim", "R", "male", 3);
         k.InsertIntoChildTable("Andy", "N", "male", 1);
         k.InsertIntoChildTable("Warren", "M", "male", 2);
         k.InsertIntoChildTable("Tommy", "T", "male", 2);
-        k.InsertIntoChildTable( "Rocky", "K", "male", 3);
+        k.InsertIntoChildTable("Rocky", "K", "male", 3);
     }
 
     public void addEvidChild() {
@@ -124,15 +111,18 @@ public class TestDB {
         k.InsertIntoEvidenceChildTable(3, 4);
         k.InsertIntoEvidenceChildTable(4, 8);
     }
-/*
-    public void addEvidImage() {
-        k.InsertIntoPhotoTable("img001", 1);
-        k.InsertIntoPhotoTable("img002", 2);
-        k.InsertIntoPhotoTable("img003", 3);
-        k.InsertIntoPhotoTable("img004", 4);
-        k.InsertIntoPhotoTable("img005", 5);
-        k.InsertIntoPhotoTable("img006", 6);
-    }*/
+
+    public void addLoCode() {
+        k.InsertIntoLOCodeTable(1.1, "first");
+        k.InsertIntoLOCodeTable(1.2, "first");
+        k.InsertIntoLOCodeTable(1.3, "first");
+        k.InsertIntoLOCodeTable(1.4, "first");
+        k.InsertIntoLOCodeTable(1.5, "first");
+        k.InsertIntoLOCodeTable(2.1, "first");
+        k.InsertIntoLOCodeTable(2.2, "first");
+        k.InsertIntoLOCodeTable(3.1, "first");
+        k.InsertIntoLOCodeTable(3.2, "first");
+    }
 
     public void addLOEvidence() {
         k.InsertIntoEvidenceLOutcomeTable(1, 1.2);
@@ -144,8 +134,16 @@ public class TestDB {
         k.InsertIntoEvidenceLOutcomeTable(3, 3.3);
         k.InsertIntoEvidenceLOutcomeTable(4, 4.1);
         k.InsertIntoEvidenceLOutcomeTable(4, 4.2);
+        k.InsertIntoEvidenceLOutcomeTable(6, 1.2);
+        k.InsertIntoEvidenceLOutcomeTable(7, 1.3);
+        k.InsertIntoEvidenceLOutcomeTable(8, 1.4);
+        k.InsertIntoEvidenceLOutcomeTable(9, 1.5);
+        k.InsertIntoEvidenceLOutcomeTable(10, 2.1);
+        k.InsertIntoEvidenceLOutcomeTable(11, 3.2);
+        k.InsertIntoEvidenceLOutcomeTable(12, 3.3);
+        k.InsertIntoEvidenceLOutcomeTable(13, 4.1);
+        k.InsertIntoEvidenceLOutcomeTable(14, 4.2);
     }
-
 
     public void deleteAll(){
 

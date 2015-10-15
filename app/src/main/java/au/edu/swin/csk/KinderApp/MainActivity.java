@@ -345,8 +345,15 @@ public class MainActivity extends ActionBarActivity implements
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Log.d(TAG, "This LoCode is selected : " + String.valueOf(which));
-                        alertAdapterLoCode.getItem(which);
+                        Double loCode = alertAdapterLoCode.getItem(which);
+                        Log.d(TAG, "This LoCode is selected : " + loCode);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id", groupID);
+                        bundle.putDouble("loCode", loCode);
+                        showMainFragment(bundle);
                         cancelButton.setVisibility(View.VISIBLE);
+                        //cancelButton.bringToFront();
+
                     }
                 });
                 ad = builder.create();

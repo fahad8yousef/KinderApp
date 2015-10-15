@@ -38,7 +38,7 @@ public class KinderDBCon {
     public static final String KEY_NAME_EvidenceDATE = "EvidenceDate";
     public static final String KEY_NAME_EvidenceCOMMENT = "EvidenceComment";
     public static final String KEY_NAME_PHOTOFILENAME = "photoFilename";
-    public static final String KEY_NAME_LOCODE = "locCode";
+    public static final String KEY_NAME_LOCODE = "loCode";
     public static final String KEY_NAME_LOCDESCRIPTION = "locDescription";
     public static final String KEY_NAME_LOUTCOMECODE = "loutcomeCode";
     public static final String KEY_NAME_LOUTCOMEEvidence = "loutcomeEvidence";
@@ -286,10 +286,10 @@ public class KinderDBCon {
         return _db.insert(DATABASE_TABLE_EVIDENCECHILD,null,cv);
     }
 
-    public long InsertIntoLOCodeTable(double _locCode,String _locDescription)
+    public long InsertIntoLOCodeTable(double _loCode,String _locDescription)
     {
         ContentValues cv = new ContentValues();
-        cv.put(KEY_NAME_LOCODE,_locCode);
+        cv.put(KEY_NAME_LOCODE,_loCode);
         cv.put(KEY_NAME_LOCDESCRIPTION,_locDescription);
 
         return _db.insert(DATABASE_TABLE_LOCODE,null,cv);
@@ -639,6 +639,29 @@ public class KinderDBCon {
 
         Log.d(TAG, result.toString());
         return  result;
+    }
+
+    public ArrayList<String> getEvidenceByLoCode(Double loCode) {
+
+        // Creating a string array to store result from database before passing
+        String [] columns = new String[] {KEY_NAME_EvidenceCODE, KEY_NAME_LOUTCOMECODE};
+        // Creating a cursor to iterate through db
+        final String query = "SELECT EvidenceCode, loutcomeCode From EvidenceLOutcome WHERE loutcomeCode=\""+ loCode +"\";\n" +"\n";
+        Cursor c = _db.rawQuery(query, null);
+        //Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
+        ArrayList<String> result = new ArrayList<String>();
+
+        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+
+            result.add(c.getString(iEvidenceCode));
+        }
+
+        Log.d(TAG, result.toString());
+        return  result;
+
+
     }
 
     public ArrayList<String> getEvidenceByID(String evidenceCode) {
