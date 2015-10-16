@@ -134,6 +134,8 @@ public class KinderDBCon {
                             KEY_NAME_GROUPID + KEY_INTEGER + KEY_COMMA +
                             KEY_NAME_ACTIVITYNAME + KEY_TEXT + KEY_COMMA +
                             KEY_NAME_PHOTOFILENAME + KEY_TEXT + KEY_COMMA +
+                            "CompletionStatus" + KEY_TEXT + KEY_COMMA +
+                            "ChildCheckBox" + KEY_TEXT + KEY_COMMA +
                             KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
                             KEY_CONSTRAINT + "Evidence_FK_GROPID" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_GROUPID + KEY_CLOSE_PARENTHESIS +
                             KEY_REFERENCES + DATABASE_TABLE_GROUP + KEY_OPEN_PARENTHESIS + KEY_NAME_GROUPID + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
@@ -263,7 +265,7 @@ public class KinderDBCon {
     }
 
 
-    public Long InsertIntoEvidenceTable(String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName, String _photoFileName)
+    public Long InsertIntoEvidenceTable(String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName, String _photoFileName) //Add extra columns
     {
         ContentValues cv = new ContentValues();
         //cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
@@ -534,6 +536,27 @@ public class KinderDBCon {
             result.add(c.getString(iChildFirstName) + "," + c.getString(iChildSurName));
         }
 
+        return  result;
+    }
+
+    public String getChildIDByName(String fullName)
+    {
+        String firstName = fullName.substring(0, fullName.indexOf(" "));
+        String lastName = fullName.substring(fullName.indexOf(" ")+1 , fullName.length());
+
+        // Creating a string array to store result from database before passing
+        String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
+        // Creating a cursor to iterate through db
+        final String query = "SELECT childID, childFirstName From Child where Child.childFirstName=\""+firstName+"\" AND Child.childSurName=\""+lastName+"\";\n" +"\n";
+        Cursor c = _db.rawQuery(query, null);
+        String result = "";
+
+        int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+
+            result= c.getString(iChildRowID);
+        }
+        Log.d(TAG, "Fahad is the boss, heres the ID biaaatch ---> " + result);
         return  result;
     }
 

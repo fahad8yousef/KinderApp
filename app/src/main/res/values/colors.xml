@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_material_dark">#03a9f4</color>
+<!--    <color name="primary_material_dark">#03a9f4</color>
     <color name="primary_dark_material_dark">#010110</color>
     <color name="accent_material_light">#00b0ff</color>
-    <color name="primary_text_default_material_light">#deffffff</color>
-    <color name="primary_text_material_light">#92000000</color>
-    <color name="black">#3aa8ee</color>
-    <color name="bright_foreground_material_light">#000000</color>
-    <color name="primary_text_dark">#040000</color>
-    <color name="legacy_primary">#060000</color>
-    <color name="legacy_primary_dark">#e5dfdf</color>
-    <color name="primary_material_dark_1">#1a0301</color>
-    <color name="accent_material_dark">#000c0b</color>
-    <color name="background_material_dark">#660202</color>
+    <color name="primary_text_default_material_light">#ffffff</color>-->
+    <color name="primary_text_material_light">#3aa9ef</color>
+    <color name="primary_text_material_dark">#000000</color>
+    <color name="background_dark">#00b0ff</color>
+    <color name="accent_material_dark_1">#00b0ff</color>
+    <color name="accent_material_light_1">#00b0ff</color>
+    <color name="primary_material_dark">#00b0ff</color>
+    <color name="primary_dark_material_dark">#0198dc</color>
+    <color name="accent_material_light">#00b0ff</color>
+    <!-- <color name="black">#3aa8ee</color>
+     <color name="bright_foreground_material_light">#000000</color>
+     <color name="primary_text_dark">#040000</color>
+     <color name="legacy_primary">#060000</color>
+     <color name="legacy_primary_dark">#e5dfdf</color>
+     <color name="primary_material_dark_1">#1a0301</color>
+     <color name="accent_material_dark">#000c0b</color>
+     <color name="background_material_dark">#660202</color>-->
 </resources>
