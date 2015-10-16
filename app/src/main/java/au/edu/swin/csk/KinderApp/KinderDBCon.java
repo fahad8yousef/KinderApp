@@ -134,8 +134,8 @@ public class KinderDBCon {
                             KEY_NAME_GROUPID + KEY_INTEGER + KEY_COMMA +
                             KEY_NAME_ACTIVITYNAME + KEY_TEXT + KEY_COMMA +
                             KEY_NAME_PHOTOFILENAME + KEY_TEXT + KEY_COMMA +
-                            "CompletionStatus" + KEY_TEXT + KEY_COMMA +
-                            "ChildCheckBox" + KEY_TEXT + KEY_COMMA +
+                            "completionStatus" + KEY_TEXT + KEY_COMMA +
+                            "childCheckBox" + KEY_TEXT + KEY_COMMA +
                             KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
                             KEY_CONSTRAINT + "Evidence_FK_GROPID" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_GROUPID + KEY_CLOSE_PARENTHESIS +
                             KEY_REFERENCES + DATABASE_TABLE_GROUP + KEY_OPEN_PARENTHESIS + KEY_NAME_GROUPID + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
@@ -265,7 +265,7 @@ public class KinderDBCon {
     }
 
 
-    public Long InsertIntoEvidenceTable(String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName, String _photoFileName) //Add extra columns
+    public Long InsertIntoEvidenceTable(String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName, String _photoFileName, String _completionStatus, String _childCheckBox) //Add extra columns
     {
         ContentValues cv = new ContentValues();
         //cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
