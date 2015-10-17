@@ -55,33 +55,33 @@ public class TestDB {
 
     public void addEvidenceData(){
 
-        k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 3, "Cooking", "img001", null, null);
-        k.InsertIntoEvidenceTable("18/02/2012", "this is comment", 3, "Swimming", "img001", null, null);
-        k.InsertIntoEvidenceTable("3/5/2012", "this is comment", 3, "Cooking", "img001", null, null);
-        k.InsertIntoEvidenceTable("2/4/2012", "this is comment", 3, "Art", "img001", null, null);
-        k.InsertIntoEvidenceTable("22/12/2012", "this is comment", 1, "Sport", "img001", null, null);
-        k.InsertIntoEvidenceTable("18/3/2012", "this is comment", 3, "Drawing", "img001", null, null);
-        k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 2, "Cooking", "img001", null, null);
-        k.InsertIntoEvidenceTable("18/02/2012", "this is comment", 4, "Swimming", "img001", null, null);
-        k.InsertIntoEvidenceTable("3/5/2012", "this is comment", 3, "Cooking", "img001", null, null);
-        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "img001", null, null);
-        k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "img001", null, null);
-        k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 2, "Drawing", "img001", null, null);
-        k.InsertIntoEvidenceTable( "18/12/2012", "this is comment", 4, "Cooking", "img001", null, null);
-        k.InsertIntoEvidenceTable( "18/02/2012", "this is comment", 2, "Swimming", "img001", null, null);
-        k.InsertIntoEvidenceTable( "3/5/2012", "this is comment", 3, "Cooking", "img001", null, null);
-        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "img001", null, null);
-        k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "img001", null, null);
-        k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 4, "Drawing", "img001", null, null);
-        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "img001", null, null);
-        k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "img001", null, null);
-        k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 2, "Drawing", "img001", null, null);
-        k.InsertIntoEvidenceTable( "18/12/2012", "this is comment", 4, "Cooking", "img001", null, null);
-        k.InsertIntoEvidenceTable( "18/02/2012", "this is comment", 2, "Swimming", "img001", null, null);
-        k.InsertIntoEvidenceTable( "3/5/2012", "this is comment", 3, "Cooking", "img001", null, null);
-        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "img001", null, null);
-        k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "img001", null, null);
-        k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 4, "Drawing", "img001", null, null);
+        k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 3, "Cooking", "thumbWombat20151016_212000.jpg", null, null, null);
+        k.InsertIntoEvidenceTable("18/02/2012", "this is comment", 3, "Swimming", "thumbWombat20151016_212000.jpg", null, null, null);
+        k.InsertIntoEvidenceTable("3/5/2012", "this is comment", 3, "Cooking", "img001", null, null, null);
+        k.InsertIntoEvidenceTable("2/4/2012", "this is comment", 3, "Art", "img001", null, null, null);
+        k.InsertIntoEvidenceTable("22/12/2012", "this is comment", 1, "Sport", "img001", null, null, null);
+        k.InsertIntoEvidenceTable("18/3/2012", "this is comment", 3, "Drawing", "thumbWombat20151016_212000.jpg", null, null, null);
+        k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 2, "Cooking", "img001", null, null, null);
+        k.InsertIntoEvidenceTable("18/02/2012", "this is comment", 4, "Swimming", "thumbWombat20151016_212000.jpg", null, null, null);
+        k.InsertIntoEvidenceTable("3/5/2012", "this is comment", 3, "Cooking", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "thumbWombat20151016_212000.jpg", null, null, null);
+        k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 2, "Drawing", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "18/12/2012", "this is comment", 4, "Cooking", "thumbWombat20151016_212000.jpg", null, null, null);
+        k.InsertIntoEvidenceTable( "18/02/2012", "this is comment", 2, "Swimming", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "3/5/2012", "this is comment", 3, "Cooking", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "thumbWombat20151016_212000.jpg", null, null, null);
+        k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 4, "Drawing", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 2, "Drawing", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "18/12/2012", "this is comment", 4, "Cooking", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "18/02/2012", "this is comment", 2, "Swimming", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "3/5/2012", "this is comment", 3, "Cooking", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "img001", null, null, null);
+        k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 4, "Drawing", "img001", null, null, null);
 
     }
 

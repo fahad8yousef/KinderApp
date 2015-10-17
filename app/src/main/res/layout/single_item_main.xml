@@ -7,11 +7,11 @@
 
 
     <ImageView
-        android:src="@drawable/cooking1"
+        android:src="@drawable/img_not_found"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:cropToPadding="false"
+        android:cropToPadding="true"
         android:clickable="false"
         android:layout_centerHorizontal="true"
         android:contentDescription="image" />

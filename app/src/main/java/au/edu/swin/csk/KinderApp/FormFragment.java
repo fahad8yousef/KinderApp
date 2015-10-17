@@ -452,7 +452,8 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         //should have for loop to insert more than child but evidence code is the same
         //k.InsertIntoEvidenceChildTable(2, evidenceID);
 
-        k.getChildIDByName("Tommy T"); //id should return 9
+        ArrayList<String> result = k.getEvidenceData("6");
+        Log.d(TAG, "This is all DATA  for Evidence ID 6 = " + result);
 
 
     }

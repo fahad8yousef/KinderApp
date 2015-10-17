@@ -3,6 +3,8 @@ package au.edu.swin.csk.KinderApp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -143,12 +146,12 @@ class MainAdapter extends BaseAdapter
         this.k = k;
         this.groupID = groupID;
         list = new ArrayList<Card>();
-        int img = R.drawable.cooking1;
+        //int img = R.drawable.cooking1;
         ArrayList<String> evidenceDateActivity;
         evidenceDateActivity = k.getEvidenceInfo(groupID);
         for (int i=0; i<evidenceDateActivity.size() ; i++)
         {
-            Card tempCard = new Card(img, evidenceDateActivity.get(i));
+            Card tempCard = new Card(evidenceDateActivity.get(i));
             list.add(tempCard);
             //Log.d(TAG, "evidance Code =" + tempCard.getID());
         }
@@ -158,7 +161,7 @@ class MainAdapter extends BaseAdapter
         this.context = c;
         this.k = k;
         list = new ArrayList<Card>();
-        int img = R.drawable.cooking1;
+        //int img = R.drawable.cooking1;
         this.fullName = fullName;
 
         this.firstName = fullName.substring(0, fullName.indexOf(","));
@@ -170,7 +173,7 @@ class MainAdapter extends BaseAdapter
         for (int i = 0; i < evidenceByChild.size(); i++) {
             ArrayList<String> s = k.getEvidenceByID(evidenceByChild.get(i));
             for (int j=0 ;j < s.size(); j++ ) {
-            Card tempCard = new Card(img, s.get(j));
+            Card tempCard = new Card(s.get(j));
             list.add(tempCard);
             }
         }
@@ -180,7 +183,7 @@ class MainAdapter extends BaseAdapter
         this.context = c;
         this.k = k;
         list = new ArrayList<Card>();
-        int img = R.drawable.cooking1;
+        //int img = R.drawable.cooking1;
         this.groupID = groupID;
         this.activity = activity;
 
@@ -188,7 +191,7 @@ class MainAdapter extends BaseAdapter
         for (int i = 0; i < evidenceByActivity.size(); i++) {
             ArrayList<String> s = k.getEvidenceByID(evidenceByActivity.get(i));
             for (int j=0 ;j < s.size(); j++ ) {
-                Card tempCard = new Card(img, s.get(j));
+                Card tempCard = new Card(s.get(j));
                 list.add(tempCard);
             }
         }
@@ -198,7 +201,7 @@ class MainAdapter extends BaseAdapter
         this.context = c;
         this.k = k;
         list = new ArrayList<Card>();
-        int img = R.drawable.cooking1;
+        //int img = R.drawable.cooking1;
         this.groupID = groupID;
         this.loCode = loCode;
 
@@ -206,7 +209,7 @@ class MainAdapter extends BaseAdapter
         for (int i = 0; i < evidenceByLoCode.size(); i++) {
             ArrayList<String> s = k.getEvidenceByID(evidenceByLoCode.get(i));
             for (int j=0 ;j < s.size(); j++ ) {
-                Card tempCard = new Card(img, s.get(j));
+                Card tempCard = new Card(s.get(j));
                 list.add(tempCard);
             }
         }
@@ -278,9 +281,17 @@ class MainAdapter extends BaseAdapter
         {
             holder = (ViewHolder) row.getTag();
         }
+
         //get each object from the Card Class and set parameters
         Card temp = list.get(i);
-        holder.cardImage.setImageResource(temp.imageId);
+        File imgFile = new File("/storage/emulated/0/Pictures/KinderThumbnails/" + temp.imageFileName);
+
+        if(imgFile.exists()){
+
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            holder.cardImage.setImageBitmap(myBitmap);
+        }
+
         holder.cardDate.setText(temp.date);
         holder.cardActivity.setText(temp.activityName);
         return row;
@@ -298,7 +309,7 @@ class Card {
 
     String date;
     String activityName;
-    int imageId;
+    String imageFileName;
     String evidID;
     private static final String TAG= "Fahad/ Card";
 
@@ -308,15 +319,14 @@ class Card {
     * @Param String image name
     * @param String info contains activity name and date
     * */
-    Card(int imageId, String info)
+    Card(String data)
     {
-        if (info.length() !=0 ) {
-            this.evidID = info.substring(0, info.indexOf("|"));
-            this.date = info.substring(info.indexOf("|") + 1, info.indexOf(","));
-            this.activityName = info.substring(info.indexOf(",") + 1, info.length());
+        if (data.length() !=0 ) {
+            this.evidID = data.substring(0, data.indexOf("|"));
+            this.date = data.substring(data.indexOf("|") + 1, data.indexOf(","));
+            this.activityName = data.substring(data.indexOf(",") + 1, data.indexOf(" "));
+            this.imageFileName = data.substring(data.indexOf(" ") + 1, data.length());
         }
-
-        this.imageId = imageId;
 
         Log.d(TAG, evidID + date + activityName);
     }
@@ -329,5 +339,11 @@ class Card {
 
         return evidID;
     }
+
+    public String getImageFileName(){
+
+        return imageFileName;
+    }
+
 }
 

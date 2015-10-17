@@ -42,6 +42,10 @@ public class KinderDBCon {
     public static final String KEY_NAME_LOCDESCRIPTION = "locDescription";
     public static final String KEY_NAME_LOUTCOMECODE = "loutcomeCode";
     public static final String KEY_NAME_LOUTCOMEEvidence = "loutcomeEvidence";
+    public static final String KEY_NAME_COMPLETIONSTATUS = "completionStatus";
+    public static final String KEY_NAME_CHILDCHECKBOX = "childCheckBox";
+    public static final String KEY_NAME_LOCODECHECKBOX = "loCodeCheckBox";
+
 
     public static final String KEY_CREATE_TABLE = " CREATE TABLE IF NOT EXISTS ";
     public static final String KEY_DROP_TABLE = " DROP TABLE IF EXISTS ";
@@ -134,8 +138,9 @@ public class KinderDBCon {
                             KEY_NAME_GROUPID + KEY_INTEGER + KEY_COMMA +
                             KEY_NAME_ACTIVITYNAME + KEY_TEXT + KEY_COMMA +
                             KEY_NAME_PHOTOFILENAME + KEY_TEXT + KEY_COMMA +
-                            "completionStatus" + KEY_TEXT + KEY_COMMA +
-                            "childCheckBox" + KEY_TEXT + KEY_COMMA +
+                            KEY_NAME_COMPLETIONSTATUS + KEY_TEXT + KEY_COMMA +
+                            KEY_NAME_CHILDCHECKBOX + KEY_TEXT + KEY_COMMA +
+                            KEY_NAME_LOCODECHECKBOX + KEY_TEXT + KEY_COMMA +
                             KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_EvidenceCODE + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
                             KEY_CONSTRAINT + "Evidence_FK_GROPID" + KEY_FOREIGN_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_GROUPID + KEY_CLOSE_PARENTHESIS +
                             KEY_REFERENCES + DATABASE_TABLE_GROUP + KEY_OPEN_PARENTHESIS + KEY_NAME_GROUPID + KEY_CLOSE_PARENTHESIS + KEY_COMMA +
@@ -265,7 +270,7 @@ public class KinderDBCon {
     }
 
 
-    public Long InsertIntoEvidenceTable(String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName, String _photoFileName, String _completionStatus, String _childCheckBox) //Add extra columns
+    public Long InsertIntoEvidenceTable(String _EvidenceDate,String _EvidenceComment,int _groupID,String _activityName, String _photoFileName, String _completionStatus, String _childCheckBox, String _loCodeCheckBox) //Add extra columns
     {
         ContentValues cv = new ContentValues();
         //cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
@@ -274,6 +279,10 @@ public class KinderDBCon {
         cv.put(KEY_NAME_GROUPID,_groupID);
         cv.put(KEY_NAME_ACTIVITYNAME, _activityName);
         cv.put(KEY_NAME_PHOTOFILENAME, _photoFileName);
+        cv.put(KEY_NAME_COMPLETIONSTATUS, _completionStatus);
+        cv.put(KEY_NAME_CHILDCHECKBOX, _childCheckBox);
+        cv.put(KEY_NAME_LOCODECHECKBOX, _loCodeCheckBox);
+
         Long a;
 //        Log.d(TAG, "evid code added Long = "+ s);
         return a = _db.insert(DATABASE_TABLE_EVIDENCE,null,cv);
@@ -389,23 +398,30 @@ public class KinderDBCon {
     }
 
     // getting data from Evidence table
-    public String getEvidenceData()
+    public ArrayList<String> getEvidenceData(String evidID)
     {
         // Creating a string array to store result from database before passing
-        String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
+        //String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
         // Creating a cursor to iterate through db
-        Cursor c = _db.query(DATABASE_TABLE_EVIDENCE,columns,null,null,null,null,null);
+        //Cursor c = _db.query(DATABASE_TABLE_EVIDENCE,columns,null,null,null,null,null);
+        final String query = "SELECT * FROM Evidence WHERE EvidenceCode=\""+evidID+"\";\n" +"\n";
+        Cursor c = _db.rawQuery(query, null);
 
-        String result = "";
-        int iEvidenceCode = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
-        int iEvidenceDate = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
-        int iEvidenceComment = c.getColumnIndex(KEY_NAME_ACTIVITYDESCRIPTION);
+        ArrayList<String> result = new ArrayList<String>();
+        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+        int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
+        int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
         int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
         int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
+        int iphotoFileName = c.getColumnIndex(KEY_NAME_PHOTOFILENAME);
+        int iCompletionStatus = c.getColumnIndex(KEY_NAME_COMPLETIONSTATUS);
+        int iChildCheckBox = c.getColumnIndex(KEY_NAME_CHILDCHECKBOX);
+        int iLoCodeCheckBox = c.getColumnIndex(KEY_NAME_LOCODECHECKBOX);
+
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
         {
-            result = result + c.getInt(iEvidenceCode)  + " " + c.getString(iEvidenceDate) + " " + c.getString(iEvidenceComment) + " " + c.getInt(iGroupRowID)  + " " + c.getString(iActivityName) + "\n";
+            result.add(c.getInt(iEvidenceCode)  + "," + c.getString(iEvidenceDate) + "," + c.getString(iEvidenceComment) + "," + c.getInt(iGroupRowID)  + "," + c.getString(iActivityName) + "," + c.getString(iphotoFileName) + "," + c.getString(iCompletionStatus) + "," + c.getString(iChildCheckBox) + "," + c.getString(iLoCodeCheckBox));
         }
 
         return  result;
@@ -496,7 +512,7 @@ public class KinderDBCon {
     public ArrayList<String> getEvidenceInfo(int groupID)
     {
         // Creating a string array to store result from database before passing
-        String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
+        String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME,KEY_NAME_PHOTOFILENAME, KEY_NAME_COMPLETIONSTATUS,KEY_NAME_CHILDCHECKBOX,KEY_NAME_LOCODECHECKBOX};
         // Creating a cursor to iterate through db
         Cursor c = _db.query(DATABASE_TABLE_EVIDENCE,columns,KEY_NAME_GROUPID + "=" + groupID,null,null,null,null);
 
@@ -505,12 +521,12 @@ public class KinderDBCon {
         int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
         int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
         int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
-        int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
         int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
+        int iPhotoName = c.getColumnIndex(KEY_NAME_PHOTOFILENAME);
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
         {
-            result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) );
+            result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) + " " + c.getString(iPhotoName));
         }
         return  result;
     }
@@ -690,7 +706,7 @@ public class KinderDBCon {
     public ArrayList<String> getEvidenceByID(String evidenceCode) {
 
         // Creating a string array to store result from database before passing
-        String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
+        String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME,KEY_NAME_PHOTOFILENAME, KEY_NAME_COMPLETIONSTATUS,KEY_NAME_CHILDCHECKBOX,KEY_NAME_LOCODECHECKBOX};
         // Creating a cursor to iterate through db
         Cursor c = _db.query(DATABASE_TABLE_EVIDENCE,columns,KEY_NAME_EvidenceCODE + "=" + evidenceCode,null,null,null,null);
 
@@ -700,19 +716,18 @@ public class KinderDBCon {
             int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
             int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
             int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
-            int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
             int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
+            int iPhotoName = c.getColumnIndex(KEY_NAME_PHOTOFILENAME);
 
             for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
             {
-                result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) );
+                result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) + " " + c.getString(iPhotoName) );
             }
         } finally {
             c.close();
         }
         return  result;
     }
-
 
     //for testing
     public void dropAll(SQLiteDatabase db) {
