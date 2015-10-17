@@ -25,6 +25,7 @@ public class TestDB {
     TestDB( KinderDBCon k) {
         this.k = k;
         add();
+        //delete();
     }
 
     public void add() {
@@ -35,7 +36,6 @@ public class TestDB {
         addEvidenceData();
         addEvidChild();
         addLOEvidence();
-
     }
 
     public void addGroup() {
@@ -145,9 +145,9 @@ public class TestDB {
         k.InsertIntoEvidenceLOutcomeTable(14, 4.2);
     }
 
-    public void deleteAll(){
+    public void delete(){
 
-        k.dropAll(db);
+        k.deleteEvidenceByID("1");
     }
 
 }

@@ -514,7 +514,7 @@ public class KinderDBCon {
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME,KEY_NAME_PHOTOFILENAME, KEY_NAME_COMPLETIONSTATUS,KEY_NAME_CHILDCHECKBOX,KEY_NAME_LOCODECHECKBOX};
         // Creating a cursor to iterate through db
-        Cursor c = _db.query(DATABASE_TABLE_EVIDENCE,columns,KEY_NAME_GROUPID + "=" + groupID,null,null,null,null);
+        Cursor c = _db.query(DATABASE_TABLE_EVIDENCE, columns, KEY_NAME_GROUPID + "=" + groupID, null, null, null, null);
 
         ArrayList<String> result = new ArrayList<String>();
         //String result = "";
@@ -537,7 +537,7 @@ public class KinderDBCon {
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
         // Creating a cursor to iterate through db
-        Cursor c = _db.query(DATABASE_TABLE_CHILD,columns,KEY_NAME_GROUPID + "=" + groupID ,null,null,null,null);
+        Cursor c = _db.query(DATABASE_TABLE_CHILD, columns, KEY_NAME_GROUPID + "=" + groupID, null, null, null, null);
 
         ArrayList<String> result = new ArrayList<String>();
 
@@ -581,7 +581,7 @@ public class KinderDBCon {
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
         // Creating a cursor to iterate through db
-        Cursor c = _db.query(DATABASE_TABLE_CHILD,columns,KEY_NAME_GROUPID + "=" + groupID ,null,null,null,null);
+        Cursor c = _db.query(DATABASE_TABLE_CHILD, columns, KEY_NAME_GROUPID + "=" + groupID, null, null, null, null);
 
         ArrayList<String> result = new ArrayList<String>();
 
@@ -728,6 +728,22 @@ public class KinderDBCon {
         }
         return  result;
     }
+
+    //deletes evidence data from all associated tables
+    public boolean deleteEvidenceByID(String evidID)
+    {
+        Boolean a = _db.delete(DATABASE_TABLE_EVIDENCE, KEY_NAME_EvidenceCODE + "=" + evidID, null) > 0;
+        Boolean b =_db.delete(DATABASE_TABLE_EVIDENCECHILD, KEY_NAME_EvidenceCODE + "=" + evidID, null) > 0;
+        Boolean c =_db.delete(DATABASE_TABLE_EVIDENCELOUTCOME, KEY_NAME_EvidenceCODE + "=" + evidID, null) > 0;
+
+        Boolean result;
+        if (a && b && c){
+            result = true;
+        } else result = false;
+
+        return result;
+    }
+
 
     //for testing
     public void dropAll(SQLiteDatabase db) {
