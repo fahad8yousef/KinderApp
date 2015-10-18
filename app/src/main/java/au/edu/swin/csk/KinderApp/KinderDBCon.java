@@ -400,11 +400,8 @@ public class KinderDBCon {
     // getting data from Evidence table
     public ArrayList<String> getEvidenceData(String evidID)
     {
-        // Creating a string array to store result from database before passing
-        //String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME};
-        // Creating a cursor to iterate through db
-        //Cursor c = _db.query(DATABASE_TABLE_EVIDENCE,columns,null,null,null,null,null);
         final String query = "SELECT * FROM Evidence WHERE EvidenceCode=\""+evidID+"\";\n" +"\n";
+        // Creating a cursor to iterate through db
         Cursor c = _db.rawQuery(query, null);
 
         ArrayList<String> result = new ArrayList<String>();
@@ -446,8 +443,7 @@ public class KinderDBCon {
         int iChildId = c.getColumnIndex(KEY_NAME_CHILDID);
         int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
-        {
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
             result = result + c.getInt(iChildId)  + " " + c.getInt(iEvidenceCode) + "\n";
         }
 
@@ -486,8 +482,7 @@ public class KinderDBCon {
         int iLOUTCOMECode = c.getColumnIndex(KEY_NAME_LOUTCOMECODE);
         int iLOUTCOMEEvidence = c.getColumnIndex(KEY_NAME_LOUTCOMEEvidence);
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
-        {
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
             result = result + c.getDouble(iLOUTCOMECode)  + " " + c.getString(iLOUTCOMEEvidence) + "\n";
         }
 
@@ -570,7 +565,7 @@ public class KinderDBCon {
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
         // Creating a cursor to iterate through db
-        final String query = "SELECT childID, childFirstName From Child where Child.childFirstName=\""+firstName+"\" AND Child.childSurName=\""+lastName+"\";\n" +"\n";
+        final String query = "SELECT childID, childFirstName From Child where Child.childFirstName=\""+firstName+"\" AND Child.childSurName=\""+lastName + "\";\n" +"\n";
         Cursor c = _db.rawQuery(query, null);
         String result = "";
 
@@ -634,8 +629,7 @@ public class KinderDBCon {
         int iLOCode = c.getColumnIndex(KEY_NAME_LOCODE);
         int iLOCDescription = c.getColumnIndex(KEY_NAME_LOCDESCRIPTION);
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
-        {
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
             result.add(c.getDouble(iLOCode));
         }
 
