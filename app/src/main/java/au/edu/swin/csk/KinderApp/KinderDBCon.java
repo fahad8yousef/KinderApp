@@ -579,7 +579,7 @@ public class KinderDBCon {
 
             result= c.getString(iChildRowID);
         }
-        Log.d(TAG, "Fahad is the boss, heres the ID biaaatch ---> " + result);
+        Log.d(TAG, " heres the ID ---> " + result);
         return  result;
     }
 
@@ -747,20 +747,6 @@ public class KinderDBCon {
         } else result = false;
 
         return result;
-    }
-
-
-    //for testing
-    public void dropAll(SQLiteDatabase db) {
-        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_CHILD);
-        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_ACTIVITY);
-        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_GROUP);
-        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_EVIDENCELOUTCOME);
-        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_EVIDENCE);
-        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_LOUTCOME);
-        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_EVIDENCECHILD);
-        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_LOCODE);
-        db.execSQL(KEY_DROP_TABLE + DATABASE_TABLE_PHOTO);
     }
 
 }
