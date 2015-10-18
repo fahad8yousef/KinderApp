@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,7 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -31,10 +29,9 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
+import java.lang.reflect.Array;
 import java.nio.channels.FileChannel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -54,7 +51,7 @@ import java.util.Locale;
 public class FormFragment extends Fragment implements DialogInterface.OnClickListener, DFragment.DialogClickListener {
 
 
-
+    private String evidenceID;
     private static final String TAG = "Somesh/ Picture Frag";
     protected static final int CAMERA_REQUEST = 0;
     protected static final int GALLERY_PICTURE = 1;
@@ -69,10 +66,11 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     private Bitmap photo;
     private TextView dateView;
     private AlertDialog dialog;
-
+    private int callIdentifier;
     final int THUMBSIZE = 256;
     Bitmap thumbImage;
-
+    String thumbnailImageName="";
+    private ArrayList<String> selectedChildrenIDs = new ArrayList<>();
     private int groupID;
     private EditText activity_Edit;
     private EditText children_Edit;
@@ -81,8 +79,9 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     private String mCurrentPhotoPath;
     private String imageFileName;
     private Button changeDate;
-
+    private String selectedEvidenceID;
     private KinderDBCon k;
+    private ArrayList<String> preSelectedValues;
 
     public FormFragment() {
         // Required empty public constructor
@@ -103,7 +102,12 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        k = new KinderDBCon(getActivity());
+        k.open();
+
+        callIdentifier=getArguments().getInt("identifier");
         groupID=getArguments().getInt("groupID");
+        selectedEvidenceID=getArguments().getString("evidenceCode");
         // Inflate the layout for this fragment
 
         return inflater.inflate(R.layout.picture_layout, container, false);
@@ -183,6 +187,8 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         lo_Edit=(EditText)getView().findViewById(R.id.lo_edit);
         lo_Edit.setKeyListener(null);
         comment_Edit=(EditText)getView().findViewById(R.id.comment_edit);
+        readDataFromDatabase(callIdentifier);
+
     }
 
     //Setting up date picker.
@@ -262,7 +268,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
     public void showActivityList()
     {
-        DialogFragment dialogFragment = DFragment.newInstance(R.string.activities_dialog_title, 1);
+        DialogFragment dialogFragment = DFragment.newInstance(R.string.activities_dialog_title, 1, groupID, null);
         dialogFragment.setTargetFragment(this, 0);
         dialogFragment.show(getActivity().getFragmentManager(), "dialog");
 
@@ -270,14 +276,14 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
     public void showChildrenList()
     {
-        DialogFragment dialogFragment = DFragment.newInstance(R.string.children_dialog_title, 2);
+        DialogFragment dialogFragment = DFragment.newInstance(R.string.children_dialog_title, 2, groupID, null);
         dialogFragment.setTargetFragment(this, 0);
         dialogFragment.show(getActivity().getFragmentManager(), "dialog");
     }
 
     public void showLoList()
     {
-        DialogFragment dialogFragment = DFragment.newInstance(R.string.lo_dialog_title, 3);
+        DialogFragment dialogFragment = DFragment.newInstance(R.string.lo_dialog_title, 3, groupID, null);
         dialogFragment.setTargetFragment(this, 0);
         dialogFragment.show(getActivity().getFragmentManager(), "dialog");
 
@@ -328,14 +334,14 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
     public void saveThumbnailOfCurrentImage(String fullImagePath)
     {
-
+        Log.d("someshbahuguna", fullImagePath);
         thumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(fullImagePath), THUMBSIZE, THUMBSIZE);
         File myDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/KinderThumbnails/");
         if (!myDir.isDirectory())
         {myDir.mkdirs();}
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "thumbWombat" + timeStamp + ".jpg";
-        File file = new File (myDir, imageFileName);
+        thumbnailImageName = "thumbWombat" + timeStamp + ".jpg";
+        File file = new File (myDir, thumbnailImageName);
         if (file.exists ()) file.delete ();
         try {
             FileOutputStream out = new FileOutputStream(file);
@@ -432,30 +438,34 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     public void onClick(DialogInterface dialogInterface, int i) {
 
     }
+
     public void saveFormDataToDatabase()
     {
 
-        //Toast.makeText(getActivity(), "Not implemented yet", Toast.LENGTH_SHORT).show();
-        k = new KinderDBCon(getActivity());
-        k.open();
-        //get children Ids and names based on group id, use the same to populate your alerts
-        //ArrayList<String> childrenList= k.getAllChildNames(groupID);
-        //Toast.makeText(getActivity(), "Children info : " + childrenList, Toast.LENGTH_SHORT).show();
-
-        //Long a = k.InsertIntoEvidenceTable(dateView.getText().toString(), comment_Edit.getText().toString(), groupID, "testing", "photoFileName");
+        String completionStatus=getFormCompletionStatus();
         //Gets the rowid inserted as Long type, used static values for testing
-        //Long a = k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 4, "Cooking", "img003");
-        //Toast.makeText(getActivity(), "Row inserted has ID = " + a.toString(), Toast.LENGTH_SHORT).show();
+        Long newEvidenceID = k.InsertIntoEvidenceTable(dateView.getText().toString(), comment_Edit.getText().toString()
+                , groupID, activity_Edit.getText().toString(), thumbnailImageName, completionStatus, children_Edit.getText().toString(), lo_Edit.getText().toString());
+        Toast.makeText(getActivity(), "Row inserted has ID = " + newEvidenceID, Toast.LENGTH_SHORT).show();
         //convert Long to int
-        //int evidenceID = a.intValue();
+        evidenceID = String.valueOf(    newEvidenceID);
         //then add insert to join table and assign individual children to the newly created evidence id
         //should have for loop to insert more than child but evidence code is the same
-        //k.InsertIntoEvidenceChildTable(2, evidenceID);
 
-        ArrayList<String> result = k.getEvidenceData("6");
-        Log.d(TAG, "This is all DATA  for Evidence ID 6 = " + result);
+            }
 
-
+    public String getFormCompletionStatus()
+    {
+        Boolean formStatus;
+        if (thumbnailImageName.isEmpty() || activity_Edit.getText().toString().isEmpty() || comment_Edit.getText().toString().isEmpty()
+                || lo_Edit.getText().toString().isEmpty() || children_Edit.getText().toString().isEmpty())
+        {
+            formStatus=false;
+        }
+        else{
+            formStatus=true;
+        }
+        return formStatus.toString();
     }
     //The following function is used to save the image visible on screen to a bundle, from where it will be retreived later on.
     @Override
@@ -490,18 +500,23 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     @Override
     public void onYesClick(ArrayList selectedValues, int dialogIdentifier) {
         String selectedValuesString="";
-
         for(int i = 0; i<selectedValues.size(); i++)
         {
             selectedValuesString= selectedValuesString  + selectedValues.get(i) + ", ";
         }
         selectedValuesString = selectedValuesString.substring(0, selectedValuesString.lastIndexOf(","));
-                Log.d(TAG,selectedValuesString);
+                Log.d(TAG, selectedValuesString);
         switch (dialogIdentifier)
         {
 
             case 2:
             {
+                for (int i=0; i<selectedValues.size(); i++)
+                {
+
+                    selectedChildrenIDs.add(k.getChildIDByName((String) selectedValues.get(i)));
+
+                }
                 children_Edit.setText(selectedValuesString);
                 break;
             }
@@ -524,6 +539,36 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     public void onYesClickActivity(String selectedActivity, int dialogIdentifier) {
         activity_Edit.setText(selectedActivity);
 
+    }
+
+    public void readDataFromDatabase(int callIdentifier)
+    {
+        ArrayList<String> selectedEvidenceInfo=new ArrayList<>();
+        if (callIdentifier==1)
+        {
+            selectedEvidenceInfo=k.getEvidenceData(selectedEvidenceID);
+            dateView.setText(selectedEvidenceInfo.get(0).toString());
+            comment_Edit.setText(selectedEvidenceInfo.get(1).toString());
+            activity_Edit.setText(selectedEvidenceInfo.get(2).toString());
+            thumbnailImageName=(selectedEvidenceInfo.get(3).toString());
+            File imgFile = new  File("/storage/emulated/0/Pictures/KinderThumbnails/" + thumbnailImageName);
+
+            if(imgFile.exists()){
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                photo_ImageView.setImageBitmap(myBitmap);
+                image_Text.setText(null);
+
+            }
+            children_Edit.setText(selectedEvidenceInfo.get(4).toString());
+            lo_Edit.setText(selectedEvidenceInfo.get(5).toString());
+
+            Log.d("someshBahuguna", String.valueOf(selectedEvidenceInfo));
+         }
+        else
+        {
+
+        }
     }
 }
 

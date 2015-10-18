@@ -20,8 +20,6 @@ public class TestDB {
     SQLiteDatabase db;
     Context context;
 
-
-
     TestDB( KinderDBCon k) {
         this.k = k;
         add();
@@ -149,5 +147,4 @@ public class TestDB {
 
         k.deleteEvidenceByID("1");
     }
-
 }

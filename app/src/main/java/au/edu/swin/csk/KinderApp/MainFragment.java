@@ -324,8 +324,8 @@ class Card {
         if (data.length() !=0 ) {
             this.evidID = data.substring(0, data.indexOf("|"));
             this.date = data.substring(data.indexOf("|") + 1, data.indexOf(","));
-            this.activityName = data.substring(data.indexOf(",") + 1, data.indexOf(" "));
-            this.imageFileName = data.substring(data.indexOf(" ") + 1, data.length());
+            this.activityName = data.substring(data.indexOf(",") + 1, data.indexOf(":"));
+            this.imageFileName = data.substring(data.indexOf(":") + 1, data.length());
         }
 
         Log.d(TAG, evidID + date + activityName);

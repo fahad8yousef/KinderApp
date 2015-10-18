@@ -421,8 +421,15 @@ public class KinderDBCon {
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
         {
-            result.add(c.getInt(iEvidenceCode)  + "," + c.getString(iEvidenceDate) + "," + c.getString(iEvidenceComment) + "," + c.getInt(iGroupRowID)  + "," + c.getString(iActivityName) + "," + c.getString(iphotoFileName) + "," + c.getString(iCompletionStatus) + "," + c.getString(iChildCheckBox) + "," + c.getString(iLoCodeCheckBox));
+            result.add(c.getString(iEvidenceDate));
+            result.add(c.getString(iEvidenceComment));
+            result.add(c.getString(iActivityName));
+            result.add(c.getString(iphotoFileName));
+            result.add(c.getString(iChildCheckBox));
+            result.add(c.getString(iLoCodeCheckBox));
+
         }
+
 
         return  result;
     }
@@ -526,7 +533,7 @@ public class KinderDBCon {
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
         {
-            result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) + " " + c.getString(iPhotoName));
+            result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) + ":" + c.getString(iPhotoName));
         }
         return  result;
     }
@@ -588,12 +595,10 @@ public class KinderDBCon {
         int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
         int iChildFirstName = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
         int iChildSurName = c.getColumnIndex(KEY_NAME_CHILDSURNAME);
-        int iChildGender = c.getColumnIndex(KEY_NAME_CHILDGENDER);
-        int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            result.add(c.getString(iChildRowID) + " : " + c.getString(iChildFirstName) + "," + c.getString(iChildSurName));
+            result.add(c.getString(iChildFirstName) + " " + c.getString(iChildSurName));
         }
 
         return  result;

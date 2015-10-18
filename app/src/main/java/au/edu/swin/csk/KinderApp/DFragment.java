@@ -5,30 +5,32 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Somesh on 9/11/2015.
  */
 public class DFragment extends DialogFragment {
 
+    int groupId;
+    int dialogIdentifier;
     private DialogClickListener callback;
-
-
+    KinderDBCon k;
     private static final String TAG="Somesh/ Dfragment";
     protected String[] activityNames = new String[]{"Cooking", "Running", "Sports", "Drinking", "Working", "Studying"};
-    protected String[] childrenNames = new String[]{"John", "Ryan", "Daniel", "Charles", "Luke", "Adam", "Ross"};
+    protected String[] childrenNames;
     protected String[] loNames = new String[]{"LO 1","LO 2","LO 3","LO 4","LO 5","LO 6","LO 7","LO 8","LO 9" };
     ArrayList mSelectedActivities;
     ArrayList mSelectedChildren;
     ArrayList mSelectedLO;
     AlertDialog.Builder builder;
     String selectedActivity;
-
-    /*protected boolean checkedActivityNames[] = new boolean[activityNames.length];
-    protected boolean checkedChildrenNames[] = new boolean[childrenNames.length];
-    protected boolean checkedLoNames[] = new boolean[loNames.length];*/
+    ArrayList preSelectedValues;
+    Boolean SelectedValues;
 
     //The following interface is used to pass the data back to the pictureFragment
     public interface DialogClickListener {
@@ -38,18 +40,24 @@ public class DFragment extends DialogFragment {
 
     }
 
-    public static DFragment newInstance(int title, int dialogIdentifier) {
+    public static DFragment newInstance(int title, int dialogIdentifier, int groupID, ArrayList preSelectedValues) {
         DFragment frag = new DFragment();
         Bundle args = new Bundle();
         args.putInt("title", title);
+        args.putInt("groupID", groupID);
+        //args.putStringArrayList("preselectedvalues", preSelectedValues);
         args.putInt("dialogIdentifier", dialogIdentifier);
         frag.setArguments(args);
         return frag;
+
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
+        groupId=getArguments().getInt("groupID");
+        dialogIdentifier=getArguments().getInt("dialogIdentifier");
+       // preSelectedValues=getArguments().getStringArrayList("preselectedvalues");
+        databaseToArray(groupId, dialogIdentifier, preSelectedValues);
         try {
             callback = (DialogClickListener) getTargetFragment();
         } catch (ClassCastException e) {
@@ -64,7 +72,6 @@ public class DFragment extends DialogFragment {
                 mSelectedActivities = new ArrayList();
                 builder = new AlertDialog.Builder(getActivity());
 
-              //  callback.onYesClick(mSelectedActivities, 1);
 
                 builder.setTitle(title)
                         .setSingleChoiceItems(activityNames, -1, new DialogInterface.OnClickListener() {
@@ -109,8 +116,7 @@ public class DFragment extends DialogFragment {
                                                 boolean isChecked) {
                                 if (isChecked) {
                                     // If the user checked the item, add it to the selected items
-                                    //checkedChildrenNames[which]=isChecked;
-                                    mSelectedChildren.add(childrenNames[which]);
+                                   mSelectedChildren.add(childrenNames[which]);
 
                                 }
                                 else if(mSelectedChildren.contains(childrenNames[which]))
@@ -191,5 +197,17 @@ public class DFragment extends DialogFragment {
     }
 
 
+    public void databaseToArray(int groupId, int dialogIdentifier, ArrayList preSelectedValues)
+    {
+/*        if (dialogIdentifier==2 && !preSelectedValues.isEmpty())
+        {
 
+        }*/
+        Log.d("groupID", String.valueOf(groupId));
+        ArrayList<String> childrenNamesArrayList;
+        k=new KinderDBCon(getActivity());
+        k.open();
+        childrenNamesArrayList=k.getAllChildNames(groupId);
+        childrenNames=childrenNamesArrayList.toArray(new String[childrenNamesArrayList.size()]);
+    }
 }
