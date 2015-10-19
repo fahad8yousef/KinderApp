@@ -34,6 +34,7 @@ public class TestDB {
         addEvidenceData();
         addEvidChild();
         addLOEvidence();
+        addLoutcome();
     }
 
     public void addGroup() {
@@ -122,25 +123,38 @@ public class TestDB {
         k.InsertIntoLOCodeTable(3.2, "first");
     }
 
+    public void addLoutcome() {
+        k.InsertIntoLOUTCOMETable("1.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("2.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("3.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("4.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("5.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("6.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("7.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("8.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("9.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("10.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("11.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("12.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("13.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("14.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("15.1.1","ffff");
+        k.InsertIntoLOUTCOMETable("16.1.1","ffff");
+    }
+
     public void addLOEvidence() {
-        k.InsertIntoEvidenceLOutcomeTable(1, 1.2);
-        k.InsertIntoEvidenceLOutcomeTable(1, 1.3);
-        k.InsertIntoEvidenceLOutcomeTable(1, 1.4);
-        k.InsertIntoEvidenceLOutcomeTable(1, 1.5);
-        k.InsertIntoEvidenceLOutcomeTable(2, 2.1);
-        k.InsertIntoEvidenceLOutcomeTable(3, 3.2);
-        k.InsertIntoEvidenceLOutcomeTable(3, 3.3);
-        k.InsertIntoEvidenceLOutcomeTable(4, 4.1);
-        k.InsertIntoEvidenceLOutcomeTable(4, 4.2);
-        k.InsertIntoEvidenceLOutcomeTable(6, 1.2);
-        k.InsertIntoEvidenceLOutcomeTable(7, 1.3);
-        k.InsertIntoEvidenceLOutcomeTable(8, 1.4);
-        k.InsertIntoEvidenceLOutcomeTable(9, 1.5);
-        k.InsertIntoEvidenceLOutcomeTable(10, 2.1);
-        k.InsertIntoEvidenceLOutcomeTable(11, 3.2);
-        k.InsertIntoEvidenceLOutcomeTable(12, 3.3);
-        k.InsertIntoEvidenceLOutcomeTable(13, 4.1);
-        k.InsertIntoEvidenceLOutcomeTable(14, 4.2);
+        k.InsertIntoEvidenceLOutcomeTable(1, "1.1.1");
+        k.InsertIntoEvidenceLOutcomeTable(1, "2.1.1");
+        k.InsertIntoEvidenceLOutcomeTable(1, "3.1.1");
+        k.InsertIntoEvidenceLOutcomeTable(1, "4.1.1");
+        k.InsertIntoEvidenceLOutcomeTable(2, "5.1.1");
+        k.InsertIntoEvidenceLOutcomeTable(2, "4.1.1");
+        k.InsertIntoEvidenceLOutcomeTable(3, "5.1.1");
+        k.InsertIntoEvidenceLOutcomeTable(3, "8.1.1");
+        k.InsertIntoEvidenceLOutcomeTable(1, "9.1.1");
+        k.InsertIntoEvidenceLOutcomeTable(3, "7.1.1");
+        k.InsertIntoEvidenceLOutcomeTable(4, "10.1.1");
+
     }
 
     public void delete(){

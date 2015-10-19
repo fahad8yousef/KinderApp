@@ -173,7 +173,7 @@ public class KinderDBCon {
             db.execSQL(
                     // Creating  LOUTCOME Table
                     KEY_CREATE_TABLE + DATABASE_TABLE_LOUTCOME + KEY_OPEN_PARENTHESIS +
-                            KEY_NAME_LOUTCOMECODE + KEY_REAL + KEY_NOTNULL + KEY_COMMA +
+                            KEY_NAME_LOUTCOMECODE + " " + KEY_COMMA +
                             KEY_NAME_LOUTCOMEEvidence + KEY_TEXT + KEY_NOTNULL + KEY_COMMA +
                             KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_LOUTCOMECODE + KEY_CLOSE_PARENTHESIS +
                             KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
@@ -306,7 +306,7 @@ public class KinderDBCon {
         return _db.insert(DATABASE_TABLE_LOCODE,null,cv);
     }
 
-    public long InsertIntoLOUTCOMETable(double _loutcomeCode,String _loutcomeEvidence)
+    public long InsertIntoLOUTCOMETable(String _loutcomeCode,String _loutcomeEvidence)
     {
         ContentValues cv = new ContentValues();
         cv.put(KEY_NAME_LOUTCOMECODE,_loutcomeCode);
@@ -315,7 +315,7 @@ public class KinderDBCon {
         return _db.insert(DATABASE_TABLE_LOUTCOME,null,cv);
     }
 
-    public long InsertIntoEvidenceLOutcomeTable(int _EvidenceCode,double _loutcomeCode)
+    public long InsertIntoEvidenceLOutcomeTable(int _EvidenceCode,String _loutcomeCode)
     {
         ContentValues cv = new ContentValues();
         cv.put(KEY_NAME_EvidenceCODE,_EvidenceCode);
@@ -524,10 +524,11 @@ public class KinderDBCon {
         int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
         int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
         int iPhotoName = c.getColumnIndex(KEY_NAME_PHOTOFILENAME);
+        int iCompletionStatus = c.getColumnIndex(KEY_NAME_COMPLETIONSTATUS);
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
         {
-            result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) + ":" + c.getString(iPhotoName));
+            result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) + ":" + c.getString(iPhotoName) + "$" + c.getString(iCompletionStatus));
         }
         return  result;
     }
@@ -617,19 +618,19 @@ public class KinderDBCon {
         return  result;
     }
 
-    public ArrayList<Double> getLOCode()
+    public ArrayList<String> getAllLOutcomeCode()
     {
         // Creating a string array to store result from database before passing
-        String [] columns = new String[] {KEY_NAME_LOCODE,KEY_NAME_LOCDESCRIPTION};
+        String [] columns = new String[] {KEY_NAME_LOUTCOMECODE};
         // Creating a cursor to iterate through db
-        Cursor c = _db.query(DATABASE_TABLE_LOCODE, columns, null, null, null, null, null);
-        ArrayList<Double> result = new ArrayList<Double>();
+        Cursor c = _db.query(DATABASE_TABLE_LOUTCOME, columns, null, null, null, null, null);
+        ArrayList<String> result = new ArrayList<String>();
 
-        int iLOCode = c.getColumnIndex(KEY_NAME_LOCODE);
+        int iLOutcomeCode = c.getColumnIndex(KEY_NAME_LOUTCOMECODE);
         int iLOCDescription = c.getColumnIndex(KEY_NAME_LOCDESCRIPTION);
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
-            result.add(c.getDouble(iLOCode));
+            result.add(c.getString(iLOutcomeCode));
         }
 
         return  result;
@@ -678,12 +679,13 @@ public class KinderDBCon {
         return  result;
     }
 
-    public ArrayList<String> getEvidenceByLoCode(Double loCode) {
+    public ArrayList<String> getIncompleteEvidence(int groupID) {
 
         // Creating a string array to store result from database before passing
-        String [] columns = new String[] {KEY_NAME_EvidenceCODE, KEY_NAME_LOUTCOMECODE};
+        String [] columns = new String[] {KEY_NAME_EvidenceCODE, KEY_NAME_COMPLETIONSTATUS};
+        String status = "false";
         // Creating a cursor to iterate through db
-        final String query = "SELECT EvidenceCode, loutcomeCode From EvidenceLOutcome WHERE loutcomeCode=\""+ loCode +"\";\n" +"\n";
+        final String query = "SELECT EvidenceCode From Evidence WHERE completionStatus=\""+ status +"\" AND groupID="+ groupID +";\n" +"\n";
         Cursor c = _db.rawQuery(query, null);
         //Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
         ArrayList<String> result = new ArrayList<String>();
@@ -695,9 +697,30 @@ public class KinderDBCon {
             result.add(c.getString(iEvidenceCode));
         }
 
-        Log.d(TAG, result.toString());
-        return  result;
 
+        Log.d(TAG, " incomplete : "+ result.toString());
+        return  result;
+    }
+
+    public ArrayList<String> getEvidenceByLoutcomeCode(String loutcomeCode) {
+
+        // Creating a string array to store result from database before passing
+        String [] columns = new String[] {KEY_NAME_EvidenceCODE, KEY_NAME_LOUTCOMECODE};
+        // Creating a cursor to iterate through db
+        final String query = "SELECT EvidenceLOutcome.EvidenceCode FROM EvidenceLOutcome where loutcomeCode =\""+ loutcomeCode +"\";\n" +"\n";
+        Cursor c = _db.rawQuery(query, null);
+        //Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
+        ArrayList<String> result = new ArrayList<String>();
+
+        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+
+        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+
+            result.add(c.getString(iEvidenceCode));
+        }
+
+        Log.d(TAG, "this is locome selected ids"+ result.toString());
+        return  result;
 
     }
 
@@ -716,16 +739,43 @@ public class KinderDBCon {
             int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
             int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
             int iPhotoName = c.getColumnIndex(KEY_NAME_PHOTOFILENAME);
+            int iCompletionStatus = c.getColumnIndex(KEY_NAME_COMPLETIONSTATUS);
 
             for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
             {
-                result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) + ":" + c.getString(iPhotoName) );
+                result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) + ":" + c.getString(iPhotoName) + "$" + c.getString(iCompletionStatus) );
             }
         } finally {
             c.close();
         }
         return  result;
     }
+
+    public ArrayList<String> getLoutcomeCodesByEvidenceID(String evidenceCode) {
+
+        // Creating a string array to store result from database before passing
+        final String query = "SELECT EvidenceLOutcome.EvidenceCode, EvidenceLOutcome.loutcomeCode FROM EvidenceLOutcome where EvidenceCode =\""+ evidenceCode +"\";\n" +"\n";
+        // Creating a cursor to iterate through db
+
+        Cursor c = _db.rawQuery(query, null);
+        ArrayList<String> result = new ArrayList<String>();
+        //String result = "";
+        try {
+            int iloutcomeCode = c.getColumnIndex(KEY_NAME_LOUTCOMECODE);
+
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
+            {
+                result.add(c.getString(iloutcomeCode));
+            }
+        } finally {
+            c.close();
+        }
+
+        Log.d(TAG, "List of LoutcomeCodes tagged in Evidence id: " + evidenceCode+ "are --> " + result.toString());
+        return  result;
+    }
+
+
 
     //deletes evidence data from all associated tables
     public boolean deleteEvidenceByID(String evidID)

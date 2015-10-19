@@ -265,7 +265,7 @@ public class MainActivity extends ActionBarActivity implements
     /*
     * Array to hold Learning Outcome Codes list
     */
-    ArrayAdapter<Double> alertAdapterLoCode;
+    ArrayAdapter<String> alertAdapterlOutcomeCode;
     public void showDialogAlert(View view, int position){
         //create alertdialog to show a list
         drawerLayout.closeDrawer(linear);
@@ -318,19 +318,19 @@ public class MainActivity extends ActionBarActivity implements
                 ad = builder.create();
                 ad.show();
             } else if (position == 2) {
-                alertAdapterLoCode = new ArrayAdapter<Double>(this, android.R.layout.select_dialog_item, k.getLOCode());
+                alertAdapterlOutcomeCode = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, k.getAllLOutcomeCode());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("select from list");
                 //sets adapter and listener for items in the alert list
-                builder.setAdapter(alertAdapterLoCode, new DialogInterface.OnClickListener() {
+                builder.setAdapter(alertAdapterlOutcomeCode, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //Log.d(TAG, "This LoCode is selected : " + String.valueOf(which));
-                        Double loCode = alertAdapterLoCode.getItem(which);
-                        Log.d(TAG, "This LoCode is selected : " + loCode);
+                        //Log.d(TAG, "This lOutcomeCode is selected : " + String.valueOf(which));
+                        String loutcomeCode = alertAdapterlOutcomeCode.getItem(which);
+                        Log.d(TAG, "This lOutcomeCode is selected : " + loutcomeCode);
                         Bundle bundle = new Bundle();
                         bundle.putInt("id", groupID);
-                        bundle.putDouble("loCode", loCode);
+                        bundle.putString("loutcomeCode", loutcomeCode);
                         showMainFragment(bundle);
                         cancelButton.setVisibility(View.VISIBLE);
                         runCommand.setVisibility(View.INVISIBLE);
@@ -341,6 +341,24 @@ public class MainActivity extends ActionBarActivity implements
                 ad = builder.create();
                 ad.show();
             } else ad.dismiss();
+
+        }else if (view.getId() == R.id.nav_list3) {
+            if (position == 0) {Toast.makeText(this, " Not implemented yet! " , Toast.LENGTH_SHORT).show();}
+            else if (position == 1){Toast.makeText(this, " Not implemented yet! " , Toast.LENGTH_SHORT).show();}
+            else {
+                Toast.makeText(this, " yes" , Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", groupID);
+                int completionStatus = 1;
+                bundle.putInt("completionStatus", completionStatus);
+                showMainFragment(bundle);
+                cancelButton.setVisibility(View.VISIBLE);
+                runCommand.setVisibility(View.INVISIBLE);
+
+            }
+
+
+
         } else {
             Toast.makeText(this, " Not implemented yet! " , Toast.LENGTH_SHORT).show();
         }

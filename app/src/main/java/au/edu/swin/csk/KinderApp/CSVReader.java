@@ -93,14 +93,14 @@ public class CSVReader {
 
         for(int i=1;i < csvLine.size() ;i++)
         {
-            db.InsertIntoEvidenceLOutcomeTable(Integer.valueOf(csvLine.get(i)[0]),Double.valueOf(csvLine.get(i)[1]));
+            //db.InsertIntoEvidenceLOutcomeTable(Integer.valueOf(csvLine.get(i)[0]),Double.valueOf(csvLine.get(i)[1]));
         }
     }
 
     private void addToLOutCome(List<String[]> csvLine) {
         for(int i=1;i < csvLine.size() ;i++)
         {
-            db.InsertIntoLOUTCOMETable(Double.valueOf(csvLine.get(i)[0]),csvLine.get(i)[1]);
+            //db.InsertIntoLOUTCOMETable(Double.valueOf(csvLine.get(i)[0]),csvLine.get(i)[1]);
         }
     }
 
