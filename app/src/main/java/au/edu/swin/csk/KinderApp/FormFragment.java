@@ -154,8 +154,14 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
             }
         });
         dateView=(TextView)getView().findViewById(R.id.date_view);
-        String ct = DateFormat.getDateInstance().format(new Date());
-        dateView.setText(ct);
+        //String ct = DateFormat.getDateInstance().format(new Date());
+        Date _currentDate= new Date();
+        String myFormat = "MM/dd/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+        String currentDate=sdf.format(_currentDate);
+        //dateView.setText(ct);
+        dateView.setText(currentDate);
+
         changeDate=(Button)getView().findViewById(R.id.changeDate_button);
         changeDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,8 +216,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     public void updateDateLabel()
     {
         String myFormat = "MM/dd/yy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
         dateView.setText(sdf.format(myCalendar.getTime()));
     }
 

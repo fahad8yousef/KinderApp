@@ -328,7 +328,7 @@ class Card {
             this.imageFileName = data.substring(data.indexOf(":") + 1, data.length());
         }
 
-        Log.d(TAG, evidID + date + activityName);
+        Log.d(TAG, evidID + date + activityName + imageFileName);
     }
 
     /*
@@ -338,11 +338,6 @@ class Card {
     public String getID(){
 
         return evidID;
-    }
-
-    public String getImageFileName(){
-
-        return imageFileName;
     }
 
 }

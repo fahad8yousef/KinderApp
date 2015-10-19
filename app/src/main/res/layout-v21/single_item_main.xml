@@ -8,10 +8,10 @@
 
     <ImageView
         android:src="@drawable/img_not_found"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/imageView"
-        android:cropToPadding="true"
+        android:cropToPadding="false"
         android:clickable="false"
         android:scaleType="center"
         android:layout_centerHorizontal="true"

@@ -144,7 +144,7 @@ public class MainActivity extends ActionBarActivity implements
         ArrayList<String> navArray3 = new ArrayList<String>();
         navArray3.add("Summary");
         navArray3.add("Sort Order");
-        navArray3.add("Complete");
+        navArray3.add("Complete/Incomplete");
 
         navList3.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         ArrayAdapter<String> listAdapter3 = new ArrayAdapter<String>(this, R.layout.row_layout_drawer, navArray3 );
@@ -208,39 +208,16 @@ public class MainActivity extends ActionBarActivity implements
             showMainFragment(bundle);
         //handles drawer button when clicked
         }else if (id == android.R.id.home){
-            if (drawerLayout.isDrawerOpen(linear)) {
-                //linear.bringToFront();
-                drawerLayout.bringChildToFront(linear);
-//                runCommand.setVisibility(View.INVISIBLE);
-                runCommand.setClickable(false);
-                drawerLayout.closeDrawer(linear);
-                //linear.bringToFront();
-                runCommand.bringToFront();
-                //runCommand.setVisibility(View.VISIBLE);
-                runCommand.setClickable(true);
-                //add bring to front for main screen layout and button
-                //testing ------------
-                //mainGrid.bringToFront();
-                //---------------
 
-            }else {
-                drawerLayout.openDrawer(linear);
-                linear.bringToFront();            }
-            }
-            /*if (drawerLayout.isDrawerOpen(linear)) {
-                //drawerLayout.bringToFront();
-                //linear.bringToFront();
+            if (drawerLayout.isDrawerOpen(linear)) {
                 drawerLayout.closeDrawer(linear);
-                //linear.bringToFront();
-                //cancelButton.setVisibility(View.VISIBLE);
                 cancelButton.bringToFront();
             }else {
                 drawerLayout.openDrawer(linear);
                 drawerLayout.bringToFront();
                 linear.bringToFront();
-                //cancelButton.setVisibility(View.INVISIBLE);
             }
-        }*/
+        }
         return super.onOptionsItemSelected(item);
     }
     /*
@@ -270,6 +247,7 @@ public class MainActivity extends ActionBarActivity implements
             //Instead of calling the mainAdapter directly, I'm calling the mainFragment from where we'll call the mainAdapter
             showMainFragment(bundle);
             actionBar.setTitle(groupName.getText()); //set title to group selected
+            runCommand.setVisibility(View.VISIBLE);
         } else {actionBar.setTitle("KinderApp");}
     }
 
@@ -311,6 +289,8 @@ public class MainActivity extends ActionBarActivity implements
                         showMainFragment(bundle);
                         cancelButton.setVisibility(View.VISIBLE);
                         cancelButton.bringToFront();
+                        runCommand.setVisibility(View.INVISIBLE);
+
                     }
                 });
                 ad = builder.create();
@@ -332,6 +312,7 @@ public class MainActivity extends ActionBarActivity implements
                         showMainFragment(bundle);
                         cancelButton.setVisibility(View.VISIBLE);
                         cancelButton.bringToFront();
+                        runCommand.setVisibility(View.INVISIBLE);
                     }
                 });
                 ad = builder.create();
@@ -352,6 +333,7 @@ public class MainActivity extends ActionBarActivity implements
                         bundle.putDouble("loCode", loCode);
                         showMainFragment(bundle);
                         cancelButton.setVisibility(View.VISIBLE);
+                        runCommand.setVisibility(View.INVISIBLE);
                         //cancelButton.bringToFront();
 
                     }
@@ -389,6 +371,7 @@ public class MainActivity extends ActionBarActivity implements
         transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_holder, formFragment);
         runCommand.setVisibility(View.INVISIBLE);
+        cancelButton.setVisibility(View.INVISIBLE);
         runCommand.setClickable(false);
         transaction.commit();
     }
@@ -398,43 +381,23 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
-        linear.bringToFront();
-//        drawerView.bringToFront();
-//        drawerLayout.bringChildToFront(drawerView);
-//        drawerLayout.requestLayout();
-        //cancelButton.setVisibility(View.INVISIBLE);
-
-        /*super.onDrawerSlide(drawerView, slideOffset);
-        mDrawerLayout.bringChildToFront(drawerView);
-        mDrawerLayout.requestLayout();*/
-
+        drawerLayout.bringChildToFront(drawerView);
+        drawerLayout.requestLayout();
     }
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        linear.bringToFront();
-//        drawerView.bringToFront();
-//        drawerLayout.bringChildToFront(drawerView);
-//        drawerLayout.requestLayout();
-//        runCommand.setVisibility(View.INVISIBLE);
-//        runCommand.setClickable(false);
-        //cancelButton.setVisibility(View.INVISIBLE);
-
+        drawerView.bringToFront();
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        linear.bringToFront();
-        //cancelButton.setVisibility(View.VISIBLE);
-//        cancelButton.bringToFront();
-//        runCommand.setVisibility(View.VISIBLE);
-//        runCommand.setClickable(true);
-
+        cancelButton.bringToFront();
     }
 
     @Override
     public void onDrawerStateChanged(int newState) {
-     /*   if (newState == DrawerLayout.STATE_DRAGGING) {
+        if (newState == DrawerLayout.STATE_DRAGGING) {
                 // starts opening
             drawerLayout.bringChildToFront(linear);
             linear.bringToFront();
@@ -442,7 +405,7 @@ public class MainActivity extends ActionBarActivity implements
         } else {
                 // closing drawer
             cancelButton.bringToFront();
-        }*/
+        }
     }
 
     /*
@@ -488,6 +451,7 @@ public class MainActivity extends ActionBarActivity implements
         bundle.putInt("id", groupID);
         showMainFragment(bundle);
         cancelButton.setVisibility(View.INVISIBLE);
+        runCommand.setVisibility(View.VISIBLE);
         }
     }
 }
