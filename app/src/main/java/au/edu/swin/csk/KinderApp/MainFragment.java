@@ -312,13 +312,14 @@ class MainAdapter extends BaseAdapter
         Card temp = list.get(i);
         File imgFile = new File("/storage/emulated/0/Pictures/KinderThumbnails/" + temp.imageFileName);
 
-        if(imgFile.exists() || !temp.imageFileName.equals("")){
+        if(imgFile.exists()){
 
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             holder.cardImage.setImageBitmap(myBitmap);
         } else {
 
-            //holder.cardImage.setImageResource(R.drawable.img_not_found);
+            int defaultImage= R.drawable.img_not_found;
+            holder.cardImage.setImageResource(defaultImage);
         }
 
         holder.cardDate.setText(temp.date);
@@ -343,7 +344,6 @@ class Card {
     String completionStatus;
     private static final String TAG= "Fahad/ Card";
 
-
     /*
     * Constructor
     * @Param String image name
@@ -360,6 +360,7 @@ class Card {
         }
 
         Log.d(TAG, evidID + date + activityName + imageFileName + completionStatus);
+
     }
 
     /*

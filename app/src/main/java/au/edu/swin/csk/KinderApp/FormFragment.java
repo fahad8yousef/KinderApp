@@ -67,7 +67,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     private TextView dateView;
     private AlertDialog dialog;
     private int callIdentifier;
-    final int THUMBSIZE = 256;
+    final int THUMBSIZE = 512;
     Bitmap thumbImage;
     String thumbnailImageName="";
     private ArrayList<String> selectedChildrenIDs = new ArrayList<>();

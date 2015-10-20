@@ -60,7 +60,6 @@ public class MainActivity extends ActionBarActivity implements
     private int groupID = 1;
     private FragmentTransaction transaction;
     ImageButton runCommand;
-    ImageButton cancelButton;
     Spinner spinner;
     LinearLayout linear;
     AlertDialog ad;
@@ -81,12 +80,6 @@ public class MainActivity extends ActionBarActivity implements
         runCommand = (ImageButton) findViewById(R.id.runCommand);
         runCommand.setOnClickListener(this);
         runCommand.bringToFront();
-
-        //add button to create new EvidCards
-        cancelButton = (ImageButton) findViewById(R.id.cancelButton);
-        cancelButton.setOnClickListener(this);
-        cancelButton.setVisibility(View.INVISIBLE);
-        cancelButton.bringToFront();
 
         //constructing drawer
         createDrawer();
@@ -211,11 +204,12 @@ public class MainActivity extends ActionBarActivity implements
 
             if (drawerLayout.isDrawerOpen(linear)) {
                 drawerLayout.closeDrawer(linear);
-                cancelButton.bringToFront();
+                runCommand.bringToFront();
             }else {
                 drawerLayout.openDrawer(linear);
                 drawerLayout.bringToFront();
                 linear.bringToFront();
+                runCommand.bringToFront();
             }
         }
         return super.onOptionsItemSelected(item);
@@ -287,9 +281,7 @@ public class MainActivity extends ActionBarActivity implements
                         bundle.putInt("id", groupID);
                         bundle.putString("fullName", fullName);
                         showMainFragment(bundle);
-                        cancelButton.setVisibility(View.VISIBLE);
-                        cancelButton.bringToFront();
-                        runCommand.setVisibility(View.INVISIBLE);
+                        //runCommand.setVisibility(View.INVISIBLE);
 
                     }
                 });
@@ -310,9 +302,7 @@ public class MainActivity extends ActionBarActivity implements
                         bundle.putInt("id", groupID);
                         bundle.putString("activity", activity);
                         showMainFragment(bundle);
-                        cancelButton.setVisibility(View.VISIBLE);
-                        cancelButton.bringToFront();
-                        runCommand.setVisibility(View.INVISIBLE);
+                        //runCommand.setVisibility(View.INVISIBLE);
                     }
                 });
                 ad = builder.create();
@@ -332,9 +322,8 @@ public class MainActivity extends ActionBarActivity implements
                         bundle.putInt("id", groupID);
                         bundle.putString("loutcomeCode", loutcomeCode);
                         showMainFragment(bundle);
-                        cancelButton.setVisibility(View.VISIBLE);
-                        runCommand.setVisibility(View.INVISIBLE);
-                        //cancelButton.bringToFront();
+                        //runCommand.setVisibility(View.INVISIBLE);
+                        //runCommand.bringToFront();
 
                     }
                 });
@@ -352,8 +341,7 @@ public class MainActivity extends ActionBarActivity implements
                 int completionStatus = 1;
                 bundle.putInt("completionStatus", completionStatus);
                 showMainFragment(bundle);
-                cancelButton.setVisibility(View.VISIBLE);
-                runCommand.setVisibility(View.INVISIBLE);
+                //runCommand.setVisibility(View.INVISIBLE);
 
             }
 
@@ -370,6 +358,7 @@ public class MainActivity extends ActionBarActivity implements
     */
     public void showMainFragment(Bundle bundle)
     {
+        runCommand.setVisibility(View.VISIBLE);
         MainFragment mainFragment= new MainFragment();
         mainFragment.setArguments(bundle);
         transaction = manager.beginTransaction();
@@ -407,10 +396,12 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onDrawerOpened(View drawerView) {
         drawerView.bringToFront();
+        runCommand.bringToFront();
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
+        runCommand.bringToFront();
     }
 
     @Override
@@ -421,6 +412,7 @@ public class MainActivity extends ActionBarActivity implements
             linear.bringToFront();
             drawerLayout.requestLayout();
         } else {
+            runCommand.bringToFront();
                 // closing drawer
         }
     }
