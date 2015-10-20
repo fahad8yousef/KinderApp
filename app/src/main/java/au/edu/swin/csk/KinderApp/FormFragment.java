@@ -466,6 +466,10 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
             k.deleteEvidenceByID(selectedEvidenceID);
 
         }
+        if (thumbnailImageName=="")
+        {
+            thumbnailImageName= String.valueOf(R.drawable.img_not_found);
+        }
         Long newEvidenceID = k.InsertIntoEvidenceTable(dateView.getText().toString(), comment_Edit.getText().toString()
                 , groupID, activity_Edit.getText().toString(), thumbnailImageName, completionStatus, children_Edit.getText().toString(), lo_Edit.getText().toString());
         Toast.makeText(getActivity(), "Row inserted has ID = " + newEvidenceID, Toast.LENGTH_SHORT).show();

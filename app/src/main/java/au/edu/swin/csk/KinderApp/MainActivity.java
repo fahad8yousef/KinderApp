@@ -359,6 +359,7 @@ public class MainActivity extends ActionBarActivity implements
     public void showMainFragment(Bundle bundle)
     {
         runCommand.setVisibility(View.VISIBLE);
+        runCommand.setClickable(true);
         MainFragment mainFragment= new MainFragment();
         mainFragment.setArguments(bundle);
         transaction = manager.beginTransaction();

@@ -316,11 +316,14 @@ class MainAdapter extends BaseAdapter
 
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             holder.cardImage.setImageBitmap(myBitmap);
-        } else {
+        } /*else if (temp.imageFileName.equals("")){
 
             int defaultImage= R.drawable.img_not_found;
             holder.cardImage.setImageResource(defaultImage);
-        }
+        } else {
+            int defaultImage= R.drawable.img_not_found;
+            holder.cardImage.setImageResource(defaultImage);
+        }*/
 
         holder.cardDate.setText(temp.date);
         holder.cardActivity.setText(temp.activityName);
