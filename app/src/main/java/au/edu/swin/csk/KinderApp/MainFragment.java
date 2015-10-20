@@ -106,7 +106,7 @@ public class MainFragment extends Fragment implements
         //sending evidence code to form fragment
         Toast.makeText(getActivity(),
                 "Card Clicked: " + position + " Card EvidId = " + MainAdapter.getEvidenceIDSelected(position) , Toast.LENGTH_SHORT).show();
-                ((MainActivity) getActivity()).showFormFragment();
+                ((MainActivity) getActivity()).showFormFragment(1, MainAdapter.getEvidenceIDSelected(position));
     }
 
     @Override
@@ -312,10 +312,13 @@ class MainAdapter extends BaseAdapter
         Card temp = list.get(i);
         File imgFile = new File("/storage/emulated/0/Pictures/KinderThumbnails/" + temp.imageFileName);
 
-        if(imgFile.exists()){
+        if(imgFile.exists() || !temp.imageFileName.equals("")){
 
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             holder.cardImage.setImageBitmap(myBitmap);
+        } else {
+
+            //holder.cardImage.setImageResource(R.drawable.img_not_found);
         }
 
         holder.cardDate.setText(temp.date);

@@ -71,6 +71,8 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     Bitmap thumbImage;
     String thumbnailImageName="";
     private ArrayList<String> selectedChildrenIDs = new ArrayList<>();
+    private ArrayList<String> selectedLearningOutcomes = new ArrayList<>();
+
     private int groupID;
     private EditText activity_Edit;
     private EditText children_Edit;
@@ -239,21 +241,26 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
                 }
 
-            else if(imageFileName!=null)
+                else if(imageFileName!=null)
 
-            {
-                File file = new File(imageFileName);
-                Log.d(TAG, String.valueOf(file) + "file getting deleted");
-                Log.d(TAG, String.valueOf(imageFileName) + "imageFileName, the one getting deleted");
-                file.delete();
-                galleryAddPic(imageFileName);
-            }
+                {
+                    File file = new File(imageFileName);
+                    Log.d(TAG, String.valueOf(file) + "file getting deleted");
+                    Log.d(TAG, String.valueOf(imageFileName) + "imageFileName, the one getting deleted");
+                    file.delete();
+                    galleryAddPic(imageFileName);
+                }
 
-            photo_ImageView.setImageResource(R.color.primary_material_dark);
-            comment_Edit.setText(null);
-            activity_Edit.setText(null);
-            children_Edit.setText(null);
-            lo_Edit.setText(null);
+                photo_ImageView.setImageResource(R.color.primary_material_dark);
+                comment_Edit.setText(null);
+                activity_Edit.setText(null);
+                children_Edit.setText(null);
+                lo_Edit.setText(null);
+                k.deleteEvidenceByID(selectedEvidenceID);
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", groupID);
+                ((MainActivity)getActivity()).showMainFragment(bundle);
+                Toast.makeText(getActivity(), "Data deleted successfully!", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -329,7 +336,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         builder.show();
     }
 
-   public  void galleryAddPic(String imagePath) {
+    public  void galleryAddPic(String imagePath) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(imagePath);
         Uri contentUri = Uri.fromFile(f);
@@ -401,7 +408,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
             cursor.close();
             image_Text.setVisibility(View.INVISIBLE);
             photo = BitmapFactory.decodeFile(picturePath);
-           // photo_ImageView.setImageBitmap(photo);
+            // photo_ImageView.setImageBitmap(photo);
             File sourceFile = new File(picturePath);
             try {
                 copyImageFromGallery(sourceFile, picturePath);
@@ -437,7 +444,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         Log.d(TAG, picturePath + "picturePath source File");
         Log.d(TAG, imageFileName + "imageFileName Destination File");
         saveThumbnailOfCurrentImage(picturePath);
-      //  galleryAddPic();
+        //  galleryAddPic();
     }
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
@@ -449,15 +456,30 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
         String completionStatus=getFormCompletionStatus();
         //Gets the rowid inserted as Long type, used static values for testing
+
+        /*if (!k.getEvidenceByID(selectedEvidenceID).isEmpty() && !k.getEvidenceByID(selectedEvidenceID).contains(""))
+        {
+            k.deleteEvidenceByID(selectedEvidenceID);
+        }*/
+        if (callIdentifier==1)
+        {
+            k.deleteEvidenceByID(selectedEvidenceID);
+
+        }
         Long newEvidenceID = k.InsertIntoEvidenceTable(dateView.getText().toString(), comment_Edit.getText().toString()
                 , groupID, activity_Edit.getText().toString(), thumbnailImageName, completionStatus, children_Edit.getText().toString(), lo_Edit.getText().toString());
         Toast.makeText(getActivity(), "Row inserted has ID = " + newEvidenceID, Toast.LENGTH_SHORT).show();
         //convert Long to int
-        evidenceID = String.valueOf(    newEvidenceID);
+        evidenceID = String.valueOf(newEvidenceID);
+        for (int i=0; i<selectedChildrenIDs.size(); i++)
+        {
+            k.InsertIntoEvidenceChildTable(Integer.parseInt(selectedChildrenIDs.get(i)), Integer.parseInt(evidenceID));
+
+        }
         //then add insert to join table and assign individual children to the newly created evidence id
         //should have for loop to insert more than child but evidence code is the same
 
-            }
+    }
 
     public String getFormCompletionStatus()
     {
@@ -510,7 +532,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
             selectedValuesString= selectedValuesString  + selectedValues.get(i) + ", ";
         }
         selectedValuesString = selectedValuesString.substring(0, selectedValuesString.lastIndexOf(","));
-                Log.d(TAG, selectedValuesString);
+        Log.d(TAG, selectedValuesString);
         switch (dialogIdentifier)
         {
 
@@ -527,6 +549,11 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
             }
             case 3:
             {
+                for (int i=0; i<selectedValues.size(); i++)
+                {
+
+                    // selectedLearningOutcomes=
+                }
                 lo_Edit.setText(selectedValuesString);
                 break;
             }
@@ -564,17 +591,17 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
                 photo_ImageView.setImageBitmap(myBitmap);
                 image_Text.setText(null);
 
+            } else {
+                photo_ImageView.setImageBitmap(null);
             }
             children_Edit.setText(selectedEvidenceInfo.get(4).toString());
             lo_Edit.setText(selectedEvidenceInfo.get(5).toString());
 
             Log.d("someshBahuguna", String.valueOf(selectedEvidenceInfo));
-         }
+        }
         else
         {
 
         }
     }
 }
-
-

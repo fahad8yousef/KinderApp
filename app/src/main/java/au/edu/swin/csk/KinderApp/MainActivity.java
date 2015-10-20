@@ -380,16 +380,17 @@ public class MainActivity extends ActionBarActivity implements
     /*
     *   The following function calls the pictureFragment
     */
-    public void showFormFragment()
+    public void showFormFragment(int identifier, String evidenceCode)
     {
         Bundle bundle = new Bundle();
         bundle.putInt("groupID", groupID);
+        bundle.putInt("identifier", identifier);
+        bundle.putString("evidenceCode", evidenceCode);
         FormFragment formFragment = new FormFragment();
         formFragment.setArguments(bundle);
         transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_holder, formFragment);
         runCommand.setVisibility(View.INVISIBLE);
-        cancelButton.setVisibility(View.INVISIBLE);
         runCommand.setClickable(false);
         transaction.commit();
     }
@@ -410,7 +411,6 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        cancelButton.bringToFront();
     }
 
     @Override
@@ -422,7 +422,6 @@ public class MainActivity extends ActionBarActivity implements
             drawerLayout.requestLayout();
         } else {
                 // closing drawer
-            cancelButton.bringToFront();
         }
     }
 
@@ -463,13 +462,13 @@ public class MainActivity extends ActionBarActivity implements
     public void onClick(View v) {
 
     if (v.getId() == R.id.runCommand) {
-        showFormFragment();
-    } else if (v.getId() == R.id.cancelButton){
+        showFormFragment(2, "");
+    } /*else if (v.getId() == R.id.cancelButton){
         Bundle bundle = new Bundle();
         bundle.putInt("id", groupID);
         showMainFragment(bundle);
         cancelButton.setVisibility(View.INVISIBLE);
         runCommand.setVisibility(View.VISIBLE);
-        }
+        }*/
     }
 }

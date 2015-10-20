@@ -21,9 +21,9 @@ public class DFragment extends DialogFragment {
     private DialogClickListener callback;
     KinderDBCon k;
     private static final String TAG="Somesh/ Dfragment";
-    protected String[] activityNames = new String[]{"Cooking", "Running", "Sports", "Drinking", "Working", "Studying"};
+    protected String[] activityNames;
     protected String[] childrenNames;
-    protected String[] loNames = new String[]{"LO 1","LO 2","LO 3","LO 4","LO 5","LO 6","LO 7","LO 8","LO 9" };
+    protected String[] loNames;
     ArrayList mSelectedActivities;
     ArrayList mSelectedChildren;
     ArrayList mSelectedLO;
@@ -34,9 +34,9 @@ public class DFragment extends DialogFragment {
 
     //The following interface is used to pass the data back to the pictureFragment
     public interface DialogClickListener {
-         void onYesClick(ArrayList selectedValues, int dialogIdentifier);
-         void onNoClick(int toastMessage);
-         void onYesClickActivity(String selectedActivity, int dialogIdentifier);
+        void onYesClick(ArrayList selectedValues, int dialogIdentifier);
+        void onNoClick(int toastMessage);
+        void onYesClickActivity(String selectedActivity, int dialogIdentifier);
 
     }
 
@@ -56,7 +56,7 @@ public class DFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         groupId=getArguments().getInt("groupID");
         dialogIdentifier=getArguments().getInt("dialogIdentifier");
-       // preSelectedValues=getArguments().getStringArrayList("preselectedvalues");
+        // preSelectedValues=getArguments().getStringArrayList("preselectedvalues");
         databaseToArray(groupId, dialogIdentifier, preSelectedValues);
         try {
             callback = (DialogClickListener) getTargetFragment();
@@ -116,12 +116,12 @@ public class DFragment extends DialogFragment {
                                                 boolean isChecked) {
                                 if (isChecked) {
                                     // If the user checked the item, add it to the selected items
-                                   mSelectedChildren.add(childrenNames[which]);
+                                    mSelectedChildren.add(childrenNames[which]);
 
                                 }
                                 else if(mSelectedChildren.contains(childrenNames[which]))
                                 {
-                                   mSelectedChildren.remove(childrenNames[which]);
+                                    mSelectedChildren.remove(childrenNames[which]);
 
                                 }
 
@@ -149,7 +149,7 @@ public class DFragment extends DialogFragment {
             case 3:
             {
                 mSelectedLO = new ArrayList();
-                 builder = new AlertDialog.Builder(getActivity());
+                builder = new AlertDialog.Builder(getActivity());
 
 
                 builder.setTitle(title)
@@ -205,9 +205,22 @@ public class DFragment extends DialogFragment {
         }*/
         Log.d("groupID", String.valueOf(groupId));
         ArrayList<String> childrenNamesArrayList;
+        ArrayList<String> learningOutcomeArrayList;
+        ArrayList<String> activityNamesArrayList;
         k=new KinderDBCon(getActivity());
         k.open();
+        //Retrieving children names from the database
         childrenNamesArrayList=k.getAllChildNames(groupId);
         childrenNames=childrenNamesArrayList.toArray(new String[childrenNamesArrayList.size()]);
+
+        //Retrieving learning outcomes from the database
+        learningOutcomeArrayList=k.getAllLOutcomeCode();
+        // loNames=learningOutcomeArrayList.toArray(new String[learningOutcomeArrayList.size()]);
+        //for ()
+
+        //Retrieving activity names from database
+        activityNamesArrayList=k.getActivityNames();
+        activityNames=activityNamesArrayList.toArray(new String[activityNamesArrayList.size()]);
+
     }
 }

@@ -665,7 +665,6 @@ public class KinderDBCon {
         // Creating a cursor to iterate through db
         final String query = "SELECT EvidenceCode, ActivityName From Evidence WHERE ActivityName=\""+ activity +"\" AND groupID="+ groupID +";\n" +"\n";
         Cursor c = _db.rawQuery(query, null);
-        //Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
         ArrayList<String> result = new ArrayList<String>();
 
         int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
@@ -791,5 +790,4 @@ public class KinderDBCon {
 
         return result;
     }
-
 }
