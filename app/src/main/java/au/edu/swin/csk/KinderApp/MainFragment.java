@@ -228,17 +228,15 @@ class MainAdapter extends BaseAdapter
 
         if (status){
             ArrayList<String> incomplete = k.getIncompleteEvidence(groupID);
-            Log.d(TAG, " incomplet eviID : "+ incomplete.toString());
+            Log.d(TAG, " incomplete eviID : "+ incomplete.toString());
             for (int i=0 ; i < incomplete.size(); i++) {
 
                 ArrayList<String> s = k.getEvidenceByID(incomplete.get(i));
-                for (int j=0 ;j < s.size(); j++ ) {
+               /* for (int j=0 ;j < s.size(); j++ ) {
                     Card tempCard = new Card(s.get(j));
                     list.add(tempCard);
-                }
-
+                }*/
             }
-
         }
     }
     public static String getEvidenceIDSelected(int position){

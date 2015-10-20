@@ -345,8 +345,6 @@ public class MainActivity extends ActionBarActivity implements
 
             }
 
-
-
         } else {
             Toast.makeText(this, " Not implemented yet! " , Toast.LENGTH_SHORT).show();
         }
