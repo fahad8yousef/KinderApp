@@ -68,29 +68,28 @@ public class MainFragment extends Fragment implements
         //testDB=new TestDB(k);
 
         if (fullName == null && activity == null && loutcomeCode == null && completionStatus == 0) {
-            mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID));
-        } else if (fullName !=null && activity == null && loutcomeCode == null){
+            mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID, true));
+        } else if (fullName !=null && activity == null && loutcomeCode == null && completionStatus == 0){
             mainGrid.setAdapter(new MainAdapter(getActivity(), k, fullName));
             fullName=null;
-        } else if (fullName == null && activity !=null && loutcomeCode == null){
+        } else if (fullName == null && activity !=null && loutcomeCode == null && completionStatus == 0){
             mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID, activity));
             activity = null;
 
-        } else if (fullName == null && activity == null && loutcomeCode != null) {
+        } else if (fullName == null && activity == null && loutcomeCode != null && completionStatus == 0) {
             mainGrid.setAdapter(new MainAdapter(getActivity(), k, loutcomeCode, groupID));
-            //k.getLoutcomeCodesByEvidenceID("1");
             loutcomeCode = null;
 
-        } else if (completionStatus == 1) {
-            mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID, true));
+        } else if (fullName == null && activity == null && loutcomeCode == null && completionStatus == 1) {
             completionStatus = 0;
-
+            mainGrid.setAdapter(new MainAdapter(getActivity(), k, groupID, false));
             Log.d(TAG, "Status " + String.valueOf(completionStatus));
 
         }else {
                 fullName = null;
                 activity = null;
-                loutcomeCode = null;}
+                loutcomeCode = null;
+                completionStatus=0;}
 
         Log.d(TAG, String.valueOf(groupID));
         mainGrid.setOnItemClickListener(this);
@@ -140,6 +139,7 @@ class MainAdapter extends BaseAdapter
     String fullName;
     String activity;
     String loutcomeCode;
+    Boolean status = true;
 
     /*
     * This is the constructor for mainAdapter it receives the following and query the db to filter evidence cards displayed in main screen
@@ -149,21 +149,40 @@ class MainAdapter extends BaseAdapter
     * @Param String to hold full child name for filtering
     * @Param String to hold activity selected for filtering
     * */
-    MainAdapter(Context c, KinderDBCon k , int groupID)
+    MainAdapter(Context c, KinderDBCon k , int groupID, Boolean status)
     {
         this.context = c;
         this.k = k;
         this.groupID = groupID;
+
         list = new ArrayList<Card>();
         //int img = R.drawable.cooking1;
-        ArrayList<String> evidenceDateActivity;
-        evidenceDateActivity = k.getEvidenceInfo(groupID);
-        for (int i=0; i<evidenceDateActivity.size() ; i++)
-        {
-            Card tempCard = new Card(evidenceDateActivity.get(i));
-            list.add(tempCard);
-            //Log.d(TAG, "evidance Code =" + tempCard.getID());
+
+        if (status) {
+            ArrayList<String> evidenceDateActivity;
+            evidenceDateActivity = k.getEvidenceInfo(groupID);
+            for (int i=0; i<evidenceDateActivity.size() ; i++)
+            {
+                Card tempCard = new Card(evidenceDateActivity.get(i));
+                list.add(tempCard);
+                //Log.d(TAG, "evidance Code =" + tempCard.getID());
+            }
+
+        } else {
+            ArrayList<String> incomplete = k.getIncompleteEvidence(groupID);
+            Log.d(TAG, " incomplet eviID : "+ incomplete.toString());
+            for (int i=0 ; i < incomplete.size(); i++) {
+
+                ArrayList<String> s = k.getEvidenceByID(incomplete.get(i));
+                for (int j=0 ;j < s.size(); j++ ) {
+                    Card tempCard = new Card(s.get(j));
+                    list.add(tempCard);
+                    Log.d(TAG, " this is id 5 ===  " + tempCard.getID());
+                }
+            }
+
         }
+
     }
 
     MainAdapter(Context c, KinderDBCon k ,String fullName){
@@ -224,21 +243,22 @@ class MainAdapter extends BaseAdapter
         }
     }
 
-    MainAdapter(Context c, KinderDBCon k , int groupID, boolean status) {
+/*    MainAdapter(Context c, KinderDBCon k , int groupID, boolean status) {
 
         if (status){
             ArrayList<String> incomplete = k.getIncompleteEvidence(groupID);
-            Log.d(TAG, " incomplete eviID : "+ incomplete.toString());
+            Log.d(TAG, " incomplet eviID : "+ incomplete.toString());
             for (int i=0 ; i < incomplete.size(); i++) {
 
                 ArrayList<String> s = k.getEvidenceByID(incomplete.get(i));
-               /* for (int j=0 ;j < s.size(); j++ ) {
+                for (int j=0 ;j < s.size(); j++ ) {
                     Card tempCard = new Card(s.get(j));
                     list.add(tempCard);
-                }*/
+                    Log.d(TAG, " this is id 5 ===  " + tempCard.getID());
+                }
             }
         }
-    }
+    }*/
     public static String getEvidenceIDSelected(int position){
         String result;
         result = list.get(position).getID();
@@ -360,7 +380,7 @@ class Card {
             this.completionStatus = data.substring(data.indexOf("$") + 1, data.length());
         }
 
-        Log.d(TAG, evidID + date + activityName + imageFileName + completionStatus);
+        Log.d(TAG, evidID +":"+ date + activityName + imageFileName + completionStatus);
 
     }
 

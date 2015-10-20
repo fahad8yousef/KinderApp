@@ -758,7 +758,6 @@ public class KinderDBCon {
 
         Cursor c = _db.rawQuery(query, null);
         ArrayList<String> result = new ArrayList<String>();
-        //String result = "";
         try {
             int iloutcomeCode = c.getColumnIndex(KEY_NAME_LOUTCOMECODE);
 
