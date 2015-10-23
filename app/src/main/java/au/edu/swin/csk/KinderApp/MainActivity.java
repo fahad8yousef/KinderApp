@@ -23,6 +23,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 /*
@@ -40,6 +44,7 @@ public class MainActivity extends ActionBarActivity implements
         DrawerLayout.DrawerListener {
 
     private static final  String TAG="App/ MainActivity";
+
     /*
     * Drawer component
     */
@@ -59,14 +64,12 @@ public class MainActivity extends ActionBarActivity implements
     private FragmentManager manager;
     private int groupID = 1;
     private FragmentTransaction transaction;
-    ImageButton runCommand;
     Spinner spinner;
     LinearLayout linear;
     AlertDialog ad;
     KinderDBCon k;
     TestDB testDB;
     ActionBar actionBar;
-
     /*
     * This method is call when the app is running to create all components
     * */
@@ -77,9 +80,7 @@ public class MainActivity extends ActionBarActivity implements
         //Drawer layout
         linear = (LinearLayout) findViewById(R.id.drawer_linear);
         //add button to create new EvidCards
-        runCommand = (ImageButton) findViewById(R.id.runCommand);
-        runCommand.setOnClickListener(this);
-        runCommand.bringToFront();
+
 
         //constructing drawer
         createDrawer();
@@ -199,17 +200,15 @@ public class MainActivity extends ActionBarActivity implements
             Bundle bundle= new Bundle();
             bundle.putInt("id", groupID);
             showMainFragment(bundle);
-        //handles drawer button when clicked
+            //handles drawer button when clicked
         }else if (id == android.R.id.home){
 
             if (drawerLayout.isDrawerOpen(linear)) {
                 drawerLayout.closeDrawer(linear);
-                runCommand.bringToFront();
             }else {
                 drawerLayout.openDrawer(linear);
                 drawerLayout.bringToFront();
                 linear.bringToFront();
-                runCommand.bringToFront();
             }
         }
         return super.onOptionsItemSelected(item);
@@ -241,7 +240,6 @@ public class MainActivity extends ActionBarActivity implements
             //Instead of calling the mainAdapter directly, I'm calling the mainFragment from where we'll call the mainAdapter
             showMainFragment(bundle);
             actionBar.setTitle(groupName.getText()); //set title to group selected
-            runCommand.setVisibility(View.VISIBLE);
         } else {actionBar.setTitle("KinderAchievements");}
     }
 
@@ -356,8 +354,7 @@ public class MainActivity extends ActionBarActivity implements
     */
     public void showMainFragment(Bundle bundle)
     {
-        runCommand.setVisibility(View.VISIBLE);
-        runCommand.setClickable(true);
+
         MainFragment mainFragment= new MainFragment();
         mainFragment.setArguments(bundle);
         transaction = manager.beginTransaction();
@@ -378,8 +375,7 @@ public class MainActivity extends ActionBarActivity implements
         formFragment.setArguments(bundle);
         transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_holder, formFragment);
-        runCommand.setVisibility(View.INVISIBLE);
-        runCommand.setClickable(false);
+
         transaction.commit();
     }
 
@@ -395,24 +391,22 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onDrawerOpened(View drawerView) {
         drawerView.bringToFront();
-        runCommand.bringToFront();
     }
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        runCommand.bringToFront();
+
     }
 
     @Override
     public void onDrawerStateChanged(int newState) {
         if (newState == DrawerLayout.STATE_DRAGGING) {
-                // starts opening
+            // starts opening
             drawerLayout.bringChildToFront(linear);
             linear.bringToFront();
             drawerLayout.requestLayout();
         } else {
-            runCommand.bringToFront();
-                // closing drawer
+            // closing drawer
         }
     }
 
@@ -422,7 +416,7 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onBackPressed() {
         // If the drawer is open, then back button should just close the drawer
-       if (drawerLayout != null && drawerLayout.isDrawerOpen(linear)) {
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(linear)) {
             drawerLayout.closeDrawer(linear);
             return;
         }
@@ -433,10 +427,8 @@ public class MainActivity extends ActionBarActivity implements
         if (currentFrag instanceof MainFragment){
             finish();}
         // Current fragment is not the main fragment, show the main fragment
-       else if (currentFrag instanceof FormFragment) {
+        else if (currentFrag instanceof FormFragment) {
 
-            runCommand.setVisibility(View.VISIBLE);
-            runCommand.setClickable(true);
 
             Bundle bundle= new Bundle();
             bundle.putInt("id", groupID);
@@ -452,9 +444,9 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onClick(View v) {
 
-    if (v.getId() == R.id.runCommand) {
-        showFormFragment(2, "");
-    } /*else if (v.getId() == R.id.cancelButton){
+        if (v.getId() == R.id.runCommand) {
+            showFormFragment(2, "");
+        } /*else if (v.getId() == R.id.cancelButton){
         Bundle bundle = new Bundle();
         bundle.putInt("id", groupID);
         showMainFragment(bundle);

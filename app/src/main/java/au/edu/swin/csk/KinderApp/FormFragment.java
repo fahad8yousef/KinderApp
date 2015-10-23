@@ -591,7 +591,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
             comment_Edit.setText(selectedEvidenceInfo.get(1).toString());
             activity_Edit.setText(selectedEvidenceInfo.get(2).toString());
             thumbnailImageName=(selectedEvidenceInfo.get(3).toString());
-            if (thumbnailImageName=="")
+            if (thumbnailImageName.equals(""))
             {
                 photo_ImageView.setImageBitmap(null);
                 image_Text.setVisibility(View.VISIBLE);
@@ -603,7 +603,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
                     Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                     photo_ImageView.setImageBitmap(myBitmap);
-                    image_Text.setText(null);
+                    image_Text.setVisibility(View.VISIBLE);
 
                 } else {
                     photo_ImageView.setImageBitmap(null);
@@ -615,9 +615,6 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
             Log.d("someshBahuguna", String.valueOf(selectedEvidenceInfo));
         }
-        else
-        {
 
-        }
     }
 }

@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -33,6 +35,8 @@ public class MainFragment extends Fragment implements
 {
 
     //Basically all the mainGrid functionality has been shifted to this fragment.
+    private FloatingActionButton homeButton;
+    private AddFloatingActionButton newButton;
 
     GridView mainGrid;
     KinderDBCon k;
@@ -57,7 +61,24 @@ public class MainFragment extends Fragment implements
         k.open(); //open database
 
         //The following line is used to retrieve the groupID that was stored in a bundle and associated with the mainFragment.
+        homeButton=(FloatingActionButton)view.findViewById(R.id.fab_home);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", groupID);
+                ((MainActivity) getActivity()).showMainFragment(bundle);
+            }
+        });
+        newButton=(AddFloatingActionButton)view.findViewById(R.id.fab_new);
+        newButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).showFormFragment(2, "");
+
+            }
+        });
         groupID=getArguments().getInt("id");
         fullName = getArguments().getString("fullName");
         Log.d(TAG, "Name received in bundle " + fullName);
@@ -100,7 +121,22 @@ public class MainFragment extends Fragment implements
 
     }
 
+    public void showHomeButton()
+    {
 
+    }
+    public void hideHomeButton()
+    {
+
+    }
+    public void showAddButton()
+    {
+
+    }
+    public void hideAddButton()
+    {
+
+    }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         /*Toast.makeText(getActivity(),

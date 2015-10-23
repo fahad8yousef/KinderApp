@@ -36,7 +36,7 @@
     <string name="changeDate_button">Change Date</string>
     <string name="image_text">\u0020 Image will be \ndisplayed here</string>
     <string name="comment_hint">Enter your comment here</string>
-    <string name="select_activity">Select Activities</string>
+    <string name="select_activity">Select Activity</string>
     <string name="select_children">Select Children</string>
     <string name="select_lo">Select L.O.</string>
     <string name="ok">Okay</string>
