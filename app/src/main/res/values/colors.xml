@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    <color name="primary_material_dark">#03a9f4</color>
-    <color name="primary_dark_material_dark">#010110</color>
-    <color name="accent_material_light">#00b0ff</color>
-    <color name="primary_text_default_material_light">#ffffff</color>-->
+    <!--    <color name="primary_material_dark">#03a9f4</color>
+        <color name="primary_dark_material_dark">#010110</color>
+        <color name="accent_material_light">#00b0ff</color>
+        <color name="primary_text_default_material_light">#ffffff</color>-->
     <color name="primary_text_material_light">#3aa9ef</color>
     <color name="primary_text_material_dark">#000000</color>
     <color name="background_dark">#00b0ff</color>
@@ -20,4 +20,29 @@
      <color name="primary_material_dark_1">#1a0301</color>
      <color name="accent_material_dark">#000c0b</color>
      <color name="background_material_dark">#660202</color>-->
+    <!--grey-->
+    <color name="md_grey_50">#FAFAFA</color>
+    <color name="md_grey_100">#F5F5F5</color>
+    <color name="md_grey_200">#EEEEEE</color>
+    <color name="md_grey_300">#E0E0E0</color>
+    <color name="md_grey_400">#BDBDBD</color>
+    <color name="md_grey_500">#9E9E9E</color>
+    <color name="md_grey_600">#757575</color>
+    <color name="md_grey_700">#616161</color>
+    <color name="md_grey_800">#424242</color>
+    <color name="md_grey_900">#212121</color>
+    <color name="md_black_1000">#000000</color>
+    <color name="md_white_1000">#ffffff</color>
+
+    <!--blue grey-->
+    <color name="md_blue_grey_50">#ECEFF1</color>
+    <color name="md_blue_grey_100">#CFD8DC</color>
+    <color name="md_blue_grey_200">#B0BBC5</color>
+    <color name="md_blue_grey_300">#90A4AE</color>
+    <color name="md_blue_grey_400">#78909C</color>
+    <color name="md_blue_grey_500">#607D8B</color>
+    <color name="md_blue_grey_600">#546E7A</color>
+    <color name="md_blue_grey_700">#455A64</color>
+    <color name="md_blue_grey_800">#37474F</color>
+    <color name="md_blue_grey_900">#263238</color>
 </resources>

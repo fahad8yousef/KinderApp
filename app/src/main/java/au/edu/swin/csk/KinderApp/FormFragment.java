@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -60,9 +61,9 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     private Button select_LO;
     private Button select_Children;
     private TextView image_Text;
-    private ImageView delete_Image;
-    private ImageView add_Image;
-    private ImageView save_Image;
+    private FloatingActionButton delete_Image;
+    private FloatingActionButton add_Image;
+    private FloatingActionButton save_Image;
     private Bitmap photo;
     private TextView dateView;
     private AlertDialog dialog;
@@ -73,6 +74,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
     private ArrayList<String> selectedChildrenIDs = new ArrayList<>();
     private ArrayList<String> selectedLearningOutcomes = new ArrayList<>();
 
+    private FloatingActionsMenu pictureMenu;
     private int groupID;
     private EditText activity_Edit;
     private EditText children_Edit;
@@ -118,12 +120,16 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
 
 
     public void initializeUI() {
+
+        //  pictureMenu=(FloatingActionsMenu)getView().findViewById(R.id.fab_picturemenu);
         image_Text = (TextView) getView().findViewById(R.id.image_text);
-        add_Image = (ImageView) getView().findViewById(R.id.takepicture_image);
-        delete_Image = (ImageView) getView().findViewById(R.id.deletepicture_image);
+        add_Image = (FloatingActionButton) getView().findViewById(R.id.fab_add);
+        delete_Image = (FloatingActionButton) getView().findViewById(R.id.fab_delete);
+        //pictureMenu.addButton(add_Image);
+
         photo_ImageView = (ImageView) getView().findViewById(R.id.showpicture_image);
 
-        save_Image=(ImageView)getView().findViewById(R.id.savepicture_image);
+        save_Image=(FloatingActionButton)getView().findViewById(R.id.fab_save);
         save_Image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -457,19 +463,12 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         String completionStatus=getFormCompletionStatus();
         //Gets the rowid inserted as Long type, used static values for testing
 
-        /*if (!k.getEvidenceByID(selectedEvidenceID).isEmpty() && !k.getEvidenceByID(selectedEvidenceID).contains(""))
-        {
-            k.deleteEvidenceByID(selectedEvidenceID);
-        }*/
         if (callIdentifier==1)
         {
             k.deleteEvidenceByID(selectedEvidenceID);
 
         }
-        if (thumbnailImageName=="")
-        {
-            thumbnailImageName= String.valueOf(R.drawable.img_not_found);
-        }
+
         Long newEvidenceID = k.InsertIntoEvidenceTable(dateView.getText().toString(), comment_Edit.getText().toString()
                 , groupID, activity_Edit.getText().toString(), thumbnailImageName, completionStatus, children_Edit.getText().toString(), lo_Edit.getText().toString());
         Toast.makeText(getActivity(), "Row inserted has ID = " + newEvidenceID, Toast.LENGTH_SHORT).show();
@@ -478,6 +477,11 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
         for (int i=0; i<selectedChildrenIDs.size(); i++)
         {
             k.InsertIntoEvidenceChildTable(Integer.parseInt(selectedChildrenIDs.get(i)), Integer.parseInt(evidenceID));
+
+        }
+        for (int i=0; i<selectedLearningOutcomes.size(); i++)
+        {
+            k.InsertIntoEvidenceLOutcomeTable(Integer.parseInt(evidenceID), selectedLearningOutcomes.get(i));
 
         }
         //then add insert to join table and assign individual children to the newly created evidence id
@@ -556,7 +560,7 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
                 for (int i=0; i<selectedValues.size(); i++)
                 {
 
-                    // selectedLearningOutcomes=
+                    selectedLearningOutcomes=selectedValues;
                 }
                 lo_Edit.setText(selectedValuesString);
                 break;
@@ -587,16 +591,24 @@ public class FormFragment extends Fragment implements DialogInterface.OnClickLis
             comment_Edit.setText(selectedEvidenceInfo.get(1).toString());
             activity_Edit.setText(selectedEvidenceInfo.get(2).toString());
             thumbnailImageName=(selectedEvidenceInfo.get(3).toString());
-            File imgFile = new  File("/storage/emulated/0/Pictures/KinderThumbnails/" + thumbnailImageName);
-
-            if(imgFile.exists()){
-
-                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                photo_ImageView.setImageBitmap(myBitmap);
-                image_Text.setText(null);
-
-            } else {
+            if (thumbnailImageName=="")
+            {
                 photo_ImageView.setImageBitmap(null);
+                image_Text.setVisibility(View.VISIBLE);
+
+            }
+            else {
+                File imgFile = new File("/storage/emulated/0/Pictures/KinderThumbnails/" + thumbnailImageName);
+                if (imgFile.exists()) {
+
+                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                    photo_ImageView.setImageBitmap(myBitmap);
+                    image_Text.setText(null);
+
+                } else {
+                    photo_ImageView.setImageBitmap(null);
+                    image_Text.setVisibility(View.VISIBLE);
+                }
             }
             children_Edit.setText(selectedEvidenceInfo.get(4).toString());
             lo_Edit.setText(selectedEvidenceInfo.get(5).toString());

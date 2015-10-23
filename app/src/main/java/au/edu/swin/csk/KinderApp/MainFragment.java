@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -63,6 +65,7 @@ public class MainFragment extends Fragment implements
         loutcomeCode = getArguments().getString("loutcomeCode");
         Log.d(TAG,"hereee-- " +loutcomeCode);
         completionStatus = getArguments().getInt("completionStatus");
+        Log.d(TAG,"completionStatus----- " +completionStatus);
 
         mainGrid = (GridView)view.findViewById(R.id.main_grid);
         //testDB=new TestDB(k);
@@ -127,8 +130,9 @@ public class MainFragment extends Fragment implements
 * Querying the db to get Evidence cards based on Activity selected
 * Querying the db to get Evidence cards based on LOCode selected
 * */
-class MainAdapter extends BaseAdapter
+class MainAdapter extends BaseAdapter //change to arrayadapter
 {
+    String dir = "/storage/emulated/0/Pictures/KinderThumbnails/";
     private static final String TAG = "Fahad/ MainAdapter" ;
     public static ArrayList<Card> list;
     Context context;
@@ -155,10 +159,10 @@ class MainAdapter extends BaseAdapter
         this.k = k;
         this.groupID = groupID;
 
-        list = new ArrayList<Card>();
         //int img = R.drawable.cooking1;
 
         if (status) {
+            list = new ArrayList<Card>();
             ArrayList<String> evidenceDateActivity;
             evidenceDateActivity = k.getEvidenceInfo(groupID);
             for (int i=0; i<evidenceDateActivity.size() ; i++)
@@ -169,6 +173,7 @@ class MainAdapter extends BaseAdapter
             }
 
         } else {
+            list = new ArrayList<Card>();
             ArrayList<String> incomplete = k.getIncompleteEvidence(groupID);
             Log.d(TAG, " incomplet eviID : "+ incomplete.toString());
             for (int i=0 ; i < incomplete.size(); i++) {
@@ -243,22 +248,6 @@ class MainAdapter extends BaseAdapter
         }
     }
 
-/*    MainAdapter(Context c, KinderDBCon k , int groupID, boolean status) {
-
-        if (status){
-            ArrayList<String> incomplete = k.getIncompleteEvidence(groupID);
-            Log.d(TAG, " incomplet eviID : "+ incomplete.toString());
-            for (int i=0 ; i < incomplete.size(); i++) {
-
-                ArrayList<String> s = k.getEvidenceByID(incomplete.get(i));
-                for (int j=0 ;j < s.size(); j++ ) {
-                    Card tempCard = new Card(s.get(j));
-                    list.add(tempCard);
-                    Log.d(TAG, " this is id 5 ===  " + tempCard.getID());
-                }
-            }
-        }
-    }*/
     public static String getEvidenceIDSelected(int position){
         String result;
         result = list.get(position).getID();
@@ -305,47 +294,43 @@ class MainAdapter extends BaseAdapter
     * This override method used to Assign Evidence cards to rows in the grid layout and
     * return the view of each card
     * @Param int i
-    * @Param View the row
-    * @Return returns the row requested
+    * @Param View the view
+    * @Return returns the view requested
     * */
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-
-        View row = view;
-        ViewHolder holder;
-        if (row == null)
+        Card temp = list.get(i);
+        ViewHolder holder =null;
+        if (view == null)
         {
-            //inflate row and assign to holder
+            //inflate view and assign to holder
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.single_item_main, viewGroup, false);
-            holder = new ViewHolder(row);
-            row.setTag(holder);
+            view = inflater.inflate(R.layout.single_item_main, viewGroup, false);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
+
         }
         else
         {
-            holder = (ViewHolder) row.getTag();
+            holder = (ViewHolder) view.getTag();
         }
 
         //get each object from the Card Class and set parameters
-        Card temp = list.get(i);
-        File imgFile = new File("/storage/emulated/0/Pictures/KinderThumbnails/" + temp.imageFileName);
-
-        if(imgFile.exists()){
-
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            holder.cardImage.setImageBitmap(myBitmap);
-        } /*else if (temp.imageFileName.equals("")){
-
-            int defaultImage= R.drawable.img_not_found;
-            holder.cardImage.setImageResource(defaultImage);
-        } else {
-            int defaultImage= R.drawable.img_not_found;
-            holder.cardImage.setImageResource(defaultImage);
-        }*/
-
         holder.cardDate.setText(temp.date);
         holder.cardActivity.setText(temp.activityName);
-        return row;
+
+        File imgFile = new File("/storage/emulated/0/Pictures/KinderThumbnails/" + temp.imageFileName);
+
+        if (!temp.imageFileName.equals("") && imgFile.exists()) {
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            holder.cardImage.setImageBitmap(myBitmap);
+
+        } else {
+            holder.cardImage.setImageResource(R.drawable.img_not_found);
+
+            Log.d(TAG, "File Not exists : " + temp.imageFileName);
+        }
+        return view;
     }
 }
 

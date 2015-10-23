@@ -7,10 +7,10 @@
     <string name="search_item">search</string>
 
     <string-array name="groups">
-        <item>Koala</item>
-        <item>Wombat</item>
+        <item>4YO Koala</item>
+        <item>4YO Red</item>
+        <item>3YO Wombat</item>
         <item>3YO</item>
-        <item>4YO</item>
     </string-array>
 
 

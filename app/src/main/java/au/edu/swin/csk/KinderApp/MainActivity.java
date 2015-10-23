@@ -242,7 +242,7 @@ public class MainActivity extends ActionBarActivity implements
             showMainFragment(bundle);
             actionBar.setTitle(groupName.getText()); //set title to group selected
             runCommand.setVisibility(View.VISIBLE);
-        } else {actionBar.setTitle("KinderApp");}
+        } else {actionBar.setTitle("KinderAchievements");}
     }
 
     @Override

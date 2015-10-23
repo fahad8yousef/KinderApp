@@ -358,7 +358,7 @@ public class KinderDBCon {
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
         // Creating a cursor to iterate through db
-        Cursor c = _db.query(DATABASE_TABLE_CHILD,columns,null,null,null,null,null);
+        Cursor c = _db.query(DATABASE_TABLE_CHILD, columns, null, null, null, null, null);
 
         String result = "";
         int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
@@ -400,30 +400,37 @@ public class KinderDBCon {
     // getting data from Evidence table
     public ArrayList<String> getEvidenceData(String evidID)
     {
+        _db.isOpen();
         final String query = "SELECT * FROM Evidence WHERE EvidenceCode=\""+evidID+"\";\n" +"\n";
         // Creating a cursor to iterate through db
         Cursor c = _db.rawQuery(query, null);
 
         ArrayList<String> result = new ArrayList<String>();
-        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
-        int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
-        int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
-        int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
-        int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
-        int iphotoFileName = c.getColumnIndex(KEY_NAME_PHOTOFILENAME);
-        int iCompletionStatus = c.getColumnIndex(KEY_NAME_COMPLETIONSTATUS);
-        int iChildCheckBox = c.getColumnIndex(KEY_NAME_CHILDCHECKBOX);
-        int iLoCodeCheckBox = c.getColumnIndex(KEY_NAME_LOCODECHECKBOX);
+        try {
+
+            int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+            int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
+            int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
+            int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
+            int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
+            int iphotoFileName = c.getColumnIndex(KEY_NAME_PHOTOFILENAME);
+            int iCompletionStatus = c.getColumnIndex(KEY_NAME_COMPLETIONSTATUS);
+            int iChildCheckBox = c.getColumnIndex(KEY_NAME_CHILDCHECKBOX);
+            int iLoCodeCheckBox = c.getColumnIndex(KEY_NAME_LOCODECHECKBOX);
 
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
-        {
-            result.add(c.getString(iEvidenceDate));
-            result.add(c.getString(iEvidenceComment));
-            result.add(c.getString(iActivityName));
-            result.add(c.getString(iphotoFileName));
-            result.add(c.getString(iChildCheckBox));
-            result.add(c.getString(iLoCodeCheckBox));
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
+            {
+                result.add(c.getString(iEvidenceDate));
+                result.add(c.getString(iEvidenceComment));
+                result.add(c.getString(iActivityName));
+                result.add(c.getString(iphotoFileName));
+                result.add(c.getString(iChildCheckBox));
+                result.add(c.getString(iLoCodeCheckBox));
+
+            }
+        } finally {
+            c.close();
 
         }
 
@@ -512,6 +519,7 @@ public class KinderDBCon {
     // getting data from Evidence table
     public ArrayList<String> getEvidenceInfo(int groupID)
     {
+        _db.isOpen();
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME,KEY_NAME_PHOTOFILENAME, KEY_NAME_COMPLETIONSTATUS,KEY_NAME_CHILDCHECKBOX,KEY_NAME_LOCODECHECKBOX};
         // Creating a cursor to iterate through db
@@ -519,16 +527,21 @@ public class KinderDBCon {
 
         ArrayList<String> result = new ArrayList<String>();
         //String result = "";
-        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
-        int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
-        int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
-        int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
-        int iPhotoName = c.getColumnIndex(KEY_NAME_PHOTOFILENAME);
-        int iCompletionStatus = c.getColumnIndex(KEY_NAME_COMPLETIONSTATUS);
+        try {
+            int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+            int iEvidenceDate = c.getColumnIndex(KEY_NAME_EvidenceDATE);
+            int iEvidenceComment = c.getColumnIndex(KEY_NAME_EvidenceCOMMENT);
+            int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
+            int iPhotoName = c.getColumnIndex(KEY_NAME_PHOTOFILENAME);
+            int iCompletionStatus = c.getColumnIndex(KEY_NAME_COMPLETIONSTATUS);
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
-        {
-            result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) + ":" + c.getString(iPhotoName) + "$" + c.getString(iCompletionStatus));
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
+            {
+                result.add( c.getString(iEvidenceCode) + "|" + c.getString(iEvidenceDate) + "," + c.getString(iActivityName) + ":" + c.getString(iPhotoName) + "$" + c.getString(iCompletionStatus));
+            }
+        } finally {
+            c.close();
+
         }
         return  result;
     }
@@ -536,6 +549,7 @@ public class KinderDBCon {
     //to return only first and surname
     public ArrayList<String> getChildNames(int groupID)
     {
+        _db.isOpen();
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
         // Creating a cursor to iterate through db
@@ -543,15 +557,20 @@ public class KinderDBCon {
 
         ArrayList<String> result = new ArrayList<String>();
 
-        int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
-        int iChildFirstName = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
-        int iChildSurName = c.getColumnIndex(KEY_NAME_CHILDSURNAME);
-        int iChildGender = c.getColumnIndex(KEY_NAME_CHILDGENDER);
-        int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
+        try {
+            int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
+            int iChildFirstName = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
+            int iChildSurName = c.getColumnIndex(KEY_NAME_CHILDSURNAME);
+            int iChildGender = c.getColumnIndex(KEY_NAME_CHILDGENDER);
+            int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            result.add(c.getString(iChildFirstName) + "," + c.getString(iChildSurName));
+                result.add(c.getString(iChildFirstName) + "," + c.getString(iChildSurName));
+            }
+        } finally {
+            c.close();
+
         }
 
         return  result;
@@ -559,8 +578,9 @@ public class KinderDBCon {
 
     public String getChildIDByName(String fullName)
     {
+        _db.isOpen();
         String firstName = fullName.substring(0, fullName.indexOf(" "));
-        String lastName = fullName.substring(fullName.indexOf(" ")+1 , fullName.length());
+        String lastName = fullName.substring(fullName.indexOf(" ") + 1, fullName.length());
 
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
@@ -569,10 +589,15 @@ public class KinderDBCon {
         Cursor c = _db.rawQuery(query, null);
         String result = "";
 
-        int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+        try {
+            int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            result= c.getString(iChildRowID);
+                result= c.getString(iChildRowID);
+            }
+        } finally {
+            c.close();
+
         }
         Log.d(TAG, " heres the ID ---> " + result);
         return  result;
@@ -580,6 +605,7 @@ public class KinderDBCon {
 
     public ArrayList<String> getAllChildNames(int groupID)
     {
+        _db.isOpen();
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
         // Creating a cursor to iterate through db
@@ -587,13 +613,18 @@ public class KinderDBCon {
 
         ArrayList<String> result = new ArrayList<String>();
 
-        int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
-        int iChildFirstName = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
-        int iChildSurName = c.getColumnIndex(KEY_NAME_CHILDSURNAME);
+        try {
+            int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
+            int iChildFirstName = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
+            int iChildSurName = c.getColumnIndex(KEY_NAME_CHILDSURNAME);
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            result.add(c.getString(iChildFirstName) + " " + c.getString(iChildSurName));
+                result.add(c.getString(iChildFirstName) + " " + c.getString(iChildSurName));
+            }
+        } finally {
+            c.close();
+
         }
 
         return  result;
@@ -601,18 +632,24 @@ public class KinderDBCon {
 
     public ArrayList<String> getActivityNames()
     {
+        _db.isOpen();
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_ACTIVITYNAME,KEY_NAME_ACTIVITYTYPE,KEY_NAME_ACTIVITYDESCRIPTION};
         // Creating a cursor to iterate through db
         Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
         ArrayList<String> result = new ArrayList<String>();
 
-        int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
-        int iActivityType = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
-        int iActivityDescription = c.getColumnIndex(KEY_NAME_ACTIVITYDESCRIPTION);
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+        try {
+            int iActivityName = c.getColumnIndex(KEY_NAME_ACTIVITYNAME);
+            int iActivityType = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
+            int iActivityDescription = c.getColumnIndex(KEY_NAME_ACTIVITYDESCRIPTION);
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            result.add(c.getString(iActivityName));
+                result.add(c.getString(iActivityName));
+            }
+        } finally {
+            c.close();
+
         }
 
         return  result;
@@ -620,23 +657,30 @@ public class KinderDBCon {
 
     public ArrayList<String> getAllLOutcomeCode()
     {
+        _db.isOpen();
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_LOUTCOMECODE};
         // Creating a cursor to iterate through db
         Cursor c = _db.query(DATABASE_TABLE_LOUTCOME, columns, null, null, null, null, null);
         ArrayList<String> result = new ArrayList<String>();
 
-        int iLOutcomeCode = c.getColumnIndex(KEY_NAME_LOUTCOMECODE);
-        int iLOCDescription = c.getColumnIndex(KEY_NAME_LOCDESCRIPTION);
+        try {
+            int iLOutcomeCode = c.getColumnIndex(KEY_NAME_LOUTCOMECODE);
+            int iLOCDescription = c.getColumnIndex(KEY_NAME_LOCDESCRIPTION);
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
-            result.add(c.getString(iLOutcomeCode));
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+                result.add(c.getString(iLOutcomeCode));
+            }
+        } finally {
+            c.close();
+
         }
 
         return  result;
     }
 
     public ArrayList<String> getEvidenceByChild(String firstName, String lastName) {
+        _db.isOpen();
 
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_EvidenceCODE};
@@ -646,12 +690,17 @@ public class KinderDBCon {
         //Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
         ArrayList<String> result = new ArrayList<String>();
 
-        int iChildCode = c.getColumnIndex(KEY_NAME_CHILDID);
-        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+        try {
+            int iChildCode = c.getColumnIndex(KEY_NAME_CHILDID);
+            int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            result.add(c.getString(iEvidenceCode));
+                result.add(c.getString(iEvidenceCode));
+            }
+        } finally {
+            c.close();
+
         }
 
         Log.d(TAG, result.toString());
@@ -660,6 +709,7 @@ public class KinderDBCon {
 
     public ArrayList<String> getEvidenceByActivity(int groupID, String activity) {
 
+        _db.isOpen();
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_EvidenceCODE, KEY_NAME_ACTIVITYNAME};
         // Creating a cursor to iterate through db
@@ -667,11 +717,17 @@ public class KinderDBCon {
         Cursor c = _db.rawQuery(query, null);
         ArrayList<String> result = new ArrayList<String>();
 
-        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+        try {
+            int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            result.add(c.getString(iEvidenceCode));
+                result.add(c.getString(iEvidenceCode));
+            }
+
+        } finally {
+            c.close();
+
         }
 
         Log.d(TAG, result.toString());
@@ -680,28 +736,36 @@ public class KinderDBCon {
 
     public ArrayList<String> getIncompleteEvidence(int groupID) {
 
+        _db.isOpen();
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_EvidenceCODE, KEY_NAME_COMPLETIONSTATUS};
         String status = "false";
         // Creating a cursor to iterate through db
-        final String query = "SELECT EvidenceCode From Evidence WHERE completionStatus=\""+ status +"\" AND groupID="+ groupID +";\n" +"\n";
+        final String query = "SELECT EvidenceCode From Evidence WHERE completionStatus=\""+ status + "\" AND groupID="+ groupID +";\n" +"\n";
         Cursor c = _db.rawQuery(query, null);
         //Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
         ArrayList<String> result = new ArrayList<String>();
 
-        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+        try {
+            int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-            result.add(c.getString(iEvidenceCode));
+                result.add(c.getString(iEvidenceCode));
+            }
+
+        } finally {
+            c.close();
+
         }
 
 
-        Log.d(TAG, " incomplete : "+ result.toString());
+        Log.d(TAG, " incomplete : " + result.toString());
         return  result;
     }
 
     public ArrayList<String> getEvidenceByLoutcomeCode(String loutcomeCode) {
+        _db.isOpen();
 
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_EvidenceCODE, KEY_NAME_LOUTCOMECODE};
@@ -710,13 +774,18 @@ public class KinderDBCon {
         Cursor c = _db.rawQuery(query, null);
         //Cursor c = _db.query(DATABASE_TABLE_ACTIVITY, columns, null, null, null, null, null);
         ArrayList<String> result = new ArrayList<String>();
+        try {
+            int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
 
-        int iEvidenceCode = c.getColumnIndex(KEY_NAME_EvidenceCODE);
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-        for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+                result.add(c.getString(iEvidenceCode));
+            }
+        } finally {
+            c.close();
 
-            result.add(c.getString(iEvidenceCode));
         }
+
 
         Log.d(TAG, "this is locome selected ids"+ result.toString());
         return  result;
@@ -724,7 +793,7 @@ public class KinderDBCon {
     }
 
     public ArrayList<String> getEvidenceByID(String evidenceCode) {
-
+        _db.isOpen();
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {KEY_NAME_EvidenceCODE,KEY_NAME_EvidenceDATE,KEY_NAME_EvidenceCOMMENT,KEY_NAME_GROUPID,KEY_NAME_ACTIVITYNAME,KEY_NAME_PHOTOFILENAME, KEY_NAME_COMPLETIONSTATUS,KEY_NAME_CHILDCHECKBOX,KEY_NAME_LOCODECHECKBOX};
         // Creating a cursor to iterate through db
@@ -747,6 +816,7 @@ public class KinderDBCon {
         } finally {
             c.close();
         }
+
         return  result;
     }
 
@@ -769,8 +839,9 @@ public class KinderDBCon {
             c.close();
         }
 
-        Log.d(TAG, "List of LoutcomeCodes tagged in Evidence id: " + evidenceCode+ "are --> " + result.toString());
+        Log.d(TAG, "List of LoutcomeCodes tagged in Evidence id: " + evidenceCode + "are --> " + result.toString());
         return  result;
+
     }
 
 
@@ -778,6 +849,7 @@ public class KinderDBCon {
     //deletes evidence data from all associated tables
     public boolean deleteEvidenceByID(String evidID)
     {
+        _db.isOpen();
         Boolean a = _db.delete(DATABASE_TABLE_EVIDENCE, KEY_NAME_EvidenceCODE + "=" + evidID, null) > 0;
         Boolean b =_db.delete(DATABASE_TABLE_EVIDENCECHILD, KEY_NAME_EvidenceCODE + "=" + evidID, null) > 0;
         Boolean c =_db.delete(DATABASE_TABLE_EVIDENCELOUTCOME, KEY_NAME_EvidenceCODE + "=" + evidID, null) > 0;

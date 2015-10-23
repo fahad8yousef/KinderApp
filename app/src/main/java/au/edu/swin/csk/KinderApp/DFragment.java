@@ -215,8 +215,7 @@ public class DFragment extends DialogFragment {
 
         //Retrieving learning outcomes from the database
         learningOutcomeArrayList=k.getAllLOutcomeCode();
-        // loNames=learningOutcomeArrayList.toArray(new String[learningOutcomeArrayList.size()]);
-        //for ()
+        loNames=learningOutcomeArrayList.toArray(new String[learningOutcomeArrayList.size()]);
 
         //Retrieving activity names from database
         activityNamesArrayList=k.getActivityNames();

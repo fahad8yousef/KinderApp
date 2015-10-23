@@ -38,9 +38,9 @@ public class TestDB {
     }
 
     public void addGroup() {
-        k.InsertIntoGroupTable("Koala");
-        k.InsertIntoGroupTable("Wombat");
-        k.InsertIntoGroupTable("4YO");
+        k.InsertIntoGroupTable("4YO Koala");
+        k.InsertIntoGroupTable("4YO Red");
+        k.InsertIntoGroupTable("3YO Wombat");
         k.InsertIntoGroupTable("3YO");
     }
 
@@ -61,15 +61,15 @@ public class TestDB {
         k.InsertIntoEvidenceTable("22/12/2012", "this is comment", 1, "Sport", "img001", "false", "", "");
         k.InsertIntoEvidenceTable("18/3/2012", "this is comment", 3, "Drawing", "thumbWombat20151016_212000.jpg", "", "", "");
         k.InsertIntoEvidenceTable("18/12/2012", "this is comment", 2, "Cooking", "img001", "", "", "");
-        k.InsertIntoEvidenceTable("18/02/2012", "this is comment", 4, "Swimming", "thumbWombat20151016_212000.jpg", "", "", "");
+        k.InsertIntoEvidenceTable("18/02/2012", "this is comment", 4, "Swimming", "", "", "", "");
         k.InsertIntoEvidenceTable("3/5/2012", "this is comment", 3, "Cooking", "img001", "", "", "");
-        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "thumbWombat20151016_212000.jpg", "", "", "");
+        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "", "", "", "");
         k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "img001", "", "", "");
         k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 2, "Drawing", "img001", "", "", "");
-        k.InsertIntoEvidenceTable( "18/12/2012", "this is comment", 4, "Cooking", "thumbWombat20151016_212000.jpg", "", "", "");
+        k.InsertIntoEvidenceTable( "18/12/2012", "this is comment", 4, "Cooking", "", "", "", "");
         k.InsertIntoEvidenceTable( "18/02/2012", "this is comment", 2, "Swimming", "img001", "", "", "");
         k.InsertIntoEvidenceTable( "3/5/2012", "this is comment", 3, "Cooking", "img001", "", "", "");
-        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "thumbWombat20151016_212000.jpg", "", "", "");
+        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "", "", "", "");
         k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "img001", "", "", "");
         k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 4, "Drawing", "img001", "", "", "");
         k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "img001", "", "", "");
@@ -81,6 +81,20 @@ public class TestDB {
         k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "img001", "", "", "");
         k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "img001", "", "", "");
         k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 4, "Drawing", "img001", "", "", "");
+        k.InsertIntoEvidenceTable( "18/02/2012", "this is comment", 2, "Swimming", "img001", "", "", "");
+        k.InsertIntoEvidenceTable( "3/5/2012", "this is comment", 3, "Cooking", "img001", "", "", "");
+        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "", "", "", "");
+        k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "img001", "", "", "");
+        k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 1, "Drawing", "img001", "", "", "");
+        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 1, "Art", "", "", "", "");
+        k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "", "", "", "");
+        k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 1, "Drawing", "", "", "", "");
+        k.InsertIntoEvidenceTable( "18/12/2012", "this is comment", 4, "Cooking", "", "", "", "");
+        k.InsertIntoEvidenceTable( "18/02/2012", "this is comment", 2, "Swimming", "", "", "", "");
+        k.InsertIntoEvidenceTable( "3/5/2012", "this is comment", 3, "Cooking", "", "", "", "");
+        k.InsertIntoEvidenceTable( "2/4/2012", "this is comment", 4, "Art", "", "", "", "");
+        k.InsertIntoEvidenceTable( "22/12/2012", "this is comment", 1, "Sport", "", "", "", "");
+        k.InsertIntoEvidenceTable( "18/3/2012", "this is comment", 4, "Drawing", "", "", "", "");
 
     }
 

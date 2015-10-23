@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,11 +9,10 @@
         android:layout_height="350dp"
         android:id="@+id/showpicture_image"
         android:layout_gravity="center_horizontal"
+        android:background="@color/md_blue_grey_200"
+        android:adjustViewBounds="false"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@color/primary_material_dark"
-        android:adjustViewBounds="false" />
+        android:layout_centerHorizontal="true" />
 
 
     <RelativeLayout android:layout_width="match_parent"
@@ -24,41 +24,6 @@
         android:layout_alignParentStart="true"
         android:id="@+id/relativeLayout"
         android:layout_below="@+id/showpicture_image">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/date_text"
-            android:id="@+id/date_text"
-            android:textSize="28dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/activity_text"
-            android:layout_alignStart="@+id/activity_text"
-            android:layout_marginTop="75dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/children_text"
-            android:id="@+id/children_text"
-            android:textSize="28dp"
-            android:layout_alignBottom="@+id/view"
-            android:layout_alignLeft="@+id/activity_text"
-            android:layout_alignStart="@+id/activity_text" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/activity_text"
-            android:id="@+id/activity_text"
-            android:textSize="28dp"
-            android:layout_marginLeft="66dp"
-            android:layout_marginStart="66dp"
-            android:layout_alignBottom="@+id/select_activity"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
 
 
         <View
@@ -66,78 +31,60 @@
             android:layout_height="200dp"
             android:background="@android:color/darker_gray"
             android:id="@+id/view"
+            android:layout_marginRight="282dp"
+            android:layout_marginEnd="282dp"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/lo_text"
-            android:id="@+id/lo_text"
-            android:textSize="28dp"
-            android:layout_alignTop="@+id/date_view"
-            android:layout_alignLeft="@+id/comment_text"
-            android:layout_alignStart="@+id/comment_text" />
+            android:layout_toLeftOf="@+id/lo_edit"
+            android:layout_toStartOf="@+id/lo_edit" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/comment_text"
-            android:id="@+id/comment_text"
-            android:textSize="28dp"
-            android:layout_marginLeft="61dp"
-            android:layout_marginStart="61dp"
-            android:layout_alignBottom="@+id/select_children"
-            android:layout_toRightOf="@+id/view"
-            android:layout_toEndOf="@+id/view" />
-
-        <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/date_view"
             android:id="@+id/date_view"
-            android:layout_marginLeft="-30dp"
 
             android:textSize="28dp"
-            android:layout_alignTop="@+id/date_text"
-            android:layout_toRightOf="@+id/children_text"
-            android:layout_toEndOf="@+id/children_text" />
+            android:layout_alignBottom="@+id/changeDate_button"
+            android:layout_alignRight="@+id/view"
+            android:layout_alignEnd="@+id/view"
+            android:layout_alignLeft="@+id/activity_edit"
+            android:layout_alignStart="@+id/activity_edit" />
 
         <Button
             android:layout_width="220sp"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:text="@string/changeDate_button"
             android:id="@+id/changeDate_button"
             android:background="@drawable/buttonshape"
             android:textColor="#FFFFFF"
             android:textSize="20dp"
-            android:layout_alignBottom="@+id/lo_text"
-            android:layout_alignRight="@+id/view"
-            android:layout_alignEnd="@+id/view"
-            android:layout_alignTop="@+id/lo_edit"
-            android:layout_marginRight="30dp" />
+            android:layout_alignTop="@+id/view"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="63dp"
+            android:layout_marginStart="63dp" />
 
         <EditText
             android:layout_width="150sp"
             android:layout_height="wrap_content"
             android:id="@+id/children_edit"
-            android:layout_marginLeft="11dp"
-            android:layout_alignBottom="@+id/children_text"
-            android:layout_toRightOf="@+id/children_text"
-            android:layout_toLeftOf="@+id/select_children"
-            android:layout_toStartOf="@+id/select_children" />
+            android:layout_alignBottom="@+id/view"
+            android:layout_alignLeft="@+id/activity_edit"
+            android:layout_alignStart="@+id/activity_edit"
+            android:layout_alignRight="@+id/date_view"
+            android:layout_alignEnd="@+id/date_view"
+            android:layout_marginRight="20dp" />
 
         <EditText
             android:layout_width="300sp"
             android:layout_height="wrap_content"
             android:id="@+id/lo_edit"
-            android:layout_alignBottom="@+id/lo_text"
-            android:layout_toRightOf="@+id/lo_text"
-            android:layout_toEndOf="@+id/lo_text"
-            android:layout_marginLeft="18dp"
-            android:layout_marginStart="44dp" />
+            android:layout_alignTop="@+id/select_lo"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="27dp"
+            android:layout_marginEnd="27dp" />
 
         <EditText
             android:layout_width="350sp"
@@ -148,11 +95,13 @@
             android:maxLines="4"
             android:autoText="false"
             android:hint="@string/comment_hint"
-            android:layout_alignBottom="@+id/comment_text"
-            android:layout_toRightOf="@+id/comment_text"
-            android:layout_toEndOf="@+id/comment_text"
-            android:layout_marginLeft="15dp"
-            android:elegantTextHeight="true" />
+            android:elegantTextHeight="true"
+            android:layout_alignBottom="@+id/view"
+            android:layout_alignLeft="@+id/select_lo"
+            android:layout_alignStart="@+id/select_lo"
+            android:layout_alignRight="@+id/lo_edit"
+            android:layout_alignEnd="@+id/lo_edit"
+            android:textSize="24dp" />
 
         <Button
             android:layout_width="210sp"
@@ -177,20 +126,24 @@
             android:background="@drawable/buttonshape"
             android:textColor="#FFFFFF"
             android:textSize="20dp"
-            android:layout_alignBottom="@+id/lo_edit"
-            android:layout_toRightOf="@+id/lo_edit"
-            android:layout_alignRight="@+id/comment_edit"
-            android:layout_alignEnd="@+id/comment_edit"
-            android:layout_alignTop="@+id/lo_edit" />
+            android:layout_marginLeft="26dp"
+            android:layout_marginStart="26dp"
+            android:layout_alignTop="@+id/view"
+            android:layout_toRightOf="@+id/date_view"
+            android:layout_toEndOf="@+id/date_view"
+            android:layout_alignBottom="@+id/date_view" />
 
         <EditText
             android:layout_width="150sp"
             android:layout_height="wrap_content"
             android:id="@+id/activity_edit"
-            android:layout_alignTop="@+id/select_activity"
-            android:layout_toLeftOf="@+id/select_activity"
-            android:layout_alignLeft="@+id/children_edit"
-            android:layout_alignStart="@+id/children_edit" />
+            android:layout_alignBottom="@+id/select_activity"
+            android:layout_toRightOf="@+id/select_activity"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="60dp"
+            android:layout_toLeftOf="@+id/view"
+            android:layout_toStartOf="@+id/view"
+            android:layout_marginRight="20dp" />
 
         <Button
             android:layout_width="220sp"
@@ -215,45 +168,43 @@
         android:textSize="35dp"
         android:lines="2"
         android:maxLines="1"
-        android:layout_marginTop="140dp"
-        android:layout_alignTop="@+id/showpicture_image"
-        android:layout_centerHorizontal="true"
         android:textColor="#edfcfbff"
         android:visibility="visible"
         android:typeface="sans"
         android:focusable="false"
-        android:autoText="false" />
+        android:autoText="false"
+        android:layout_below="@+id/fab_save"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
 
-    <ImageView
-        android:layout_width="80sp"
-        android:layout_height="80sp"
-        android:id="@+id/takepicture_image"
-        android:src="@drawable/ic_add_black_24dp"
-        android:layout_alignTop="@+id/showpicture_image"
-        android:layout_toRightOf="@+id/showpicture_image"
-        android:layout_toEndOf="@+id/showpicture_image"
-        android:layout_marginLeft="100dp"
-        android:layout_marginStart="100dp"
-        android:clickable="true" />
-
-    <ImageView
-        android:layout_width="80sp"
-        android:layout_height="80sp"
-        android:id="@+id/deletepicture_image"
-        android:src="@drawable/ic_delete_black_24dp"
-        android:clickable="true"
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_icon="@drawable/ic_image_white_48dp"
+        fab:fab_size="normal"
         android:layout_above="@+id/relativeLayout"
-        android:layout_alignLeft="@+id/savepicture_image"
-        android:layout_alignStart="@+id/savepicture_image" />
-
-    <ImageView
-        android:layout_width="80sp"
-        android:layout_height="80sp"
-        android:id="@+id/savepicture_image"
-        android:src="@drawable/ic_save_black_24dp"
-        android:clickable="true"
-        android:layout_alignTop="@+id/image_text"
-        android:layout_alignLeft="@+id/takepicture_image"
-        android:layout_alignStart="@+id/takepicture_image" />
+        android:layout_alignRight="@+id/showpicture_image"
+        android:layout_alignEnd="@+id/showpicture_image" />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_size="normal"
+        fab:fab_icon="@drawable/ic_save_white_3x"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp" />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_size="normal"
+        fab:fab_icon="@drawable/ic_delete_white_48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="20dp" />
 
 </RelativeLayout>
