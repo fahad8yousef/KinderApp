@@ -174,7 +174,7 @@ public class KinderDBCon {
                     // Creating  LOUTCOME Table
                     KEY_CREATE_TABLE + DATABASE_TABLE_LOUTCOME + KEY_OPEN_PARENTHESIS +
                             KEY_NAME_LOUTCOMECODE + " " + KEY_COMMA +
-                            KEY_NAME_LOUTCOMEEvidence + KEY_TEXT + KEY_NOTNULL + KEY_COMMA +
+                            KEY_NAME_LOUTCOMEEvidence + KEY_TEXT + " " + KEY_COMMA +
                             KEY_PRIMARY_KEY + KEY_OPEN_PARENTHESIS + KEY_NAME_LOUTCOMECODE + KEY_CLOSE_PARENTHESIS +
                             KEY_CLOSE_PARENTHESIS + KEY_SEMI_COLON
             );
@@ -566,7 +566,7 @@ public class KinderDBCon {
 
             for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
 
-                result.add(c.getString(iChildFirstName) + "," + c.getString(iChildSurName));
+                result.add(c.getString(iChildFirstName) + " " + c.getString(iChildSurName));
             }
         } finally {
             c.close();
@@ -659,21 +659,20 @@ public class KinderDBCon {
     {
         _db.isOpen();
         // Creating a string array to store result from database before passing
-        String [] columns = new String[] {KEY_NAME_LOUTCOMECODE};
+        String [] columns = new String[] {KEY_NAME_LOUTCOMECODE, KEY_NAME_LOUTCOMEEvidence};
         // Creating a cursor to iterate through db
         Cursor c = _db.query(DATABASE_TABLE_LOUTCOME, columns, null, null, null, null, null);
         ArrayList<String> result = new ArrayList<String>();
 
         try {
             int iLOutcomeCode = c.getColumnIndex(KEY_NAME_LOUTCOMECODE);
-            int iLOCDescription = c.getColumnIndex(KEY_NAME_LOCDESCRIPTION);
+            int iLOEvidence = c.getColumnIndex(KEY_NAME_LOUTCOMEEvidence);
 
             for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
-                result.add(c.getString(iLOutcomeCode));
+                result.add(c.getString(iLOutcomeCode) +": "+ c.getString(iLOEvidence));
             }
         } finally {
             c.close();
-
         }
 
         return  result;

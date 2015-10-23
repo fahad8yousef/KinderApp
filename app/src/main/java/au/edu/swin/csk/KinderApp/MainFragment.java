@@ -233,8 +233,8 @@ class MainAdapter extends BaseAdapter //change to arrayadapter
         //int img = R.drawable.cooking1;
         this.fullName = fullName;
 
-        this.firstName = fullName.substring(0, fullName.indexOf(","));
-        this.lastName = fullName.substring(fullName.indexOf(",") + 1, fullName.length());
+        this.firstName = fullName.substring(0, fullName.indexOf(" "));
+        this.lastName = fullName.substring(fullName.indexOf(" ") + 1, fullName.length());
 
         ArrayList<String> evidenceByChild = k.getEvidenceByChild(firstName, lastName);
         Log.d(TAG, "This is evid id for Child selected" + evidenceByChild.toString());

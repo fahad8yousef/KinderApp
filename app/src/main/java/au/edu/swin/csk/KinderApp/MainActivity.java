@@ -65,6 +65,7 @@ public class MainActivity extends ActionBarActivity implements
     private int groupID = 1;
     private FragmentTransaction transaction;
     Spinner spinner;
+    TextView groupName;
     LinearLayout linear;
     AlertDialog ad;
     KinderDBCon k;
@@ -232,7 +233,7 @@ public class MainActivity extends ActionBarActivity implements
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         if (view != null) {
-            TextView groupName = (TextView) view;
+            groupName = (TextView) view;
             drawerLayout.closeDrawer(linear);
             groupID = position + 1;
             Bundle bundle = new Bundle();
@@ -279,6 +280,7 @@ public class MainActivity extends ActionBarActivity implements
                         bundle.putInt("id", groupID);
                         bundle.putString("fullName", fullName);
                         showMainFragment(bundle);
+                        actionBar.setTitle("Filtering by Child name: " + fullName);
                         //runCommand.setVisibility(View.INVISIBLE);
 
                     }
@@ -300,6 +302,7 @@ public class MainActivity extends ActionBarActivity implements
                         bundle.putInt("id", groupID);
                         bundle.putString("activity", activity);
                         showMainFragment(bundle);
+                        actionBar.setTitle("Filtering by Activity: " + activity);
                         //runCommand.setVisibility(View.INVISIBLE);
                     }
                 });
@@ -314,12 +317,14 @@ public class MainActivity extends ActionBarActivity implements
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Log.d(TAG, "This lOutcomeCode is selected : " + String.valueOf(which));
-                        String loutcomeCode = alertAdapterlOutcomeCode.getItem(which);
+                        String selected = alertAdapterlOutcomeCode.getItem(which);
+                        String loutcomeCode = selected.substring(0 , selected.indexOf(":"));
                         Log.d(TAG, "This lOutcomeCode is selected : " + loutcomeCode);
                         Bundle bundle = new Bundle();
                         bundle.putInt("id", groupID);
                         bundle.putString("loutcomeCode", loutcomeCode);
                         showMainFragment(bundle);
+                        actionBar.setTitle("Filtering by Learning Outcome: " + loutcomeCode);
                         //runCommand.setVisibility(View.INVISIBLE);
                         //runCommand.bringToFront();
 
@@ -339,8 +344,8 @@ public class MainActivity extends ActionBarActivity implements
                 int completionStatus = 1;
                 bundle.putInt("completionStatus", completionStatus);
                 showMainFragment(bundle);
+                actionBar.setTitle("Display incomplete Learning Evidence");
                 //runCommand.setVisibility(View.INVISIBLE);
-
             }
 
         } else {
@@ -359,6 +364,7 @@ public class MainActivity extends ActionBarActivity implements
         mainFragment.setArguments(bundle);
         transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_holder, mainFragment);
+        actionBar.setTitle(groupName.getText());
         transaction.commit();
     }
 
@@ -432,6 +438,7 @@ public class MainActivity extends ActionBarActivity implements
 
             Bundle bundle= new Bundle();
             bundle.putInt("id", groupID);
+            actionBar.setTitle(groupName.getText());
             showMainFragment(bundle);
         }
         else{
