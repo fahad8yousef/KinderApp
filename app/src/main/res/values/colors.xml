@@ -12,6 +12,7 @@
     <color name="primary_material_dark">#00b0ff</color>
     <color name="primary_dark_material_dark">#0198dc</color>
     <color name="accent_material_light">#00b0ff</color>
+    <color name="incomplete">#d60404</color>
     <!-- <color name="black">#3aa8ee</color>
      <color name="bright_foreground_material_light">#000000</color>
      <color name="primary_text_dark">#040000</color>

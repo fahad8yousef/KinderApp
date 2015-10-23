@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -316,12 +317,14 @@ class MainAdapter extends BaseAdapter //change to arrayadapter
         ImageView cardImage;
         TextView cardDate;
         TextView cardActivity;
+        TextView incomplete;
 
         ViewHolder(View v)
         {
             cardImage = (ImageView) v.findViewById(R.id.imageView);
             cardActivity = (TextView) v.findViewById(R.id.cardActivity);
             cardDate = (TextView) v.findViewById(R.id.cardDate);
+            incomplete = (TextView) v.findViewById(R.id.incomplete);
 
         }
     }
@@ -354,6 +357,11 @@ class MainAdapter extends BaseAdapter //change to arrayadapter
         //get each object from the Card Class and set parameters
         holder.cardDate.setText(temp.date);
         holder.cardActivity.setText(temp.activityName);
+        if (!temp.completionStatus.equals("")){
+            holder.incomplete.setText(temp.completionStatus);
+            holder.incomplete.setTextColor(Color.RED);
+
+        }
 
         File imgFile = new File("/storage/emulated/0/Pictures/KinderThumbnails/" + temp.imageFileName);
 
@@ -401,6 +409,12 @@ class Card {
             this.completionStatus = data.substring(data.indexOf("$") + 1, data.length());
         }
 
+
+        if (completionStatus.equals("false")){
+            this.completionStatus = "incomplete";
+        } else {
+            this.completionStatus="";
+        }
         Log.d(TAG, evidID +":"+ date + activityName + imageFileName + completionStatus);
 
     }

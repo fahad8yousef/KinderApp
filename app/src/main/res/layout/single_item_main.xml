@@ -37,4 +37,15 @@
         android:clickable="false"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/incomplete"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/cardDate"
+        android:clickable="false"
+        />
+
+
 </RelativeLayout>
