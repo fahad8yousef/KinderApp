@@ -630,6 +630,34 @@ public class KinderDBCon {
         return  result;
     }
 
+
+    public ArrayList<String> getChildNameByID(String childID)
+    {
+        _db.isOpen();
+        // Creating a string array to store result from database before passing
+        String [] columns = new String[] {KEY_NAME_CHILDID,KEY_NAME_CHILDFIRSTNAME,KEY_NAME_CHILDSURNAME,KEY_NAME_CHILDGENDER,KEY_NAME_GROUPID};
+        // Creating a cursor to iterate through db
+        Cursor c = _db.query(DATABASE_TABLE_CHILD, columns, KEY_NAME_CHILDID + "=" + childID, null, null, null, null);
+
+        ArrayList<String> result = new ArrayList<String>();
+
+        try {
+            int iChildRowID = c.getColumnIndex(KEY_NAME_CHILDID);
+            int iChildFirstName = c.getColumnIndex(KEY_NAME_CHILDFIRSTNAME);
+            int iChildSurName = c.getColumnIndex(KEY_NAME_CHILDSURNAME);
+
+            for (c.moveToFirst();!c.isAfterLast();c.moveToNext()) {
+
+                result.add(c.getString(iChildFirstName) + " " + c.getString(iChildSurName));
+            }
+        } finally {
+            c.close();
+
+        }
+
+        return  result;
+    }
+
     public ArrayList<String> getActivityNames()
     {
         _db.isOpen();
