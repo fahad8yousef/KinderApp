@@ -28,6 +28,7 @@ import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /*
 *
@@ -65,6 +66,7 @@ public class MainActivity extends ActionBarActivity implements
     private int groupID = 1;
     private FragmentTransaction transaction;
     Spinner spinner;
+    ArrayList<String> groupNames;
     TextView groupName;
     LinearLayout linear;
     AlertDialog ad;
@@ -88,13 +90,17 @@ public class MainActivity extends ActionBarActivity implements
         //managing fragments
         manager = getFragmentManager();
         //create database object
-        k=new KinderDBCon(this);
-        k.open();
+        /*k=new KinderDBCon(this);
+        k.open();*/
+       // this.groupNames = k.getGroupList();
     }
 
     /*This function creates navigation drawer and
     * adds all components to the drawer and bring to front button and main layout when slide closed */
     private void createDrawer(){
+        k=new KinderDBCon(this);
+        k.open();
+
         //construct drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open_drawer, R.string.close_drawer );
@@ -102,10 +108,12 @@ public class MainActivity extends ActionBarActivity implements
         linear.bringToFront();
         //sets listener for drawer
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
-
         //construct spinner
         spinner = (Spinner) findViewById(R.id.spinner_group);
-        ArrayAdapter spinAdapter =  ArrayAdapter.createFromResource(this, R.array.groups, R.layout.spinner_item);
+
+        this.groupNames = k.getGroupList();
+        ArrayAdapter spinAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, groupNames);
+
         spinAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         spinner.setOnItemSelectedListener(this);
         spinner.setAdapter(spinAdapter);

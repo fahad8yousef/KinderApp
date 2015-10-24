@@ -2,6 +2,10 @@ package au.edu.swin.csk.KinderApp;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.LoginFilter;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 
 /**
@@ -16,6 +20,8 @@ public class TestDB {
     private String _EvidenceComment;
     private String _groupID;
     private String _activityName;
+    private static final  String TAG="App/ Test";
+
     KinderDBCon k;
     SQLiteDatabase db;
     Context context;
@@ -23,6 +29,12 @@ public class TestDB {
     TestDB( KinderDBCon k) {
         this.k = k;
         add();
+        ArrayList<String> s = k.getGroupList();
+        for (int i=0 ; i < k.getGroupList().size(); i++) {
+            s.add(s.get(i));
+            Log.d(TAG, "1111" + s.get(i));
+        }
+
         //delete();
         //k.getChildNameByID("1");
     }

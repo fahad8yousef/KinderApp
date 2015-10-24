@@ -333,22 +333,22 @@ public class KinderDBCon {
     //#############################################
 
     // getting data from group table
-    public String getGroupData()
+    public ArrayList<String> getGroupList()
     {
         // Creating a string array to store result from database before passing
         String [] columns = new String[] {" * "};
         // Creating a cursor to iterate through db
         Cursor c = _db.query(DATABASE_TABLE_GROUP, columns, null, null, null, null, null);
 
-        String result = "";
+        ArrayList<String> result = new ArrayList<>();
         int iGroupRowID = c.getColumnIndex(KEY_NAME_GROUPID);
         int iGroupName = c.getColumnIndex(KEY_NAME_GROUPNAME);
 
         for (c.moveToFirst();!c.isAfterLast();c.moveToNext())
         {
-            result = result + c.getInt(iGroupRowID) + " " + c.getString(iGroupName) + "\n";
+            result.add(c.getString(iGroupName));
         }
-
+        Log.d(TAG, "hhhhhh : " + result);
         return  result;
     }
 
