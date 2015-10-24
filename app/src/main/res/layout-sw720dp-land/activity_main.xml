@@ -7,7 +7,9 @@
     android:background="#e4e4e4">
     <!-- android:focusableInTouchMode="true"-->
 
+<!--
     <include layout="@layout/add_button_layout" />
+-->
 <!--
     <include layout="@layout/cancel_button_layout"/>
 -->

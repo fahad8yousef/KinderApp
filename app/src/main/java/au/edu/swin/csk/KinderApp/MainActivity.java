@@ -455,9 +455,9 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.runCommand) {
+     /*   if (v.getId() == R.id.runCommand) {
             showFormFragment(2, "");
-        } /*else if (v.getId() == R.id.cancelButton){
+        } *//*else if (v.getId() == R.id.cancelButton){
         Bundle bundle = new Bundle();
         bundle.putInt("id", groupID);
         showMainFragment(bundle);
