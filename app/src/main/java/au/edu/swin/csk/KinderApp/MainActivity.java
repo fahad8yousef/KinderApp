@@ -89,7 +89,7 @@ public class MainActivity extends ActionBarActivity implements
         createDrawer();
         //managing fragments
         manager = getFragmentManager();
-        //create database object
+
         /*k=new KinderDBCon(this);
         k.open();*/
        // this.groupNames = k.getGroupList();
@@ -98,6 +98,7 @@ public class MainActivity extends ActionBarActivity implements
     /*This function creates navigation drawer and
     * adds all components to the drawer and bring to front button and main layout when slide closed */
     private void createDrawer(){
+        //create database object
         k=new KinderDBCon(this);
         k.open();
 
