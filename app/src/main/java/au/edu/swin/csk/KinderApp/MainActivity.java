@@ -241,7 +241,7 @@ public class MainActivity extends ActionBarActivity implements
             //Instead of calling the mainAdapter directly, I'm calling the mainFragment from where we'll call the mainAdapter
             showMainFragment(bundle);
             actionBar.setTitle(groupName.getText()); //set title to group selected
-        } else {actionBar.setTitle("KinderAchievements");}
+        } else {actionBar.setTitle("Kinder Achievements");}
     }
 
     @Override
@@ -364,7 +364,11 @@ public class MainActivity extends ActionBarActivity implements
         mainFragment.setArguments(bundle);
         transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_holder, mainFragment);
-        actionBar.setTitle(groupName.getText());
+        if (groupName==null){
+            actionBar.setTitle("Kinder Achievements");
+        }else {
+            actionBar.setTitle(groupName.getText());}
+
         transaction.commit();
     }
 

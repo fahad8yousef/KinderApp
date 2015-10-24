@@ -24,6 +24,7 @@ public class TestDB {
         this.k = k;
         add();
         //delete();
+        //k.getChildNameByID("1");
     }
 
     public void add() {
