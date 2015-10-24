@@ -28,7 +28,8 @@ import java.util.ArrayList;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * @author Fahad Alhamed 747234x
+ * @author Somesh Bahuguna
  */
 public class MainFragment extends Fragment implements
         AdapterView.OnItemClickListener,
@@ -183,6 +184,7 @@ class MainAdapter extends BaseAdapter //change to arrayadapter
     Boolean status = true;
 
     /*
+    * @author Fahad Alhamed 747234x
     * This is the constructor for mainAdapter it receives the following and query the db to filter evidence cards displayed in main screen
     * @Param Context from main activity
     * @Param object KinderDBCon created for db
