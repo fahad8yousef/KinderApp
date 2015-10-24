@@ -139,22 +139,22 @@ public class TestDB {
     }
 
     public void addLoutcome() {
-        k.InsertIntoLOUTCOMETable("1.1.1","build secure attachment with one and then more familiar ...");
-        k.InsertIntoLOUTCOMETable("2.1.1","use effective routines to help make predicted transitions ...");
+        k.InsertIntoLOUTCOMETable("1.1.1","build secure attachment with one and then...");
+        k.InsertIntoLOUTCOMETable("2.1.1","use effective routines to help make predicted...");
         k.InsertIntoLOUTCOMETable("3.1.1","sense and respond to a feeling of belonging");
         k.InsertIntoLOUTCOMETable("4.1.1","communicate their needs for comfort and assistance");
-        k.InsertIntoLOUTCOMETable("5.1.1","establish and maintain respectful, trusting ...");
-        k.InsertIntoLOUTCOMETable("6.1.1","openly express their feelings and ideas in their ...");
+        k.InsertIntoLOUTCOMETable("5.1.1","establish and maintain respectful, trusting...");
+        k.InsertIntoLOUTCOMETable("6.1.1","openly express their feelings and ideas in their...");
         k.InsertIntoLOUTCOMETable("7.1.1","respond to ideas and suggestions from others");
-        k.InsertIntoLOUTCOMETable("8.1.1","express a wide range of emotions, thoughts and views constr...");
+        k.InsertIntoLOUTCOMETable("8.1.1","express a wide range of emotions, thoughts...");
         k.InsertIntoLOUTCOMETable("9.1.1","engage in and contribute to shared play experiences");
-        k.InsertIntoLOUTCOMETable("10.1.1","increasingly cooperate and work collaboratively with others");
-        k.InsertIntoLOUTCOMETable("11.1.1","demonstrate an increasing capacity for self-regulation");
+        k.InsertIntoLOUTCOMETable("10.1.1","increasingly cooperate and work collaboratively...");
+        k.InsertIntoLOUTCOMETable("11.1.1","demonstrate an increasing capacity for self-regu...");
         k.InsertIntoLOUTCOMETable("12.1.1","share aspects of their culture with other children and ...");
-        k.InsertIntoLOUTCOMETable("13.1.1","build secure attachment with one and then more familiar ...");
-        k.InsertIntoLOUTCOMETable("14.1.1","develop their social and cultural heritage through engagement ...");
-        k.InsertIntoLOUTCOMETable("15.1.1","explore aspects of identity through role-play");
-        k.InsertIntoLOUTCOMETable("16.1.1","respond to ideas and suggestions from others");
+        k.InsertIntoLOUTCOMETable("13.1.1","build secure attachment with one and then more...");
+        k.InsertIntoLOUTCOMETable("14.1.1","develop their social and cultural heritage...");
+        k.InsertIntoLOUTCOMETable("15.1.1","explore aspects of identity through role-p...");
+        k.InsertIntoLOUTCOMETable("16.1.1","respond to ideas and suggestions from oth...");
     }
 
     public void addLOEvidence() {

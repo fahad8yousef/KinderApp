@@ -411,7 +411,7 @@ class Card {
 
 
         if (completionStatus.equals("false")){
-            this.completionStatus = "incomplete";
+            this.completionStatus = "Incomplete";
         } else {
             this.completionStatus="";
         }

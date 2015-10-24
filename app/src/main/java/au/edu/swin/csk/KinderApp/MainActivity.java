@@ -344,7 +344,7 @@ public class MainActivity extends ActionBarActivity implements
                 int completionStatus = 1;
                 bundle.putInt("completionStatus", completionStatus);
                 showMainFragment(bundle);
-                actionBar.setTitle("Display incomplete Learning Evidence");
+                actionBar.setTitle("Display Incomplete Learning Evidence");
                 //runCommand.setVisibility(View.INVISIBLE);
             }
 
